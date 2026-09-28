@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>US-Loop | Intercambio Estudiantil</title>
+    <meta
+      name="description"
+      content="Intercambia libros y útiles escolares con otros estudiantes."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css?v=8.2" />
+  </head>
+  <body class="explore-page">
+    <nav class="navbar">
+      <div class="logo">
+        <img src="img/logo.png" alt="US-LOOP" class="navbar-logo" />
+        <span class="logo-text">US-Loop</span>
+      </div>
+      <div class="nav-pills">
+        <a href="index.html">Inicio</a>
+        <a href="explorar.html">Catálogo</a>
+        <a href="donar.html">Donar</a>
+        <a href="intercambio.html">Intercambio</a>
+        <a href="https://www.instagram.com/usloop01?igsi=NTU5eG5ha3ptbWVr" target="_blank" rel="noopener noreferrer">Contáctenos</a>
+      </div>
+      <a class="login-btn" href="login.html">Iniciar Sesión</a>
+    </nav>
+
+    <header class="explore-header">
+      <div class="explore-topbar container">
+        <div class="explore-brand">US-LOOP</div>
+        <div class="explore-badge">INTERCAMBIOS</div>
+      </div>
+
+      <div class="container hero-title-wrap explore-hero-layout">
+        <div class="explore-hero-text">
+          <h1 class="catalog-title">Intercambio estudiantil</h1>
+          <p class="catalog-subtitle">Encuentra trueques útiles para tus clases y materiales de estudio.</p>
+        </div>
+        <div class="explore-hero-mascot">
+          <img
+            src="img/mada.png"
+            alt="Mada - Mascota US-Loop"
+            class="danna-hero-img mada-hero-img"
+            title="¡Hola! Soy Mada, intercambia tus libros aquí 🐊🎀"
+          />
+        </div>
+      </div>
+    </header>
+
+    <main class="container explore-shell">
+      <section class="search-panel" aria-label="Búsqueda de intercambios">
+        <div class="search-box">
+          <span class="search-icon">⇄</span>
+          <input type="text" id="search-exchange-input" placeholder="Buscar por artículo que ofreces, buscas o materia..." />
+        </div>
+        <select class="select-box" id="filter-exchange-grade" aria-label="Filtrar por grado escolar">
+          <option value="all">Todos los grados</option>
+          <option value="6">6° Grado</option>
+          <option value="7">7° Grado</option>
+          <option value="8">8° Grado</option>
+          <option value="9">9° Grado</option>
+          <option value="10">10° Grado</option>
+          <option value="11">11° Grado</option>
+          <option value="universidad">Universidad</option>
+          <option value="otro">Otro</option>
+        </select>
+        <div class="select-box">Trueque ⇄</div>
+      </section>
+
+      <!-- Botón Proponer Intercambio centrado debajo de la barra de búsqueda -->
+      <div class="mid-action-bar">
+        <a href="intercambio-form.html" class="top-cta-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="17 1 21 5 17 9"></polyline>
+            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+            <polyline points="7 23 3 19 7 15"></polyline>
+            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+          </svg>
+          <span>Proponer Intercambio ⇄</span>
+        </a>
+      </div>
+
+      <div class="filter-row" id="exchange-categories-row" aria-label="Categorias de intercambio">
+        <button class="filter-pill active" data-category="all">Todos</button>
+        <button class="filter-pill" data-category="Libros">Libros</button>
+        <button class="filter-pill" data-category="Apuntes">Apuntes</button>
+        <button class="filter-pill" data-category="Material escolar">Material escolar</button>
+        <button class="filter-pill" data-category="Digital">Digital</button>
+        <button class="filter-pill" data-category="Tecnología">Tecnología</button>
+      </div>
+
+      <section id="exchanges-grid" class="card-grid" aria-live="polite">
+        <!-- Los intercambios se cargarán aquí dinámicamente -->
+      </section>
+
+      <section id="empty-state" class="empty-state" aria-live="polite" style="display: none;">
+        <div class="empty-icon">⇄</div>
+        <h2>No hay intercambios activos</h2>
+        <p>Publica un artículo o revisa pronto nuevas ofertas de la comunidad.</p>
+        <div class="empty-state-actions">
+          <a href="intercambio-form.html" class="btn btn-primary">Proponer Intercambio ⇄</a>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      let activeExchangeCategory = 'all';
+
+      function matchesCategory(itemCat, filterCat) {
+        if (!filterCat || filterCat === 'all') return true;
+        if (!itemCat) return false;
+        const ic = itemCat.toLowerCase().trim();
+        const fc = filterCat.toLowerCase().trim();
+        if (ic.includes(fc) || fc.includes(ic)) return true;
+
+        if (fc.includes('libro')) {
+          return ic.includes('libro') || ic.includes('lectura') || ic.includes('texto') || ic.includes('apuntes');
+        }
+        if (fc.includes('apunte')) {
+          return ic.includes('apunte') || ic.includes('cuaderno') || ic.includes('guía') || ic.includes('guia');
+        }
+        if (fc.includes('material') || fc.includes('útil') || fc.includes('util')) {
+          return ic.includes('útil') || ic.includes('util') || ic.includes('material') || ic.includes('papelería') || ic.includes('lapiz') || ic.includes('regla');
+        }
+        if (fc.includes('digital')) {
+          return ic.includes('digital') || ic.includes('pdf') || ic.includes('software') || ic.includes('curso');
+        }
+        if (fc.includes('tecnología') || fc.includes('tecnologia')) {
+          return ic.includes('tecno') || ic.includes('calculadora') || ic.includes('pantalla') || ic.includes('comput');
+        }
+        return false;
+      }
+
+      function matchesGrade(itemGrade, filterGrade) {
+        if (!filterGrade || filterGrade === 'all') return true;
+        if (!itemGrade) return false;
+        const ig = itemGrade.toLowerCase().trim();
+        const fg = filterGrade.toLowerCase().trim();
+
+        if (fg === '6') return ig.startsWith('6') || ig.includes('6°') || ig.includes('6to') || ig.includes('sexto');
+        if (fg === '7') return ig.startsWith('7') || ig.includes('7°') || ig.includes('7mo') || ig.includes('séptimo') || ig.includes('septimo');
+        if (fg === '8') return ig.startsWith('8') || ig.includes('8°') || ig.includes('8vo') || ig.includes('octavo');
+        if (fg === '9') return ig.startsWith('9') || ig.includes('9°') || ig.includes('9no') || ig.includes('noveno');
+        if (fg === '10') return ig.startsWith('10') || ig.includes('10°') || ig.includes('10mo') || ig.includes('décimo') || ig.includes('decimo');
+        if (fg === '11') return ig.startsWith('11') || ig.includes('11°') || ig.includes('11vo') || ig.includes('once');
+        if (fg === 'universidad') return ig.includes('universidad') || ig.includes('superior') || ig.includes('pregrado');
+        if (fg === 'otro') return ig.includes('otro') || ig.includes('general');
+
+        return ig.includes(fg);
+      }
+
+      let cachedExchangeItems = [];
+
+      async function loadExchanges() {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        const currentEmail = (currentUser.email || '').toLowerCase().trim();
+        const currentName = (currentUser.name || '').toLowerCase().trim();
+        const isLoggedIn = currentUser.isLoggedIn !== false && (Boolean(currentEmail) || Boolean(currentName));
+
+        let exchanges = [];
+        if (window.USLoopAPI) {
+          exchanges = await window.USLoopAPI.getExchanges();
+        } else {
+          exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
+        }
+
+        cachedExchangeItems = exchanges;
+
+        const exchangesGrid = document.getElementById('exchanges-grid');
+        const emptyState = document.getElementById('empty-state');
+        const query = (document.getElementById('search-exchange-input')?.value || '').toLowerCase().trim();
+        const gradeFilter = document.getElementById('filter-exchange-grade')?.value || 'all';
+
+        const filtered = exchanges.filter(exchange => {
+          // Filtro de categoría
+          if (!matchesCategory(exchange.category, activeExchangeCategory)) {
+            return false;
+          }
+
+          // Filtro de grado
+          if (!matchesGrade(exchange.grade, gradeFilter)) {
+            return false;
+          }
+
+          // Filtro de texto
+          if (query) {
+            const offeringMatch = (exchange.offering || '').toLowerCase().includes(query);
+            const seekingMatch = (exchange.lookingFor || exchange.seeking || '').toLowerCase().includes(query);
+            const categoryMatch = (exchange.category || '').toLowerCase().includes(query);
+            const nameMatch = (exchange.ownerName || exchange.name || '').toLowerCase().includes(query);
+            const schoolMatch = (exchange.institution || exchange.school || '').toLowerCase().includes(query);
+
+            if (!offeringMatch && !seekingMatch && !categoryMatch && !nameMatch && !schoolMatch) {
+              return false;
+            }
+          }
+
+          return true;
+        });
+        
+        if (filtered.length === 0) {
+          exchangesGrid.style.display = 'none';
+          exchangesGrid.innerHTML = '';
+          emptyState.style.display = 'flex';
+          return;
+        }
+        
+        emptyState.style.display = 'none';
+        exchangesGrid.style.display = 'grid';
+        exchangesGrid.innerHTML = '';
+        
+        filtered.forEach((exchange, idx) => {
+          const card = document.createElement('article');
+          card.className = 'info-card';
+
+          const itemEmail = (exchange.ownerEmail || exchange.authorEmail || '').toLowerCase().trim();
+          const itemAuthor = (exchange.ownerName || exchange.authorName || exchange.name || '').toLowerCase().trim();
+          const isAuthor = isLoggedIn && (
+            (currentEmail && itemEmail && currentEmail === itemEmail) ||
+            (currentName && itemAuthor && currentName === itemAuthor)
+          );
+
+          const exchangeId = exchange.id || ('exc_' + idx);
+          
+          const imageHtml = exchange.photo 
+            ? `<img src="${exchange.photo}" style="width: 100%; height: 160px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;" alt="${exchange.offering}">`
+            : `<div style="width: 58px; height: 58px; display: grid; place-items: center; border-radius: 14px; background: linear-gradient(135deg, rgba(47, 128, 237, 0.14), rgba(34, 197, 94, 0.12)); color: #1d73f0; font-weight: 800; font-size: 1.5rem; margin-bottom: 16px;">${exchange.icon || '⇄'}</div>`;
+          
+          card.innerHTML = `
+            ${imageHtml}
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span class="badge-intercambio">⇄ Intercambio</span>
+              ${isAuthor ? '<span class="badge-author">👤 Tu propuesta</span>' : `<span style="font-size: 0.8rem; color: #8896ab;">${exchange.date || 'Reciente'}</span>`}
+            </div>
+            <p style="font-size: 0.85rem; color: #5f6f86; margin: 4px 0 8px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.02em;">${exchange.category || 'General'}</p>
+            <h3 style="margin: 0 0 6px; color: #1f2937; font-size: 1.2rem; font-weight: 800;">Ofrezco: ${exchange.offering}</h3>
+            <p style="margin: 0 0 6px; color: #2563eb; font-size: 0.95rem; font-weight: 600;">Busco: ${exchange.lookingFor || exchange.seeking || 'Recurso escolar'}</p>
+            <p style="margin: 0 0 6px; color: #5f6f86; font-size: 0.9rem;">Grado: <strong>${exchange.grade || 'General'}</strong></p>
+            <p style="margin: 0 0 12px; color: #5f6f86; font-size: 0.85rem;">🏫 ${exchange.institution || exchange.school || 'Campus'} • Por: <strong>${exchange.ownerName || exchange.name || 'Estudiante'}</strong></p>
+            ${isAuthor ? `
+              <div class="author-actions-group">
+                <button class="btn-card-finish" onclick="completeExchange('${exchangeId}')" title="Marcar trueque como concretado">🤝 Completado</button>
+                <button class="btn-card-cancel" onclick="cancelExchange('${exchangeId}')" title="Cancelar propuesta">❌ Cancelar</button>
+              </div>
+            ` : `
+              <button class="btn-card-action" onclick="proposeTrade('${exchangeId}')">
+                <span>Proponer Trueque 🤝</span>
+              </button>
+            `}
+          `;
+          
+          exchangesGrid.appendChild(card);
+        });
+      }
+
+      async function proposeTrade(exchangeId) {
+        let exchange = null;
+        if (cachedExchangeItems && cachedExchangeItems.length > 0) {
+          exchange = cachedExchangeItems.find(e => String(e.id) === String(exchangeId));
+        }
+        if (!exchange) {
+          let exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
+          exchange = exchanges.find(e => String(e.id) === String(exchangeId));
+        }
+        if (!exchange && window.USLoopAPI) {
+          try {
+            const allExchanges = await window.USLoopAPI.getExchanges();
+            exchange = allExchanges.find(e => String(e.id) === String(exchangeId));
+          } catch (e) {}
+        }
+
+        if (exchange && window.openRequestModal) {
+          window.openRequestModal({
+            type: 'exchange',
+            item: exchange,
+            onSuccess: () => loadExchanges()
+          });
+        } else if (window.showCustomAlert) {
+          await window.showCustomAlert({
+            title: 'Proponer Trueque',
+            message: 'Inicia sesión o selecciona un intercambio válido para enviar tu propuesta.',
+            icon: '🤝'
+          });
+        }
+      }
+
+      async function cancelExchange(id) {
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Cancelar Propuesta?',
+              message: '¿Estás seguro de que deseas retirar esta propuesta de intercambio del catálogo?',
+              icon: '❌',
+              confirmText: 'Sí, Retirar',
+              cancelText: 'Volver'
+            })
+          : confirm('¿Deseas cancelar esta propuesta?');
+
+        if (confirmed) {
+          if (window.USLoopAPI) {
+            await window.USLoopAPI.completeExchange(id);
+          } else {
+            let exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
+            exchanges = exchanges.filter(e => String(e.id) !== String(id));
+            localStorage.setItem('exchanges', JSON.stringify(exchanges));
+          }
+          if (window.showCustomToast) {
+            window.showCustomToast('La propuesta de intercambio ha sido cancelada.', 'info');
+          }
+          loadExchanges();
+        }
+      }
+
+      async function completeExchange(id) {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Trueque Concretado?',
+              message: '¿Deseas marcar este intercambio como completado exitosamente? Sumarás +20 Puntos Loop.',
+              icon: '🤝',
+              confirmText: 'Sí, Completado',
+              cancelText: 'Cancelar'
+            })
+          : confirm('¿Deseas marcar este trueque como completado? (+20 Pts)');
+
+        if (confirmed) {
+          if (window.USLoopAPI) {
+            await window.USLoopAPI.completeExchange(id);
+            if (currentUser.email) {
+              await window.USLoopAPI.updateUserStats(currentUser.email, 'trade');
+            }
+          } else {
+            let exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
+            exchanges = exchanges.filter(e => String(e.id) !== String(id));
+            localStorage.setItem('exchanges', JSON.stringify(exchanges));
+          }
+
+          currentUser.completedTrades = (currentUser.completedTrades || 0) + 1;
+          currentUser.loopPoints = ((currentUser.completedDonations || 0) * 25) + ((currentUser.completedTrades || 0) * 20);
+          localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+          if (window.showCustomToast) {
+            window.showCustomToast('🤝 ¡Trueque completado! Sumaste +20 Puntos Loop.', 'success');
+          }
+          loadExchanges();
+        }
+      }
+      
+      document.addEventListener('DOMContentLoaded', () => {
+        loadExchanges();
+
+        const searchInput = document.getElementById('search-exchange-input');
+        if (searchInput) {
+          searchInput.addEventListener('input', loadExchanges);
+        }
+
+        const gradeSelect = document.getElementById('filter-exchange-grade');
+        if (gradeSelect) {
+          gradeSelect.addEventListener('change', loadExchanges);
+        }
+
+        const categoryPills = document.querySelectorAll('#exchange-categories-row .filter-pill');
+        categoryPills.forEach(pill => {
+          pill.addEventListener('click', () => {
+            categoryPills.forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            activeExchangeCategory = pill.dataset.category || 'all';
+            loadExchanges();
+          });
+        });
+      });
+    </script>
+    <script src="script.js?v=5.5"></script>
+  </body>
+</html>

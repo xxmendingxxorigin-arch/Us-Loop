@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>US-Loop | Catálogo Comunitario</title>
+    <meta
+      name="description"
+      content="Explora artículos donados e intercambios disponibles entre estudiantes."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css?v=8.2" />
+  </head>
+  <body class="explore-page">
+    <nav class="navbar">
+      <div class="logo">
+        <img src="img/logo.png" alt="US-LOOP" class="navbar-logo" />
+        <span class="logo-text">US-Loop</span>
+      </div>
+      <div class="nav-pills">
+        <a href="index.html">Inicio</a>
+        <a href="explorar.html">Catálogo</a>
+        <a href="donar.html">Donar</a>
+        <a href="intercambio.html">Intercambio</a>
+        <a href="https://www.instagram.com/usloop01?igsi=NTU5eG5ha3ptbWVr" target="_blank" rel="noopener noreferrer">Contáctenos</a>
+      </div>
+      <a class="login-btn" href="login.html">Iniciar Sesión</a>
+    </nav>
+
+    <header class="explore-header">
+      <div class="explore-topbar container">
+        <div class="explore-brand">US-LOOP</div>
+        <div class="explore-badge">CATÁLOGO</div>
+      </div>
+
+      <div class="container hero-title-wrap explore-hero-layout">
+        <div class="explore-hero-text">
+          <h1 class="catalog-title">Catálogo Comunitario de Recursos</h1>
+          <p class="catalog-subtitle">
+            Encuentra libros, materiales y útiles donados o disponibles para intercambio escolar por otros estudiantes.
+          </p>
+        </div>
+        <div class="explore-hero-mascot">
+          <img
+            src="img/mada.png"
+            alt="Mada - Mascota US-Loop"
+            class="danna-hero-img mada-hero-img"
+            title="¡Hola! Soy Mada, explora los recursos de tu comunidad 🐊🎀"
+          />
+        </div>
+      </div>
+    </header>
+
+    <main class="container explore-shell">
+      <section class="search-panel" aria-label="Búsqueda de recursos">
+        <div class="search-box">
+          <span class="search-icon">⌕</span>
+          <input type="text" id="search-input" placeholder="Buscar por título, materia, lo que buscas o estudiante..." />
+        </div>
+
+        <select class="select-box" id="filter-grade" aria-label="Filtrar por grado">
+          <option value="all">Todos los Grados</option>
+          <option value="6">6° Grado</option>
+          <option value="7">7° Grado</option>
+          <option value="8">8° Grado</option>
+          <option value="9">9° Grado</option>
+          <option value="10">10° Grado</option>
+          <option value="11">11° Grado</option>
+          <option value="universidad">Universidad</option>
+          <option value="otro">Otro</option>
+        </select>
+
+        <select class="select-box" id="filter-type" aria-label="Filtrar por tipo de publicación">
+          <option value="all">Todos los Tipos</option>
+          <option value="donation">Donaciones 🎁</option>
+          <option value="exchange">Intercambios ⇄</option>
+        </select>
+      </section>
+
+      <!-- Botones de Acción centrados debajo de la barra de búsqueda -->
+      <div class="mid-action-bar" style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px;">
+        <a href="donar.html" class="top-cta-btn top-cta-donate">
+          <span>Publicar Donación 🎁</span>
+        </a>
+        <a href="intercambio-form.html" class="top-cta-btn top-cta-exchange">
+          <span>Proponer Intercambio ⇄</span>
+        </a>
+      </div>
+
+      <div class="filter-row" id="categories-filter-row" aria-label="Categorías de recursos">
+        <button class="filter-pill active" data-category="all">Todos</button>
+        <button class="filter-pill" data-category="Libros y Lecturas">Libros y Lecturas</button>
+        <button class="filter-pill" data-category="Papelería y Útiles">Papelería y Útiles</button>
+        <button class="filter-pill" data-category="Tecnología y Calculadoras">Tecnología y Calculadoras</button>
+        <button class="filter-pill" data-category="Uniformes y Batas">Uniformes y Batas</button>
+        <button class="filter-pill" data-category="Arte y Laboratorio">Arte y Laboratorio</button>
+      </div>
+
+      <section id="donations-grid" class="card-grid" aria-live="polite">
+        <!-- Los recursos se cargarán aquí dinámicamente -->
+      </section>
+
+      <section id="empty-state" class="empty-state" aria-live="polite" style="display: none;">
+        <div class="empty-icon">⌕</div>
+        <h2>No se encontraron recursos</h2>
+        <p>Aún no hay publicaciones que coincidan con tu búsqueda. Sé el primero en compartir un recurso con tu comunidad.</p>
+        <div class="empty-state-actions">
+          <a href="donar.html" class="btn btn-primary">Publicar Donación 🎁</a>
+          <a href="intercambio-form.html" class="btn btn-secondary">Proponer Intercambio ⇄</a>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      let activeCategory = 'all';
+
+      function matchesCategory(itemCat, filterCat) {
+        if (!filterCat || filterCat === 'all') return true;
+        if (!itemCat) return false;
+        const ic = itemCat.toLowerCase().trim();
+        const fc = filterCat.toLowerCase().trim();
+        if (ic.includes(fc) || fc.includes(ic)) return true;
+
+        if (fc.includes('libro')) {
+          return ic.includes('libro') || ic.includes('lectura') || ic.includes('texto') || ic.includes('apuntes');
+        }
+        if (fc.includes('papelería') || fc.includes('útiles')) {
+          return ic.includes('papelería') || ic.includes('útil') || ic.includes('cuaderno') || ic.includes('material') || ic.includes('lapiz') || ic.includes('lápiz') || ic.includes('geometría');
+        }
+        if (fc.includes('tecnología') || fc.includes('calculadora')) {
+          return ic.includes('tecno') || ic.includes('calculadora') || ic.includes('digital') || ic.includes('comput');
+        }
+        if (fc.includes('uniforme') || fc.includes('bata')) {
+          return ic.includes('uniforme') || ic.includes('bata') || ic.includes('ropa') || ic.includes('chaqueta');
+        }
+        if (fc.includes('arte') || fc.includes('laboratorio')) {
+          return ic.includes('arte') || ic.includes('laboratorio') || ic.includes('ciencia') || ic.includes('otro');
+        }
+        return false;
+      }
+
+      function matchesGrade(itemGrade, filterGrade) {
+        if (!filterGrade || filterGrade === 'all') return true;
+        if (!itemGrade) return false;
+        const ig = itemGrade.toLowerCase().trim();
+        const fg = filterGrade.toLowerCase().trim();
+
+        if (fg === '6') return ig.startsWith('6') || ig.includes('6°') || ig.includes('6to') || ig.includes('sexto');
+        if (fg === '7') return ig.startsWith('7') || ig.includes('7°') || ig.includes('7mo') || ig.includes('séptimo') || ig.includes('septimo');
+        if (fg === '8') return ig.startsWith('8') || ig.includes('8°') || ig.includes('8vo') || ig.includes('octavo');
+        if (fg === '9') return ig.startsWith('9') || ig.includes('9°') || ig.includes('9no') || ig.includes('noveno');
+        if (fg === '10') return ig.startsWith('10') || ig.includes('10°') || ig.includes('10mo') || ig.includes('décimo') || ig.includes('decimo');
+        if (fg === '11') return ig.startsWith('11') || ig.includes('11°') || ig.includes('11vo') || ig.includes('once');
+        if (fg === 'universidad') return ig.includes('universidad') || ig.includes('superior') || ig.includes('pregrado');
+        if (fg === 'otro') return ig.includes('otro') || ig.includes('general');
+
+        return ig.includes(fg);
+      }
+
+      async function loadCatalog() {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        const currentEmail = (currentUser.email || '').toLowerCase().trim();
+        const currentName = (currentUser.name || '').toLowerCase().trim();
+        const isLoggedIn = currentUser.isLoggedIn !== false && (Boolean(currentEmail) || Boolean(currentName));
+
+        let donations = [];
+        let exchanges = [];
+
+        if (window.USLoopAPI) {
+          donations = await window.USLoopAPI.getDonations();
+          exchanges = await window.USLoopAPI.getExchanges();
+        } else {
+          donations = JSON.parse(localStorage.getItem('donations') || '[]');
+          exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
+        }
+        
+        // Normalizar donaciones
+        const normalizedDonations = donations.map((d, i) => ({
+          id: d.id || ('don_' + i),
+          type: 'donation',
+          title: d.title || 'Donación sin título',
+          category: d.category || 'Recursos',
+          grade: d.grade || 'General',
+          condition: d.condition || 'Buen estado',
+          name: d.donorName || d.name || 'Estudiante',
+          school: d.institution || d.school || 'Colegio Sede Principal',
+          authorEmail: d.donorEmail || d.authorEmail || '',
+          authorName: d.donorName || d.authorName || d.name || '',
+          icon: d.icon || '🎁',
+          photo: d.photo || null,
+          date: d.date || 'Reciente'
+        }));
+
+        // Normalizar intercambios
+        const normalizedExchanges = exchanges.map((e, i) => ({
+          id: e.id || ('exc_' + i),
+          type: 'exchange',
+          offering: e.offering || 'Artículo escolar',
+          seeking: e.lookingFor || e.seeking || 'Material de estudio',
+          category: e.category || 'Intercambio',
+          grade: e.grade || 'General',
+          name: e.ownerName || e.name || 'Estudiante',
+          school: e.institution || e.school || 'Colegio Sede Principal',
+          authorEmail: e.ownerEmail || e.authorEmail || '',
+          authorName: e.ownerName || e.authorName || e.name || '',
+          icon: e.icon || '⇄',
+          photo: e.photo || null,
+          date: e.date || 'Reciente'
+        }));
+
+        // Unir todos los recursos
+        const allItems = [...normalizedDonations, ...normalizedExchanges];
+        cachedCatalogItems = allItems;
+
+        // Obtener valores de filtros
+        const query = (document.getElementById('search-input')?.value || '').toLowerCase().trim();
+        const gradeFilter = document.getElementById('filter-grade')?.value || 'all';
+        const typeFilter = document.getElementById('filter-type')?.value || 'all';
+
+        // Filtrar elementos
+        const filtered = allItems.filter(item => {
+          // Filtro por tipo
+          if (typeFilter !== 'all' && item.type !== typeFilter) {
+            return false;
+          }
+
+          // Filtro por categoría
+          if (!matchesCategory(item.category, activeCategory)) {
+            return false;
+          }
+
+          // Filtro por grado
+          if (!matchesGrade(item.grade, gradeFilter)) {
+            return false;
+          }
+
+          // Filtro por texto de búsqueda
+          if (query) {
+            const titleMatch = (item.title || '').toLowerCase().includes(query);
+            const offeringMatch = (item.offering || '').toLowerCase().includes(query);
+            const seekingMatch = (item.seeking || '').toLowerCase().includes(query);
+            const categoryMatch = (item.category || '').toLowerCase().includes(query);
+            const nameMatch = (item.name || '').toLowerCase().includes(query);
+            const schoolMatch = (item.school || '').toLowerCase().includes(query);
+
+            if (!titleMatch && !offeringMatch && !seekingMatch && !categoryMatch && !nameMatch && !schoolMatch) {
+              return false;
+            }
+          }
+
+          return true;
+        });
+
+        const grid = document.getElementById('donations-grid');
+        const emptyState = document.getElementById('empty-state');
+
+        if (filtered.length === 0) {
+          grid.style.display = 'none';
+          grid.innerHTML = '';
+          emptyState.style.display = 'flex';
+          return;
+        }
+
+        emptyState.style.display = 'none';
+        grid.style.display = 'grid';
+        grid.innerHTML = '';
+
+        filtered.forEach(item => {
+          const card = document.createElement('article');
+          card.className = 'info-card';
+
+          // Verificar si el usuario actual es el autor de este ítem
+          const itemEmail = (item.authorEmail || '').toLowerCase().trim();
+          const itemAuthor = (item.authorName || item.name || '').toLowerCase().trim();
+          const isAuthor = isLoggedIn && (
+            (currentEmail && itemEmail && currentEmail === itemEmail) ||
+            (currentName && itemAuthor && currentName === itemAuthor)
+          );
+
+          const imageHtml = item.photo 
+            ? `<img src="${item.photo}" style="width: 100%; height: 160px; object-fit: cover; border-radius: 12px; margin-bottom: 16px;" alt="Foto del recurso">`
+            : `<div style="width: 58px; height: 58px; display: grid; place-items: center; border-radius: 14px; background: linear-gradient(135deg, rgba(47, 128, 237, 0.14), rgba(34, 197, 94, 0.12)); color: #1d73f0; font-weight: 800; font-size: 1.5rem; margin-bottom: 16px;">${item.icon}</div>`;
+
+          if (item.type === 'donation') {
+            card.innerHTML = `
+              ${imageHtml}
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span class="badge-donacion">✓ Donación</span>
+                ${isAuthor ? '<span class="badge-author">👤 Tu publicación</span>' : `<span style="font-size: 0.8rem; color: #8896ab;">${item.date}</span>`}
+              </div>
+              <p style="font-size: 0.85rem; color: #5f6f86; margin: 4px 0 8px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.02em;">${item.category}</p>
+              <h3 style="margin: 0 0 8px; color: #1f2937; font-size: 1.2rem; font-weight: 800;">${item.title}</h3>
+              <p style="margin: 0 0 6px; color: #5f6f86; font-size: 0.9rem;">Grado: <strong>${item.grade}</strong> • Estado: <strong>${item.condition}</strong></p>
+              <p style="margin: 0 0 12px; color: #5f6f86; font-size: 0.85rem;">🏫 ${item.school} • Por: <strong>${item.name}</strong></p>
+              ${isAuthor ? `
+                <button class="btn-card-finish" onclick="finishDonation('${item.id}')" title="Marcar esta donación como entregada">
+                  <span>✓ Finalizar Donación (Entregada)</span>
+                </button>
+              ` : `
+                <button class="btn-card-action" onclick="contactDonor('${item.id}')">
+                  <span>Solicitar Donación 🎁</span>
+                </button>
+              `}
+            `;
+          } else {
+            card.innerHTML = `
+              ${imageHtml}
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span class="badge-intercambio">⇄ Intercambio</span>
+                ${isAuthor ? '<span class="badge-author">👤 Tu propuesta</span>' : `<span style="font-size: 0.8rem; color: #8896ab;">${item.date}</span>`}
+              </div>
+              <p style="font-size: 0.85rem; color: #5f6f86; margin: 4px 0 8px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.02em;">${item.category}</p>
+              <h3 style="margin: 0 0 6px; color: #1f2937; font-size: 1.15rem; font-weight: 800;">Ofrezco: ${item.offering}</h3>
+              <p style="margin: 0 0 6px; color: #2563eb; font-size: 0.95rem; font-weight: 600;">Busco: ${item.seeking}</p>
+              <p style="margin: 0 0 6px; color: #5f6f86; font-size: 0.9rem;">Grado: <strong>${item.grade}</strong></p>
+              <p style="margin: 0 0 12px; color: #5f6f86; font-size: 0.85rem;">🏫 ${item.school} • Por: <strong>${item.name}</strong></p>
+              ${isAuthor ? `
+                <div class="author-actions-group">
+                  <button class="btn-card-finish" onclick="completeExchange('${item.id}')" title="Marcar trueque como concretado">🤝 Completado</button>
+                  <button class="btn-card-cancel" onclick="cancelExchange('${item.id}')" title="Cancelar propuesta">❌ Cancelar</button>
+                </div>
+              ` : `
+                <button class="btn-card-action" onclick="proposeTrade('${item.id}')">
+                  <span>Proponer Trueque 🤝</span>
+                </button>
+              `}
+            `;
+          }
+
+          grid.appendChild(card);
+        });
+      }
+
+      let cachedCatalogItems = [];
+
+      async function contactDonor(itemId) {
+        let item = null;
+        if (cachedCatalogItems && cachedCatalogItems.length > 0) {
+          item = cachedCatalogItems.find(d => String(d.id) === String(itemId));
+        }
+        if (!item) {
+          let donations = JSON.parse(localStorage.getItem('donations') || '[]');
+          item = donations.find(d => String(d.id) === String(itemId));
+        }
+        if (!item && window.USLoopAPI) {
+          try {
+            const allDonations = await window.USLoopAPI.getDonations();
+            item = allDonations.find(d => String(d.id) === String(itemId));
+          } catch (e) {}
+        }
+
+        if (item && window.openRequestModal) {
+          window.openRequestModal({
+            type: 'donation',
+            item: item,
+            onSuccess: () => loadCatalog()
+          });
+        } else if (window.showCustomAlert) {
+          await window.showCustomAlert({
+            title: 'Solicitar Donación',
+            message: 'Inicia sesión o selecciona un recurso válido para enviar tu solicitud.',
+            icon: '🎁'
+          });
+        }
+      }
+
+      async function proposeTrade(itemId) {
+        let item = null;
+        if (cachedCatalogItems && cachedCatalogItems.length > 0) {
+          item = cachedCatalogItems.find(e => String(e.id) === String(itemId));
+        }
+        if (!item) {
+          let exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
+          item = exchanges.find(e => String(e.id) === String(itemId));
+        }
+        if (!item && window.USLoopAPI) {
+          try {
+            const allExchanges = await window.USLoopAPI.getExchanges();
+            item = allExchanges.find(e => String(e.id) === String(itemId));
+          } catch (e) {}
+        }
+
+        if (item && window.openRequestModal) {
+          window.openRequestModal({
+            type: 'exchange',
+            item: item,
+            onSuccess: () => loadCatalog()
+          });
+        } else if (window.showCustomAlert) {
+          await window.showCustomAlert({
+            title: 'Proponer Trueque',
+            message: 'Inicia sesión o selecciona un intercambio válido para enviar tu propuesta.',
+            icon: '🤝'
+          });
+        }
+      }
+
+      // Finalizar Donación (solo para el autor)
+      async function finishDonation(id) {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        let requests = [];
+        try {
+          requests = window.USLoopAPI ? await window.USLoopAPI.getRequests() : JSON.parse(localStorage.getItem('tradeRequests') || '[]');
+        } catch (e) {
+          requests = JSON.parse(localStorage.getItem('tradeRequests') || '[]');
+        }
+
+        const relatedReq = requests.find(r => String(r.itemId) === String(id) && (r.status === 'accepted' || r.status === 'accepted_donor_confirmed' || r.status === 'accepted_requester_confirmed' || r.status === 'pending'));
+
+        if (relatedReq) {
+          if (relatedReq.status === 'accepted' || relatedReq.status === 'accepted_donor_confirmed' || relatedReq.status === 'accepted_requester_confirmed') {
+            return window.handleMutualDeliveryConfirmation(relatedReq.id);
+          } else {
+            if (window.showCustomAlert) {
+              window.showCustomAlert({
+                title: 'Solicitud Pendiente ⏳',
+                message: `Tienes una solicitud pendiente de ${relatedReq.requesterName || 'un compañero'} para este recurso.\n\nPor favor, ve a tu panel de "Cuenta" en la pestaña "Solicitudes", acéptala y luego ambos podrán confirmar la entrega para finalizarla y sumar puntos.`,
+                icon: '📋'
+              });
+            } else {
+              alert('Tienes una solicitud pendiente para este recurso. Acéptala primero en tu cuenta.');
+            }
+            return;
+          }
+        }
+
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Finalizar Donación?',
+              message: '¿Deseas marcar esta donación como entregada? Se retirará del catálogo y ganarás +25 Puntos Loop.',
+              icon: '🎁',
+              confirmText: 'Sí, Finalizar',
+              cancelText: 'Cancelar'
+            })
+          : confirm('¿Deseas marcar esta donación como entregada? (+25 Pts)');
+
+        if (confirmed) {
+          if (window.USLoopAPI) {
+            await window.USLoopAPI.finishDonation(id);
+            if (currentUser.email) {
+              await window.USLoopAPI.updateUserStats(currentUser.email, 'donation');
+            }
+          } else {
+            let donations = JSON.parse(localStorage.getItem('donations') || '[]');
+            donations = donations.filter(d => String(d.id) !== String(id));
+            localStorage.setItem('donations', JSON.stringify(donations));
+          }
+          
+          currentUser.completedDonations = (currentUser.completedDonations || 0) + 1;
+          currentUser.loopPoints = ((currentUser.completedDonations || 0) * 25) + ((currentUser.completedTrades || 0) * 20);
+          localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+          if (window.showCustomToast) {
+            window.showCustomToast('🎉 ¡Donación finalizada con éxito! Sumaste +25 Puntos Loop.', 'success');
+          }
+          loadCatalog();
+        }
+      }
+
+      // Cancelar Intercambio (solo para el autor)
+      async function cancelExchange(id) {
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Cancelar Propuesta?',
+              message: '¿Estás seguro de que deseas retirar esta propuesta de intercambio del catálogo?',
+              icon: '❌',
+              confirmText: 'Sí, Retirar',
+              cancelText: 'Volver'
+            })
+          : confirm('¿Deseas cancelar esta propuesta?');
+
+        if (confirmed) {
+          if (window.USLoopAPI) {
+            await window.USLoopAPI.completeExchange(id);
+          } else {
+            let exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
+            exchanges = exchanges.filter(e => String(e.id) !== String(id));
+            localStorage.setItem('exchanges', JSON.stringify(exchanges));
+          }
+          if (window.showCustomToast) {
+            window.showCustomToast('La propuesta de intercambio ha sido cancelada.', 'info');
+          }
+          loadCatalog();
+        }
+      }
+
+      // Marcar Intercambio como Completado (solo para el autor)
+      async function completeExchange(id) {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        let requests = [];
+        try {
+          requests = window.USLoopAPI ? await window.USLoopAPI.getRequests() : JSON.parse(localStorage.getItem('tradeRequests') || '[]');
+        } catch (e) {
+          requests = JSON.parse(localStorage.getItem('tradeRequests') || '[]');
+        }
+
+        const relatedReq = requests.find(r => String(r.itemId) === String(id) && (r.status === 'accepted' || r.status === 'accepted_donor_confirmed' || r.status === 'accepted_requester_confirmed' || r.status === 'pending'));
+
+        if (relatedReq) {
+          if (relatedReq.status === 'accepted' || relatedReq.status === 'accepted_donor_confirmed' || relatedReq.status === 'accepted_requester_confirmed') {
+            return window.handleMutualDeliveryConfirmation(relatedReq.id);
+          } else {
+            if (window.showCustomAlert) {
+              window.showCustomAlert({
+                title: 'Propuesta Pendiente ⏳',
+                message: `Tienes una propuesta de trueque pendiente de ${relatedReq.requesterName || 'un compañero'} para este recurso.\n\nPor favor, ve a tu panel de "Cuenta" en la pestaña "Solicitudes", acéptala y luego ambos podrán confirmar la entrega para finalizarla y sumar puntos.`,
+                icon: '⇄'
+              });
+            } else {
+              alert('Tienes una propuesta de trueque pendiente. Acéptala primero en tu cuenta.');
+            }
+            return;
+          }
+        }
+
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Trueque Concretado?',
+              message: '¿Deseas marcar este intercambio como completado exitosamente? Sumarás +20 Puntos Loop.',
+              icon: '🤝',
+              confirmText: 'Sí, Completado',
+              cancelText: 'Cancelar'
+            })
+          : confirm('¿Deseas marcar este trueque como completado? (+20 Pts)');
+
+        if (confirmed) {
+          if (window.USLoopAPI) {
+            await window.USLoopAPI.completeExchange(id);
+            if (currentUser.email) {
+              await window.USLoopAPI.updateUserStats(currentUser.email, 'trade');
+            }
+          } else {
+            let exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
+            exchanges = exchanges.filter(e => String(e.id) !== String(id));
+            localStorage.setItem('exchanges', JSON.stringify(exchanges));
+          }
+
+          currentUser.completedTrades = (currentUser.completedTrades || 0) + 1;
+          currentUser.loopPoints = ((currentUser.completedDonations || 0) * 25) + ((currentUser.completedTrades || 0) * 20);
+          localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+          if (window.showCustomToast) {
+            window.showCustomToast('🤝 ¡Trueque completado! Sumaste +20 Puntos Loop.', 'success');
+          }
+          loadCatalog();
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        loadCatalog();
+
+        // Eventos de búsqueda y filtros
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+          searchInput.addEventListener('input', loadCatalog);
+        }
+
+        const filterGrade = document.getElementById('filter-grade');
+        if (filterGrade) {
+          filterGrade.addEventListener('change', loadCatalog);
+        }
+
+        const filterType = document.getElementById('filter-type');
+        if (filterType) {
+          filterType.addEventListener('change', loadCatalog);
+        }
+
+        // Pestañas de categorías
+        const categoryButtons = document.querySelectorAll('#categories-filter-row .filter-pill');
+        categoryButtons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            categoryButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeCategory = btn.dataset.category || 'all';
+            loadCatalog();
+          });
+        });
+      });
+    </script>
+    <script src="script.js?v=5.5"></script>
+  </body>
+</html>

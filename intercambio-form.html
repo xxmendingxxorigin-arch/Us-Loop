@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>US-LOOP | Proponer Intercambio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css?v=8.2" />
+  </head>
+  <body class="explore-page">
+    <nav class="navbar">
+      <div class="logo">
+        <img src="img/logo.png" alt="US-LOOP" class="navbar-logo" />
+        <span class="logo-text">US-Loop</span>
+      </div>
+      <div class="nav-pills">
+        <a href="index.html">Inicio</a>
+        <a href="explorar.html">Catálogo</a>
+        <a href="donar.html">Donar</a>
+        <a href="intercambio.html">Intercambio</a>
+        <a href="https://www.instagram.com/usloop01?igsi=NTU5eG5ha3ptbWVr" target="_blank" rel="noopener noreferrer">Contáctenos</a>
+      </div>
+      <a class="login-btn" href="login.html">Iniciar Sesión</a>
+    </nav>
+
+    <header class="explore-header">
+      <div class="explore-topbar container">
+        <div class="explore-brand">US-LOOP</div>
+        <div class="explore-badge">INTERCAMBIO</div>
+      </div>
+
+      <div class="container hero-title-wrap explore-hero-layout">
+        <div class="explore-hero-text">
+          <h1 class="catalog-title">Proponer un Intercambio</h1>
+          <p class="catalog-subtitle">Ofrece algo que tengas y busca lo que necesitas para tus clases.</p>
+        </div>
+        <div class="explore-hero-mascot">
+          <img
+            src="img/mada.png"
+            alt="Mada - Mascota US-Loop"
+            class="danna-hero-img mada-hero-img"
+            title="¡Hola! Soy Mada, publica tu trueque escolar 🐊🎀"
+          />
+        </div>
+      </div>
+    </header>
+
+    <main class="container donate-shell">
+      <form id="exchangeForm">
+        <div class="donate-wrapper">
+          <!-- Formulario de intercambio -->
+          <section class="donate-form">
+            <h2 class="form-title">Detalles del Intercambio</h2>
+            <p class="form-subtitle">Cuéntale a otros estudiantes qué ofreces y qué buscas.</p>
+
+            <div class="form-group">
+              <label for="offering">¿Qué ofreces? *</label>
+              <input type="text" id="offering" name="offering" placeholder="Ej: Libro de Matemáticas 9° Editorial Santillana" required />
+            </div>
+
+            <div class="form-group">
+              <label for="seeking">¿Qué buscas? *</label>
+              <input type="text" id="seeking" name="seeking" placeholder="Ej: Libro de Inglés o calculadora científica" required />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="category">Categoría *</label>
+                <select id="category" name="category" required>
+                  <option value="">Selecciona una categoría</option>
+                  <option value="Libros y Lecturas">Libros y Lecturas</option>
+                  <option value="Cuadernos">Cuadernos</option>
+                  <option value="Útiles Escolares">Útiles Escolares</option>
+                  <option value="Uniforme">Uniforme</option>
+                  <option value="Tecnología">Tecnología</option>
+                  <option value="Otros">Otros</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="grade">Grado escolar *</label>
+                <select id="grade" name="grade" required>
+                  <option value="">Selecciona grado</option>
+                  <option value="6° Grado">6° Grado</option>
+                  <option value="7° Grado">7° Grado</option>
+                  <option value="8° Grado">8° Grado</option>
+                  <option value="9° Grado">9° Grado</option>
+                  <option value="10° Grado">10° Grado</option>
+                  <option value="11° Grado">11° Grado</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fullname">Tu nombre completo *</label>
+                <input type="text" id="fullname" name="fullname" placeholder="Tu nombre" required />
+              </div>
+
+              <div class="form-group">
+                <label for="school">Colegio o Institución Educativa *</label>
+                <select id="school" name="school" required>
+                  <option value="">Selecciona tu sede</option>
+                  <option value="Institucion Educativa Fagua sede principal">Institucion Educativa Fagua sede principal</option>
+                  <option value="Institucion Educativa Fagua sede primaria">Institucion Educativa Fagua sede primaria</option>
+                  <option value="Institucion Educativa Fagua sede Tiquiza">Institucion Educativa Fagua sede Tiquiza</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="photo">Foto del material (opcional)</label>
+              <input type="file" id="photo" name="photo" accept="image/*" />
+              <p class="form-help">Sube una foto clara del material que ofreces para que otros compañeros lo vean bien.</p>
+            </div>
+
+            <!-- Botón de publicar en Desktop -->
+            <div class="desktop-submit-wrap">
+              <button type="submit" class="btn btn-primary btn-publish-main">Publicar Intercambio ⇄</button>
+            </div>
+          </section>
+
+          <!-- Vista previa en tiempo real -->
+          <aside class="donate-preview">
+            <div class="preview-header">
+              <span class="preview-icon">👁️</span>
+              <span class="preview-label">VISTA PREVIA EN TIEMPO REAL</span>
+            </div>
+
+            <div class="preview-card">
+              <div class="preview-image" id="previewImageContainer">
+                <span style="font-size: 3rem;">⇄</span>
+              </div>
+
+              <div class="preview-content">
+                <span class="preview-badge">⇄ Intercambio Activo</span>
+                <p class="preview-category">LIBROS Y LECTURAS</p>
+                <h3 class="preview-title" id="previewOffering">Ofrezco: Tu item</h3>
+                <p class="preview-description" id="previewSeeking">Busco: Lo que necesitas</p>
+                
+                <div class="preview-meta">
+                  <div class="preview-meta-item">
+                    <span class="meta-label" id="previewExchangeName">Tu Nombre</span>
+                  </div>
+                </div>
+
+                <button type="button" class="preview-link">Vista Previa de Trueque →</button>
+              </div>
+            </div>
+
+            <!-- Botón de publicar en Móvil y Tablet (después de la vista previa) -->
+            <div class="mobile-submit-wrap">
+              <button type="submit" class="btn btn-primary btn-publish-main">Publicar Intercambio ⇄</button>
+            </div>
+          </aside>
+        </div>
+      </form>
+    </main>
+
+    <script>
+      // Update preview with form data
+      const form = document.getElementById('exchangeForm');
+      const offeringInput = document.getElementById('offering');
+      const seekingInput = document.getElementById('seeking');
+      const categorySelect = document.getElementById('category');
+      const fullnameInput = document.getElementById('fullname');
+      const previewOffering = document.getElementById('previewOffering');
+      const previewSeeking = document.getElementById('previewSeeking');
+      const previewCategory = document.querySelector('.preview-category');
+      const previewExchangeName = document.getElementById('previewExchangeName');
+      const photoInput = document.getElementById('photo');
+      const previewImageContainer = document.getElementById('previewImageContainer');
+
+      // Update preview offering
+      offeringInput.addEventListener('input', () => {
+        previewOffering.textContent = 'Ofrezco: ' + (offeringInput.value || 'Tu item');
+      });
+
+      // Update preview seeking
+      seekingInput.addEventListener('input', () => {
+        previewSeeking.textContent = 'Busco: ' + (seekingInput.value || 'Lo que necesitas');
+      });
+
+      // Update preview category
+      categorySelect.addEventListener('change', () => {
+        previewCategory.textContent = categorySelect.value || 'LIBROS Y LECTURAS';
+      });
+
+      // Update preview name
+      if (fullnameInput && previewExchangeName) {
+        fullnameInput.addEventListener('input', () => {
+          previewExchangeName.textContent = fullnameInput.value || 'Tu Nombre';
+        });
+      }
+
+      // Handle photo upload
+      photoInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const existingImg = previewImageContainer.querySelector('img');
+            if (existingImg) {
+              existingImg.remove();
+            }
+            
+            const img = document.createElement('img');
+            img.src = event.target.result;
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '8px';
+            previewImageContainer.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Autocompletar con usuario logueado o requerir cuenta
+      document.addEventListener('DOMContentLoaded', async () => {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        const isLoggedIn = currentUser && currentUser.email && currentUser.isLoggedIn !== false;
+
+        if (!isLoggedIn) {
+          if (window.showCustomAlert) {
+            await window.showCustomAlert({
+              title: 'Cuenta Requerida para Intercambiar',
+              message: 'Para proponer un intercambio escolar y recibir propuestas de trueque de otros compañeros, necesitas iniciar sesión o crear tu cuenta en US-Loop.',
+              icon: '🔒',
+              confirmText: 'Iniciar Sesión / Crear Cuenta'
+            });
+          } else {
+            alert('Para publicar un trueque necesitas iniciar sesión o crear una cuenta.');
+          }
+          window.location.href = 'login.html#signup';
+          return;
+        }
+
+        if (currentUser.name) {
+          const fullnameInput = document.getElementById('fullname');
+          if (fullnameInput && !fullnameInput.value) {
+            fullnameInput.value = currentUser.name;
+          }
+          const schoolSelect = document.getElementById('school');
+          if (schoolSelect && currentUser.institution && !schoolSelect.value) {
+            for (let i = 0; i < schoolSelect.options.length; i++) {
+              if (schoolSelect.options[i].value === currentUser.institution) {
+                schoolSelect.selectedIndex = i;
+                break;
+              }
+            }
+          }
+        }
+      });
+
+      // Form submission
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        let currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        const isLoggedIn = currentUser && currentUser.email && currentUser.isLoggedIn !== false;
+
+        if (!isLoggedIn) {
+          if (window.showCustomAlert) {
+            await window.showCustomAlert({
+              title: 'Inicia Sesión Requerido',
+              message: 'Para publicar un intercambio escolar, necesitas iniciar sesión con tu cuenta estudiantil.',
+              icon: '🔒',
+              confirmText: 'Iniciar Sesión'
+            });
+          } else {
+            alert('Debes iniciar sesión para proponer un intercambio.');
+          }
+          window.location.href = 'login.html';
+          return;
+        }
+
+        const fullnameVal = document.getElementById('fullname').value.trim();
+        const authorName = currentUser.name || fullnameVal || 'Estudiante';
+        const authorEmail = (currentUser.email || '').toLowerCase().trim();
+
+        // Get form data
+        const exchange = {
+          id: 'exc_' + Date.now(),
+          type: 'exchange',
+          offering: document.getElementById('offering').value.trim(),
+          seeking: document.getElementById('seeking').value.trim(),
+          lookingFor: document.getElementById('seeking').value.trim(),
+          category: document.getElementById('category').value || 'Libros y Lecturas',
+          grade: document.getElementById('grade').value || 'General',
+          name: authorName,
+          ownerName: authorName,
+          authorName: authorName,
+          authorEmail: authorEmail,
+          ownerEmail: authorEmail,
+          school: document.getElementById('school').value || currentUser.institution || 'Institucion Educativa Fagua sede principal',
+          institution: document.getElementById('school').value || currentUser.institution || 'Institucion Educativa Fagua sede principal',
+          authorAvatar: currentUser.avatar || '👨‍🎓',
+          status: 'active',
+          icon: '⇄',
+          photo: null,
+          date: new Date().toLocaleDateString('es-ES')
+        };
+        
+        // Get photo if exists
+        if (photoInput.files.length > 0) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            exchange.photo = event.target.result;
+            saveExchange(exchange);
+          };
+          reader.readAsDataURL(photoInput.files[0]);
+        } else {
+          saveExchange(exchange);
+        }
+      });
+      
+      async function saveExchange(exchange) {
+        if (window.USLoopAPI) {
+          await window.USLoopAPI.saveExchange(exchange);
+        } else {
+          let exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
+          exchanges.unshift(exchange);
+          localStorage.setItem('exchanges', JSON.stringify(exchanges));
+        }
+        
+        if (window.showCustomAlert) {
+          await window.showCustomAlert({
+            title: '¡Intercambio Publicado!',
+            message: `Tu propuesta "${exchange.offering}" ha sido guardada en la comunidad y aparecerá en el Catálogo Comunitario.`,
+            icon: '⇄',
+            confirmText: 'Ver en el Catálogo'
+          });
+        }
+        
+        window.location.href = 'explorar.html';
+      }
+    </script>
+    <script src="script.js?v=5.5"></script>
+  </body>
+</html>

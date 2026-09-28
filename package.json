@@ -1,0 +1,13 @@
+{
+  "name": "usloop",
+  "version": "1.0.0",
+  "description": "US-LOOP - Plataforma Escolar de Intercambio y Donación",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["usloop", "educacion", "trueque", "donacion"],
+  "author": "",
+  "license": "ISC"
+}

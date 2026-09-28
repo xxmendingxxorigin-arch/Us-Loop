@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>US-LOOP | Donar recursos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css?v=8.2" />
+  </head>
+  <body class="explore-page">
+    <nav class="navbar">
+      <div class="logo">
+        <img src="img/logo.png" alt="US-LOOP" class="navbar-logo" />
+        <span class="logo-text">US-Loop</span>
+      </div>
+      <div class="nav-pills">
+        <a href="index.html">Inicio</a>
+        <a href="explorar.html">Catálogo</a>
+        <a href="donar.html">Donar</a>
+        <a href="intercambio.html">Intercambio</a>
+        <a href="https://www.instagram.com/usloop01?igsi=NTU5eG5ha3ptbWVr" target="_blank" rel="noopener noreferrer">Contáctenos</a>
+      </div>
+      <a class="login-btn" href="login.html">Iniciar Sesión</a>
+    </nav>
+
+    <header class="explore-header">
+      <div class="explore-topbar container">
+        <div class="explore-brand">US-LOOP</div>
+        <div class="explore-badge">DONACIONES</div>
+      </div>
+
+      <div class="container hero-title-wrap explore-hero-layout">
+        <div class="explore-hero-text">
+          <h1 class="catalog-title">Donar recursos</h1>
+          <p class="catalog-subtitle">Comparte libros, útiles y materiales para apoyar a otros estudiantes.</p>
+        </div>
+        <div class="explore-hero-mascot">
+          <img
+            src="img/mada.png"
+            alt="Mada - Mascota US-Loop"
+            class="danna-hero-img mada-hero-img"
+            title="¡Hola! Soy Mada, gracias por donar 🐊🎀"
+          />
+        </div>
+      </div>
+    </header>
+
+    <main class="container donate-shell">
+      <form id="donateForm">
+        <div class="donate-wrapper">
+          <!-- Formulario de detalles -->
+          <section class="donate-form">
+            <h2 class="form-title">Detalles del Recurso</h2>
+            <p class="form-subtitle">Diligencia la información para que otros compañeros puedan encontrar tu donación fácilmente.</p>
+
+            <div class="form-group">
+              <label for="title">Título del libro o material *</label>
+              <input type="text" id="title" name="title" placeholder="Ej: Libro de Ciencias Naturales 8° Santillana" required />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="category">Categoría *</label>
+                <select id="category" name="category" required>
+                  <option value="">Selecciona una categoría</option>
+                  <option value="Libros y Lecturas">Libros y Lecturas</option>
+                  <option value="Cuadernos">Cuadernos</option>
+                  <option value="Útiles Escolares">Útiles Escolares</option>
+                  <option value="Uniforme">Uniforme</option>
+                  <option value="Tecnología">Tecnología</option>
+                  <option value="Otros">Otros</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="grade">Grado escolar sugerido *</label>
+                <select id="grade" name="grade" required>
+                  <option value="">Selecciona grado</option>
+                  <option value="6° Grado">6° Grado</option>
+                  <option value="7° Grado">7° Grado</option>
+                  <option value="8° Grado">8° Grado</option>
+                  <option value="9° Grado">9° Grado</option>
+                  <option value="10° Grado">10° Grado</option>
+                  <option value="11° Grado">11° Grado</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="condition">Estado del material *</label>
+                <select id="condition" name="condition" required>
+                  <option value="">Selecciona estado</option>
+                  <option value="Como nuevo (Excelente)">Como nuevo (Excelente)</option>
+                  <option value="Muy bueno">Muy bueno</option>
+                  <option value="Bueno">Bueno</option>
+                  <option value="Regular">Regular</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="fullname">Tu nombre completo *</label>
+                <input type="text" id="fullname" name="fullname" placeholder="Tu nombre" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="school">Colegio o Institución Educativa *</label>
+              <select id="school" name="school" required>
+                <option value="">Selecciona tu sede</option>
+                <option value="Institucion Educativa Fagua sede principal">Institucion Educativa Fagua sede principal</option>
+                <option value="Institucion Educativa Fagua sede primaria">Institucion Educativa Fagua sede primaria</option>
+                <option value="Institucion Educativa Fagua sede Tiquiza">Institucion Educativa Fagua sede Tiquiza</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Selecciona un icono representativo</label>
+              <div class="icon-selector">
+                <button type="button" class="icon-btn active" data-icon="📕" title="Libro">
+                  <span class="icon-big">📕</span>
+                  <span class="icon-label">Libro</span>
+                </button>
+                <button type="button" class="icon-btn" data-icon="📐" title="Geometría">
+                  <span class="icon-big">📐</span>
+                  <span class="icon-label">Geometría</span>
+                </button>
+                <button type="button" class="icon-btn" data-icon="🧮" title="Calculadora">
+                  <span class="icon-big">🧮</span>
+                  <span class="icon-label">Calculadora</span>
+                </button>
+                <button type="button" class="icon-btn" data-icon="🎒" title="Mochila">
+                  <span class="icon-big">🎒</span>
+                  <span class="icon-label">Mochila</span>
+                </button>
+                <button type="button" class="icon-btn" data-icon="🧢" title="Uniforme">
+                  <span class="icon-big">🧢</span>
+                  <span class="icon-label">Uniforme</span>
+                </button>
+                <button type="button" class="icon-btn" data-icon="🎨" title="Arte">
+                  <span class="icon-big">🎨</span>
+                  <span class="icon-label">Arte</span>
+                </button>
+                <button type="button" class="icon-btn" data-icon="✏️" title="Lápices">
+                  <span class="icon-big">✏️</span>
+                  <span class="icon-label">Lápices</span>
+                </button>
+                <button type="button" class="icon-btn" data-icon="🔬" title="Ciencia">
+                  <span class="icon-big">🔬</span>
+                  <span class="icon-label">Ciencia</span>
+                </button>
+              </div>
+              <input type="hidden" id="selectedIcon" name="icon" value="📕" />
+            </div>
+
+            <div class="form-group">
+              <label for="photo">Foto del material (opcional)</label>
+              <input type="file" id="photo" name="photo" accept="image/*" />
+              <p class="form-help">Sube una foto clara del material para que otros compañeros vean exactamente qué estás donando.</p>
+            </div>
+
+            <!-- Botón de publicar en Desktop -->
+            <div class="desktop-submit-wrap">
+              <button type="submit" class="btn btn-primary btn-publish-main">Publicar Donación 🎁</button>
+            </div>
+          </section>
+
+          <!-- Vista previa en tiempo real -->
+          <aside class="donate-preview">
+            <div class="preview-header">
+              <span class="preview-icon">👁️</span>
+              <span class="preview-label">VISTA PREVIA EN TIEMPO REAL</span>
+            </div>
+
+            <div class="preview-card">
+              <div class="preview-image" id="previewImageContainer">
+                <span class="preview-emoji" id="previewEmoji">📕</span>
+              </div>
+
+              <div class="preview-content">
+                <span class="preview-badge">✓ Donación Gratuita</span>
+                <p class="preview-category">LIBROS Y LECTURAS</p>
+                <h3 class="preview-title" id="previewTitle">Título de tu publicación</h3>
+                <p class="preview-description">Aquí se mostrará la descripción detallada del recurso que quieres donar para ayudar a otro estudiante.</p>
+                
+                <div class="preview-meta">
+                  <div class="preview-meta-item">
+                    <span class="meta-label" id="previewName">Tu Nombre</span>
+                  </div>
+                  <div class="preview-meta-item">
+                    <span class="meta-label" id="previewCondition">Estado: Como nuevo</span>
+                  </div>
+                </div>
+
+                <button type="button" class="preview-link">Vista Previa de Tarjeta →</button>
+              </div>
+            </div>
+
+            <!-- Botón de publicar en Móvil y Tablet (después de la vista previa) -->
+            <div class="mobile-submit-wrap">
+              <button type="submit" class="btn btn-primary btn-publish-main">Publicar Donación 🎁</button>
+            </div>
+          </aside>
+        </div>
+      </form>
+    </main>
+
+    <script>
+      // Update preview with form data
+      const form = document.getElementById('donateForm');
+      const titleInput = document.getElementById('title');
+      const categorySelect = document.getElementById('category');
+      const conditionSelect = document.getElementById('condition');
+      const previewTitle = document.getElementById('previewTitle');
+      const previewCategory = document.querySelector('.preview-category');
+      const previewEmoji = document.getElementById('previewEmoji');
+      const selectedIconInput = document.getElementById('selectedIcon');
+      const iconButtons = document.querySelectorAll('.icon-btn');
+      const photoInput = document.getElementById('photo');
+      const previewImageContainer = document.getElementById('previewImageContainer');
+
+      const fullnameInput = document.getElementById('fullname');
+      const previewName = document.getElementById('previewName');
+      const previewCondition = document.getElementById('previewCondition');
+
+      // Update preview title
+      titleInput.addEventListener('input', () => {
+        previewTitle.textContent = titleInput.value || 'Título de tu publicación';
+      });
+
+      // Update preview category
+      categorySelect.addEventListener('change', () => {
+        previewCategory.textContent = categorySelect.value || 'LIBROS Y LECTURAS';
+      });
+
+      // Update preview condition
+      conditionSelect.addEventListener('change', () => {
+        if (previewCondition) {
+          previewCondition.textContent = 'Estado: ' + (conditionSelect.value || 'Como nuevo');
+        }
+      });
+
+      // Update preview name
+      if (fullnameInput && previewName) {
+        fullnameInput.addEventListener('input', () => {
+          previewName.textContent = fullnameInput.value || 'Tu Nombre';
+        });
+      }
+
+      // Handle photo upload
+      photoInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            // Remove emoji if exists
+            const existingEmoji = previewImageContainer.querySelector('.preview-emoji');
+            if (existingEmoji) {
+              existingEmoji.remove();
+            }
+            
+            // Remove existing image if exists
+            const existingImg = previewImageContainer.querySelector('img');
+            if (existingImg) {
+              existingImg.remove();
+            }
+            
+            // Create and add new image
+            const img = document.createElement('img');
+            img.src = event.target.result;
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '8px';
+            previewImageContainer.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Icon selection
+      iconButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          iconButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const icon = btn.dataset.icon;
+          
+          // Only update emoji if no photo is uploaded
+          if (!photoInput.files.length) {
+            previewEmoji.textContent = icon;
+          }
+          selectedIconInput.value = icon;
+        });
+      });
+
+      // Autocompletar con usuario logueado o requerir cuenta
+      document.addEventListener('DOMContentLoaded', async () => {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        const isLoggedIn = currentUser && currentUser.email && currentUser.isLoggedIn !== false;
+
+        if (!isLoggedIn) {
+          if (window.showCustomAlert) {
+            await window.showCustomAlert({
+              title: 'Cuenta Requerida para Donar',
+              message: 'Para donar y compartir material escolar con tu comunidad estudiantil, necesitas iniciar sesión o crear tu cuenta en US-Loop.',
+              icon: '🔒',
+              confirmText: 'Iniciar Sesión / Crear Cuenta'
+            });
+          } else {
+            alert('Para publicar una donación necesitas iniciar sesión o crear una cuenta.');
+          }
+          window.location.href = 'login.html#signup';
+          return;
+        }
+
+        if (currentUser.name) {
+          const fullnameInput = document.getElementById('fullname');
+          if (fullnameInput && !fullnameInput.value) {
+            fullnameInput.value = currentUser.name;
+          }
+          const schoolSelect = document.getElementById('school');
+          if (schoolSelect && currentUser.institution && !schoolSelect.value) {
+            for (let i = 0; i < schoolSelect.options.length; i++) {
+              if (schoolSelect.options[i].value === currentUser.institution) {
+                schoolSelect.selectedIndex = i;
+                break;
+              }
+            }
+          }
+        }
+      });
+
+      // Form submission
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        let currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        const isLoggedIn = currentUser && currentUser.email && currentUser.isLoggedIn !== false;
+
+        if (!isLoggedIn) {
+          if (window.showCustomAlert) {
+            await window.showCustomAlert({
+              title: 'Inicia Sesión Requerido',
+              message: 'Para publicar una donación, necesitas iniciar sesión con tu cuenta estudiantil.',
+              icon: '🔒',
+              confirmText: 'Iniciar Sesión'
+            });
+          } else {
+            alert('Debes iniciar sesión para publicar una donación.');
+          }
+          window.location.href = 'login.html';
+          return;
+        }
+
+        const fullnameVal = document.getElementById('fullname').value.trim();
+        const authorName = currentUser.name || fullnameVal || 'Estudiante';
+        const authorEmail = (currentUser.email || '').toLowerCase().trim();
+
+        // Get form data
+        const donation = {
+          id: 'don_' + Date.now(),
+          type: 'donation',
+          title: document.getElementById('title').value.trim(),
+          category: document.getElementById('category').value || 'Libros y Lecturas',
+          grade: document.getElementById('grade').value || 'General',
+          condition: document.getElementById('condition').value || 'Bueno',
+          condition_status: document.getElementById('condition').value || 'Bueno',
+          name: authorName,
+          donorName: authorName,
+          authorName: authorName,
+          authorEmail: authorEmail,
+          donorEmail: authorEmail,
+          school: document.getElementById('school').value || currentUser.institution || 'Institucion Educativa Fagua sede principal',
+          institution: document.getElementById('school').value || currentUser.institution || 'Institucion Educativa Fagua sede principal',
+          authorAvatar: currentUser.avatar || '👨‍🎓',
+          status: 'active',
+          icon: document.getElementById('selectedIcon').value || '📕',
+          photo: null,
+          date: new Date().toLocaleDateString('es-ES')
+        };
+        
+        // Get photo if exists
+        if (photoInput.files.length > 0) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            donation.photo = event.target.result;
+            saveDonation(donation);
+          };
+          reader.readAsDataURL(photoInput.files[0]);
+        } else {
+          saveDonation(donation);
+        }
+      });
+      
+      async function saveDonation(donation) {
+        if (window.USLoopAPI) {
+          await window.USLoopAPI.saveDonation(donation);
+        } else {
+          let donations = JSON.parse(localStorage.getItem('donations') || '[]');
+          donations.unshift(donation);
+          localStorage.setItem('donations', JSON.stringify(donations));
+        }
+        
+        if (window.showCustomAlert) {
+          await window.showCustomAlert({
+            title: '¡Donación Publicada!',
+            message: `"${donation.title}" ha sido agregada con éxito y ya está disponible en el Catálogo Comunitario para todos los estudiantes.`,
+            icon: '🎁',
+            confirmText: 'Ver en el Catálogo'
+          });
+        }
+        
+        window.location.href = 'explorar.html';
+      }
+    </script>
+    <script src="script.js?v=5.5"></script>
+  </body>
+</html>

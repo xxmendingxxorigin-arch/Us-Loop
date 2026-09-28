@@ -1,0 +1,19 @@
+[
+  {
+    "id": "usr_1790041333118",
+    "name": "Juan David Raigoso Gomez",
+    "email": "xxmendingxxorigin@gmail.com",
+    "password": "loopforever",
+    "grade": "11° Grado",
+    "institution": "Institucion Educativa Fagua sede principal",
+    "avatar": "⚡🌌",
+    "completedDonations": 65,
+    "completedTrades": 65,
+    "loopPoints": 4077,
+    "ecoSaved": 245.0,
+    "bio": "¡Creador Principal y Desarrollador de US-Loop! 👑🛠️ Administrador del campus y guardián de la economía circular escolar.",
+    "isCreator": true,
+    "specialRole": "creator",
+    "specialTitle": "El Creador"
+  }
+]

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>US-LOOP | Intercambio y Donación Estudiantil</title>
+    <meta
+      name="description"
+      content="Plataforma para intercambiar y donar material escolar entre estudiantes."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css?v=8.2" />
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="navbar">
+        <div class="logo">
+          <img src="img/logo.png" alt="US-LOOP" class="navbar-logo" />
+          <span class="logo-text">US-Loop</span>
+        </div>
+        <div class="nav-pills">
+          <a href="#inicio">Inicio</a>
+          <a href="explorar.html">Catálogo</a>
+          <a href="donar.html">Donar</a>
+          <a href="intercambio.html">Intercambio</a>
+          <a href="https://www.instagram.com/usloop01?igsi=NTU5eG5ha3ptbWVr" target="_blank" rel="noopener noreferrer">Contáctenos</a>
+        </div>
+        <a class="login-btn" href="login.html">Iniciar Sesión</a>
+      </nav>
+
+      <section id="inicio" class="hero-content container">
+        <div class="hero-text">
+          <p class="eyebrow">Intercambio estudiantil</p>
+          <h1>Unete, dona y comparte lo que ya no necesitas.</h1>
+          <p class="subtitle">
+            US-LOOP conecta a estudiantes para intercambiar libros, apuntes,
+            material escolar y útiles de estudio de forma simple, útil y solidaria.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="explorar.html">Explorar ofertas</a>
+            <a class="btn btn-secondary" href="#como-funciona">Ver cómo funciona</a>
+          </div>
+          <ul class="hero-stats">
+            <li><strong id="stat-hero-students">0</strong><span>Estudiantes</span></li>
+            <li><strong id="stat-hero-exchanges">0</strong><span>Intercambios</span></li>
+            <li><strong id="stat-hero-donations">0</strong><span>Donaciones</span></li>
+            <li><strong id="stat-hero-community">0%</strong><span>Comunidad activa</span></li>
+          </ul>
+        </div>
+
+        <div class="hero-right-column">
+          <div class="danna-hero-display mada-hero-display">
+            <div class="danna-speech-bubble" id="madaSpeechBubble">¡Hola! Soy Mada 🐊🎀</div>
+            <img
+              src="img/mada.png"
+              alt="Mada - Mascota US-Loop"
+              class="danna-hero-large-img mada-hero-large-img"
+              id="madaMascotImg"
+              title="¡Hola! Soy Mada, la mascota de US-Loop 🐊🎀"
+            />
+          </div>
+
+          <div class="hero-card">
+            <a href="explorar.html" class="card-panel" id="hero-offer-card" style="text-decoration: none; display: block; cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease;">
+              <span class="tag" id="hero-offer-tag">Hoy en US-Loop</span>
+              <h3 id="hero-offer-title">Sin ofertas activas</h3>
+              <p id="hero-offer-desc">Sé el primero en compartir un libro o útil escolar con tu comunidad.</p>
+              <div class="metric">
+                <span id="hero-offer-label">Oferta del día</span>
+                <strong id="hero-offer-count">0 disponibles</strong>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section class="about-us">
+        <div class="container">
+          <div class="about-us-header">
+            <p class="section-badge">NUESTRA PLATAFORMA</p>
+            <h2>¿Qué es Us-Loop?</h2>
+            <p class="about-us-subtitle">Una herramienta diseñada por y para estudiantes para compartir herramientas de estudio.</p>
+          </div>
+
+          <div class="about-us-grid">
+            <a href="donar.html" class="about-us-card about-us-card-link">
+              <div class="about-us-number">01</div>
+              <div class="about-us-icon">🔍</div>
+              <h3>Encuentra o Publica</h3>
+              <p>Busca libros, uniformes, calculadoras o útiles por grado escolar y materia, o publica lo que ya no uses.</p>
+            </a>
+
+            <article class="about-us-card">
+              <div class="about-us-number">02</div>
+              <div class="about-us-icon">🤝</div>
+              <h3>Conecta y Propón</h3>
+              <p>Contacta directamente a otros compañeros de tu grado o colegio para solicitar una donación o proponer un trueque.</p>
+            </article>
+
+            <article class="about-us-card">
+              <div class="about-us-number">03</div>
+              <div class="about-us-icon">♻️</div>
+              <h3>Cierra el Ciclo (Loop)</h3>
+              <p>Entrega el material dentro de tu institución educativa y permite que siga sirviendo a más generaciones.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="como-funciona" class="services container">
+        <div class="section-heading">
+          <p class="eyebrow">Cómo funciona</p>
+          <h2>Un lugar para compartir recursos entre estudiantes</h2>
+        </div>
+        <div class="card-grid">
+          <a href="donar.html" class="info-card info-card-link">
+            <div class="icon">1</div>
+            <h3>Publica</h3>
+            <p>Sube libros, apuntes o materiales que ya no uses.</p>
+          </a>
+          <article class="info-card">
+            <div class="icon">2</div>
+            <h3>Intercambia</h3>
+            <p>Encuentra artículos de tu carrera y negocia por trueque o puntos.</p>
+          </article>
+          <article class="info-card">
+            <div class="icon">3</div>
+            <h3>Donación</h3>
+            <p>Regala materiales a estudiantes que los necesiten y ayuda a la comunidad.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="donaciones" class="pilares">
+        <div class="container pilares-wrap">
+          <div class="pilares-badge">NUESTROS PILARES</div>
+          <h2>¿Por qué elegir Us-Loop?</h2>
+          <p class="pilares-intro">
+            El nombre representa la idea de “nosotros” (Us) y un “ciclo de
+            intercambio” (Loop).
+          </p>
+
+          <div class="pilares-grid">
+            <article class="pilar-card">
+              <div class="pilar-icon icon-solidaria">🤝</div>
+              <h3>Comunidad Solidaria</h3>
+              <p>
+                Fomentamos el compañerismo y el apoyo mutuo. Los recursos pasan
+                de mano en mano dentro de los propios colegios.
+              </p>
+            </article>
+
+            <article class="pilar-card">
+              <div class="pilar-icon icon-sostenible">🌱</div>
+              <h3>Sostenibilidad Ambiental</h3>
+              <p>
+                Reutilizar libros y útiles reduce drásticamente el desperdicio de
+                papel y la huella ecológica de cada ciclo escolar.
+              </p>
+            </article>
+
+            <article class="pilar-card">
+              <div class="pilar-icon icon-ahorro">💡</div>
+              <h3>Ahorro Familiar</h3>
+              <p>
+                Aliviar el costo de las listas de útiles escolares mediante
+                intercambios justos y donaciones 100% sin costo.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="donaciones-section">
+        <div class="container donaciones-wrap">
+          <div class="donaciones-badge">EN TIEMPO REAL</div>
+          <h2>Últimas Donaciones Publicadas</h2>
+          <p>
+            Materiales y útiles escolares compartidos recientemente por la comunidad.
+          </p>
+
+          <a class="donaciones-button" href="explorar.html">Ver todo el catálogo →</a>
+
+          <div id="home-donations-container" class="card-grid" style="display: none; width: 100%; margin-top: 24px; text-align: left;">
+            <!-- Publicaciones dinámicas recientes -->
+          </div>
+
+          <a href="donar.html" class="donaciones-empty donaciones-link" id="home-donations-empty">
+            <div class="empty-box">📦</div>
+            <h3>Aún no se han publicado donaciones</h3>
+            <p>
+              ¡Sé el primero en compartir un libro o útil escolar con tu comunidad!
+            </p>
+            <div class="primary-action">Publicar una Donación 🎁</div>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contacto" class="footer">
+      <div class="container footer-content">
+        <div>
+          <div class="logo">US-LOOP</div>
+          <p>Compartiendo recursos para estudiar mejor.</p>
+        </div>
+        <a
+          class="btn btn-primary btn-instagram"
+          href="https://www.instagram.com/usloop01?igsi=NTU5eG5ha3ptbWVr"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border: none; font-weight: 700; color: #ffffff;"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+          <span>Instagram @usloop01</span>
+        </a>
+      </div>
+    </footer>
+
+    <script src="script.js?v=5.5"></script>
+  </body>
+</html>

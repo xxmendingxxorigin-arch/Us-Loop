@@ -1,0 +1,2593 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>US-LOOP | Mi Cuenta de Usuario</title>
+    <meta
+      name="description"
+      content="Panel de control de usuario de US-Loop. Gestiona tus publicaciones, donaciones, intercambios y perfil estudiantil."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css?v=8.4" />
+    <style>
+      /* ESTILOS DE SEPARADORES Y TARJETAS DE LOGROS */
+      .achievement-section-block {
+        margin-bottom: 32px;
+      }
+      .category-separator-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 14px 20px;
+        border-radius: 16px;
+        margin-bottom: 16px;
+        border: 2px solid #e2e8f0;
+        border-bottom: 4px solid #cbd5e1;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      }
+      .category-separator-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .category-separator-icon {
+        font-size: 1.8rem;
+        line-height: 1;
+      }
+      .category-separator-titles {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .category-separator-name {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 900;
+        letter-spacing: -0.01em;
+      }
+      .category-separator-count {
+        font-size: 0.82rem;
+        color: #64748b;
+        font-weight: 700;
+      }
+      .category-separator-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .category-progress-pill {
+        font-size: 0.8rem;
+        font-weight: 800;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+      .category-xp-pill {
+        background: #0f172a;
+        color: #80ff00;
+        border: 1.5px solid rgba(128, 255, 0, 0.4);
+        font-size: 0.8rem;
+        font-weight: 900;
+        padding: 5px 12px;
+        border-radius: 999px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        text-shadow: 0 0 6px rgba(128, 255, 0, 0.4);
+      }
+      .badges-category-grid,
+      .badges-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 18px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .badge-item-card,
+      .badge-item {
+        background: #ffffff !important;
+        border: 2.5px solid #e2e8f0 !important;
+        border-bottom: 5px solid #cbd5e1 !important;
+        border-radius: 20px !important;
+        padding: 20px 18px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
+        transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        position: relative !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+      }
+      .badge-item-card:hover,
+      .badge-item:hover {
+        transform: translateY(-4px) !important;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08) !important;
+        border-color: #94a3b8 !important;
+      }
+      .badge-item-card.unlocked,
+      .badge-item.unlocked {
+        border-color: rgba(16, 185, 129, 0.6) !important;
+        border-bottom-color: #059669 !important;
+        background: linear-gradient(150deg, rgba(16, 185, 129, 0.08) 0%, #ffffff 100%) !important;
+        box-shadow: 0 6px 18px rgba(16, 185, 129, 0.15) !important;
+      }
+      .badge-item-card.unlocked:hover {
+        border-color: #10b981 !important;
+        border-bottom-color: #047857 !important;
+        box-shadow: 0 14px 30px rgba(16, 185, 129, 0.22) !important;
+      }
+      .badge-item-card.locked,
+      .badge-item.locked {
+        background: #ffffff !important;
+        border-color: #e2e8f0 !important;
+        opacity: 0.94 !important;
+      }
+      .badge-card-top,
+      .badge-top-row {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 10px !important;
+      }
+      .badge-icon-frame,
+      .badge-icon-box {
+        width: 52px !important;
+        height: 52px !important;
+        border-radius: 14px !important;
+        background: #f8fafc !important;
+        border: 2px solid #e2e8f0 !important;
+        border-bottom: 3.5px solid #cbd5e1 !important;
+        display: grid !important;
+        place-items: center !important;
+        font-size: 1.85rem !important;
+        flex-shrink: 0 !important;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+      }
+      .badge-item-card.unlocked .badge-icon-frame,
+      .badge-item.unlocked .badge-icon-box {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(37, 99, 235, 0.18)) !important;
+        border-color: rgba(16, 185, 129, 0.4) !important;
+        border-bottom-color: #059669 !important;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25) !important;
+      }
+      .badge-tags-group {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        flex-wrap: wrap !important;
+        justify-content: flex-end !important;
+      }
+      .badge-tier-tag {
+        font-size: 0.7rem !important;
+        font-weight: 800 !important;
+        padding: 3px 8px !important;
+        border-radius: 999px !important;
+        letter-spacing: 0.02em !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 3px !important;
+      }
+      .badge-tier-tag.tier-bronce {
+        background: #ffedd5 !important;
+        color: #c2410c !important;
+        border: 1px solid #fed7aa !important;
+      }
+      .badge-tier-tag.tier-plata {
+        background: #f1f5f9 !important;
+        color: #475569 !important;
+        border: 1px solid #cbd5e1 !important;
+      }
+      .badge-tier-tag.tier-oro {
+        background: #fef3c7 !important;
+        color: #b45309 !important;
+        border: 1px solid #fde68a !important;
+      }
+      .badge-tier-tag.tier-diamante {
+        background: #e0f2fe !important;
+        color: #0284c7 !important;
+        border: 1px solid #bae6fd !important;
+      }
+      .badge-tier-tag.tier-epico {
+        background: #fae8ff !important;
+        color: #a21caf !important;
+        border: 1px solid #f5d0fe !important;
+      }
+      .badge-category-tag {
+        font-size: 0.7rem !important;
+        font-weight: 700 !important;
+        padding: 3px 8px !important;
+        border-radius: 999px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.02em !important;
+        background: #f1f5f9 !important;
+        color: #64748b !important;
+        border: 1px solid #e2e8f0 !important;
+      }
+      .badge-category-tag.cat-iniciacion {
+        background: rgba(14, 165, 233, 0.1) !important;
+        color: #0369a1 !important;
+        border-color: rgba(14, 165, 233, 0.25) !important;
+      }
+      .badge-category-tag.cat-donaciones {
+        background: rgba(244, 63, 94, 0.1) !important;
+        color: #be123c !important;
+        border-color: rgba(244, 63, 94, 0.25) !important;
+      }
+      .badge-category-tag.cat-trueques {
+        background: rgba(245, 158, 11, 0.1) !important;
+        color: #b45309 !important;
+        border-color: rgba(245, 158, 11, 0.25) !important;
+      }
+      .badge-category-tag.cat-puntos {
+        background: rgba(139, 92, 246, 0.1) !important;
+        color: #6d28d9 !important;
+        border-color: rgba(139, 92, 246, 0.25) !important;
+      }
+      .badge-category-tag.cat-ecologia {
+        background: rgba(16, 185, 129, 0.1) !important;
+        color: #047857 !important;
+        border-color: rgba(16, 185, 129, 0.25) !important;
+      }
+      .badge-category-tag.cat-prestigio {
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(236, 72, 153, 0.15)) !important;
+        color: #9d174d !important;
+        border-color: rgba(236, 72, 153, 0.25) !important;
+        font-weight: 800 !important;
+      }
+
+      /* Badge XP Reward Pill */
+      .badge-xp-reward {
+        font-size: 0.72rem !important;
+        font-weight: 900 !important;
+        padding: 3px 9px !important;
+        border-radius: 999px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+        letter-spacing: 0.02em !important;
+        transition: all 0.2s ease !important;
+      }
+      .badge-xp-reward.unlocked {
+        background: linear-gradient(135deg, #10b981, #059669) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(16, 185, 129, 0.4) !important;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35) !important;
+      }
+      .badge-xp-reward.locked {
+        background: #0f172a !important;
+        color: #80ff00 !important;
+        border: 1px solid rgba(128, 255, 0, 0.4) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+        text-shadow: 0 0 6px rgba(128, 255, 0, 0.5) !important;
+      }
+
+      .badge-card-title,
+      .badge-title {
+        margin: 0 !important;
+        font-size: 1.05rem !important;
+        font-weight: 900 !important;
+        color: #0f172a !important;
+        letter-spacing: -0.01em !important;
+      }
+      .badge-card-desc,
+      .badge-desc {
+        margin: 0 !important;
+        font-size: 0.86rem !important;
+        color: #64748b !important;
+        line-height: 1.45 !important;
+        flex: 1 !important;
+      }
+      .badge-card-bottom,
+      .badge-bottom-row {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        margin-top: auto !important;
+        padding-top: 6px !important;
+      }
+      .badge-mini-bar-container,
+      .badge-mini-bar-wrap {
+        width: 100% !important;
+        height: 7px !important;
+        background: #f1f5f9 !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 999px !important;
+        overflow: hidden !important;
+      }
+      .badge-mini-bar-fill {
+        height: 100% !important;
+        background: linear-gradient(90deg, #3b82f6, #10b981) !important;
+        border-radius: 999px !important;
+        transition: width 0.35s ease !important;
+      }
+      .badge-status-row {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        margin-top: 2px !important;
+      }
+      .badge-card-status,
+      .badge-status-tag {
+        font-size: 0.78rem !important;
+        font-weight: 800 !important;
+        padding: 5px 12px !important;
+        border-radius: 999px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        width: fit-content !important;
+      }
+      .badge-item-card.unlocked .badge-card-status,
+      .badge-item.unlocked .badge-status-tag {
+        background: rgba(16, 185, 129, 0.15) !important;
+        color: #047857 !important;
+        border: 1px solid rgba(16, 185, 129, 0.3) !important;
+      }
+      .badge-item-card.locked .badge-card-status,
+      .badge-item.locked .badge-status-tag {
+        background: #f8fafc !important;
+        color: #64748b !important;
+        border: 1px solid #e2e8f0 !important;
+      }
+      .badge-xp-footer-tag {
+        font-size: 0.76rem !important;
+        font-weight: 700 !important;
+        color: #64748b !important;
+      }
+      .badge-xp-footer-tag.unlocked {
+        color: #059669 !important;
+      }
+      .badge-xp-footer-tag strong {
+        color: #10b981 !important;
+        font-weight: 800 !important;
+      }
+      .badge-xp-footer-tag.locked strong {
+        color: #2563eb !important;
+        font-weight: 800 !important;
+      }
+    </style>
+  </head>
+  <body class="account-body">
+    <!-- Barra de Navegación Principal -->
+    <nav class="navbar">
+      <div class="logo">
+        <img
+          src="img/logo.png"
+          alt="US-LOOP"
+          class="navbar-logo"
+        />
+        <span class="logo-text">US-Loop</span>
+      </div>
+      <div class="nav-pills">
+        <a href="index.html">Inicio</a>
+        <a href="explorar.html">Catálogo</a>
+        <a href="donar.html">Donar</a>
+        <a href="intercambio.html">Intercambio</a>
+        <a href="https://www.instagram.com/usloop01?igsi=NTU5eG5ha3ptbWVr" target="_blank" rel="noopener noreferrer">Contáctenos</a>
+      </div>
+      <div class="nav-user-controls">
+        <button
+          class="user-logout-btn"
+          id="logout-btn"
+          title="Cerrar sesión"
+          onclick="handleLogout()"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Salir</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Header / Banner de Perfil de Usuario -->
+    <header class="account-hero">
+      <div class="container account-hero-content">
+        <div class="account-profile-main">
+          <!-- Avatar con Badge de Nivel -->
+          <div class="profile-avatar-wrap">
+            <div
+              class="profile-avatar"
+              id="user-avatar-display"
+              title="Haz clic para cambiar tu foto de perfil o avatar"
+              onclick="openAvatarPickerModal()"
+              style="cursor: pointer;"
+            >👨‍🎓</div>
+            <button
+              class="change-avatar-btn"
+              title="Cambiar foto de perfil o avatar"
+              onclick="openAvatarPickerModal()"
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
+                ></path>
+                <circle cx="12" cy="13" r="4"></circle>
+              </svg>
+            </button>
+            <span class="user-level-badge rank-principiante" id="user-level-badge">Nivel 1 <span class="badge-rank-icon">🌱</span></span>
+          </div>
+
+          <!-- Información del Estudiante -->
+          <div class="profile-info-text">
+            <div class="profile-title-row">
+              <h1 class="profile-user-name" id="user-name-display">
+                Mi Perfil
+              </h1>
+              <span class="profile-rank-tag rank-principiante" id="user-rank-tag-display">
+                🌱 Principiante
+              </span>
+              <span class="verified-tag">
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Estudiante Verificado
+              </span>
+            </div>
+            <p class="profile-user-email" id="user-email-display">
+              estudiante@colegio.edu
+            </p>
+
+            <div class="profile-badges-row">
+              <span class="profile-meta-badge" id="user-points-display" style="background: rgba(234, 179, 8, 0.15); color: #b45309; border-color: rgba(234, 179, 8, 0.3); font-weight: 700;">
+                🪙 0 Puntos Loop
+              </span>
+              <span class="profile-meta-badge" id="user-school-display">
+                🏫 Colegio Principal • Sede Central
+              </span>
+              <span class="profile-meta-badge" id="user-grade-display">
+                🎓 10° Grado
+              </span>
+              <span class="profile-meta-badge">
+                📅 Miembro desde Ago 2026
+              </span>
+            </div>
+
+            <!-- BARRA DE EXPERIENCIA ESTILO MINECRAFT (XP BAR) -->
+            <div class="minecraft-xp-shell">
+              <div class="minecraft-xp-topline">
+                <div class="minecraft-xp-title">
+                  <span class="mc-orb-icon">✨</span>
+                  <span>EXP LOOP</span>
+                </div>
+                <div class="minecraft-xp-needed" id="hero-xp-needed-text">
+                  Faltan <strong id="hero-xp-points-needed">30</strong> Puntos Loop para Nivel <strong id="hero-xp-next-level">2</strong>
+                </div>
+              </div>
+
+              <div class="minecraft-xp-bar-container">
+                <div class="minecraft-xp-bar-track">
+                  <div class="minecraft-xp-bar-fill" id="hero-minecraft-xp-fill" style="width: 0%;">
+                    <div class="minecraft-xp-sheen"></div>
+                  </div>
+                  <div class="minecraft-xp-notches">
+                    <span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                </div>
+                <div class="minecraft-xp-level-number" id="hero-minecraft-xp-level">1</div>
+              </div>
+
+              <div class="minecraft-xp-subtext">
+                <span id="hero-xp-current-progress">🪙 0 / 30 Puntos de Nivel</span>
+                <span class="minecraft-xp-perk-hint" id="hero-xp-rank-hint">Rango: 🌱 Principiante</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Acciones Rápidas -->
+        <div class="account-hero-actions">
+          <a href="donar.html" class="btn btn-primary hero-action-btn">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Publicar Donación</span>
+          </a>
+          <a
+            href="intercambio-form.html"
+            class="btn btn-secondary hero-action-btn"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="17 1 21 5 17 9"></polyline>
+              <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+              <polyline points="7 23 3 19 7 15"></polyline>
+              <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+            </svg>
+            <span>Nuevo Intercambio</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenedor Principal con Métricas y Pestañas -->
+    <main class="container account-main-shell">
+      <!-- Tarjetas de Métricas de Impacto -->
+      <section class="stats-overview-grid" aria-label="Estadísticas de impacto">
+        <div class="stat-card">
+          <div class="stat-card-icon icon-blue">📦</div>
+          <div class="stat-card-info">
+            <span class="stat-card-number" id="stat-posts">0</span>
+            <span class="stat-card-label">Publicaciones Activas</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-icon icon-green">🤝</div>
+          <div class="stat-card-info">
+            <span class="stat-card-number" id="stat-trades">0</span>
+            <span class="stat-card-label">Trueques Completados</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-icon icon-purple">🎁</div>
+          <div class="stat-card-info">
+            <span class="stat-card-number" id="stat-donations">0</span>
+            <span class="stat-card-label">Donaciones Realizadas</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-icon icon-orange">🌱</div>
+          <div class="stat-card-info">
+            <span class="stat-card-number" id="stat-eco">0.0 kg</span>
+            <span class="stat-card-label">CO₂ Ahorrado</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Banner de Consagración Divina de Nivel 25 (Dios de la Unión) -->
+      <div id="dios-consecration-hero-container" style="display: none; margin-bottom: 24px;"></div>
+
+      <!-- Panel de Control / Pestañas de Gestión -->
+      <section class="dashboard-panel">
+        <!-- Navegación de Pestañas del Panel -->
+        <div class="dashboard-tabs" role="tablist">
+          <button
+            type="button"
+            class="dash-tab active"
+            data-target="tab-my-items"
+            role="tab"
+            aria-selected="true"
+          >
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+            <span>Mis Recursos (0)</span>
+          </button>
+
+          <button
+            type="button"
+            class="dash-tab"
+            data-target="tab-requests"
+            role="tab"
+            aria-selected="false"
+          >
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+              ></path>
+            </svg>
+            <span id="tab-requests-text">Notificaciones & Solicitudes (0)</span>
+            <span class="tab-notification-badge" id="badge-requests" style="display: none;">0</span>
+          </button>
+
+          <button
+            type="button"
+            class="dash-tab"
+            data-target="tab-gamification"
+            role="tab"
+            aria-selected="false"
+          >
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="8" r="7"></circle>
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+            </svg>
+            <span>Logros & Medallas</span>
+          </button>
+
+          <button
+            type="button"
+            class="dash-tab"
+            data-target="tab-settings"
+            role="tab"
+            aria-selected="false"
+          >
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="3"></circle>
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+              ></path>
+            </svg>
+            <span>Editar Perfil</span>
+          </button>
+        </div>
+
+        <!-- ================= TAB 1: MIS RECURSOS ================= -->
+        <div id="tab-my-items" class="dash-content-pane active-pane">
+          <div class="pane-header-row">
+            <div>
+              <h2 class="pane-title">Mis Recursos Publicados</h2>
+              <p class="pane-subtitle">
+                Gestiona tus artículos para donar o intercambiar en el campus.
+              </p>
+            </div>
+            <div class="pane-filter-buttons">
+              <button class="subfilter-pill active" id="filter-btn-all" onclick="filterMyItems('all', this)">
+                Todos (0)
+              </button>
+              <button class="subfilter-pill" id="filter-btn-donation" onclick="filterMyItems('donation', this)">
+                Donaciones (0)
+              </button>
+              <button class="subfilter-pill" id="filter-btn-exchange" onclick="filterMyItems('exchange', this)">
+                Intercambios (0)
+              </button>
+              <button class="subfilter-pill" id="filter-btn-clear-all" onclick="deleteAllActiveItems()" style="display: none; color: #ef4444; border-color: rgba(239, 68, 68, 0.3);">
+                🗑️ Eliminar todas
+              </button>
+            </div>
+          </div>
+
+          <div class="user-items-grid" id="user-items-container" style="display: none;">
+            <!-- Las publicaciones activas se cargarán aquí dinámicamente -->
+          </div>
+
+          <div class="dashboard-empty-state" id="user-empty-items">
+            <div class="dashboard-empty-icon">📦</div>
+            <h3>No tienes publicaciones activas</h3>
+            <p>Aún no has publicado donaciones ni ofertas de intercambio. ¡Comienza a compartir recursos con tu comunidad!</p>
+            <div class="dashboard-empty-actions">
+              <a href="donar.html" class="btn btn-primary btn-sm">🎁 Publicar Donación</a>
+              <a href="intercambio-form.html" class="btn btn-secondary btn-sm">⇄ Proponer Intercambio</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= TAB 2: SOLICITUDES & NOTIFICACIONES ================= -->
+        <div id="tab-requests" class="dash-content-pane">
+          <!-- Tarjeta Oficial de Notificación de los Creadores (Nivel 25) -->
+          <div id="creators-notification-card-container" style="display: none; margin-bottom: 24px;"></div>
+
+          <div class="pane-header-row">
+            <div>
+              <h2 class="pane-title">Solicitudes Recibidas y Negociaciones</h2>
+              <p class="pane-subtitle">
+                Coordina la entrega y puntos de encuentro con otros compañeros.
+              </p>
+            </div>
+          </div>
+
+          <div class="requests-list" id="requests-list-container" style="display: none;">
+            <!-- Solicitudes dinámicas -->
+          </div>
+
+          <div class="dashboard-empty-state" id="user-empty-requests">
+            <div class="dashboard-empty-icon">🤝</div>
+            <h3>No tienes solicitudes pendientes</h3>
+            <p>Cuando otros estudiantes soliciten tus donaciones o te propongan un trueque escolar, aparecerán aquí para que puedas coordinar la entrega.</p>
+          </div>
+        </div>
+
+        <!-- ================= TAB 3: LOGROS Y MEDALLAS ================= -->
+        <div id="tab-gamification" class="dash-content-pane">
+          <div class="pane-header-row">
+            <div>
+              <h2 class="pane-title">Nivel de Impacto y Recompensas Loop</h2>
+              <p class="pane-subtitle">
+                Gana 25 pts por donación y 20 pts por intercambio. Escala 25 niveles: Principiante (1-5), Colaborador Activo (6-10), Estudiante Solidario (11-15) y Líder Comunitario (16-25).
+              </p>
+            </div>
+            <div class="loop-points-badge">
+              <span>🪙</span>
+              <strong id="gamification-total-points">0 Puntos Loop</strong>
+            </div>
+          </div>
+
+          <!-- Barra de Progreso de Nivel -->
+          <div class="level-progress-box">
+            <div class="level-info-row">
+              <span class="current-level-name" id="gamification-level-name">Nivel 1: <strong>Principiante 🌱</strong></span>
+              <span class="next-level-name" id="gamification-next-level">Siguiente: Nivel 2 (25 pts)</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill" id="gamification-progress-bar" style="width: 0%;"></div>
+            </div>
+            <span class="progress-text-hint" id="gamification-progress-hint">Faltan 25 puntos para alcanzar el <strong>Nivel 2 (Principiante 🌱)</strong></span>
+          </div>
+
+          <!-- SECCIÓN DE RANGOS DE PRESTIGIO LOOP -->
+          <div class="ranks-showcase-section" style="margin-bottom: 30px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+              <h3 style="font-size: 1.12rem; font-weight: 800; color: #1e293b; margin: 0; display: flex; align-items: center; gap: 8px;">
+                <span>👑</span> Rangos de Prestigio Loop (25 Niveles)
+              </h3>
+              <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">Diseño e insignia exclusiva por cada rango</span>
+            </div>
+            <div class="ranks-grid" id="gamification-ranks-grid">
+              <!-- Renderizado dinámico de los 5 rangos con su estado -->
+            </div>
+          </div>
+
+          <!-- Resumen Global de Medallas -->
+          <div class="badges-summary-card">
+            <div class="badges-summary-info">
+              <h4 class="badges-summary-title">
+                <span>🏅</span> Colección de Logros Escolares
+              </h4>
+              <p class="badges-summary-desc" id="badges-summary-quote">
+                Desbloquea medallas completando intercambios, donando útiles y acumulando Puntos Loop.
+              </p>
+            </div>
+            <div class="badges-summary-stats-box">
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                <span class="badges-summary-count" id="badges-unlocked-ratio">0 / 36</span>
+                <span class="badges-xp-total-pill" id="badges-xp-earned-total" style="font-size: 0.8rem; font-weight: 800; color: #15803d; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.3); padding: 3px 10px; border-radius: 999px; display: inline-flex; align-items: center; gap: 4px;">
+                  ✨ +0 XP Obtenidos
+                </span>
+              </div>
+              <div class="badges-summary-bar-bg">
+                <div class="badges-summary-bar-fill" id="badges-summary-bar" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filtros de Categoría de Logros -->
+          <div class="badge-filter-bar" id="badge-filters-container">
+            <button type="button" class="badge-filter-btn active" data-filter="all" onclick="filterBadges('all')">
+              <span>🌟 Todos</span> <span class="badge-filter-count" id="filter-count-all">36</span>
+            </button>
+            <button type="button" class="badge-filter-btn" data-filter="unlocked" onclick="filterBadges('unlocked')">
+              <span>✓ Desbloqueados</span> <span class="badge-filter-count" id="filter-count-unlocked">0</span>
+            </button>
+            <button type="button" class="badge-filter-btn" data-filter="locked" onclick="filterBadges('locked')">
+              <span>🔒 Bloqueados</span> <span class="badge-filter-count" id="filter-count-locked">36</span>
+            </button>
+            <button type="button" class="badge-filter-btn" data-filter="iniciacion" onclick="filterBadges('iniciacion')">
+              <span>🌱 Iniciación</span>
+            </button>
+            <button type="button" class="badge-filter-btn" data-filter="donaciones" onclick="filterBadges('donaciones')">
+              <span>🎁 Donaciones</span>
+            </button>
+            <button type="button" class="badge-filter-btn" data-filter="trueques" onclick="filterBadges('trueques')">
+              <span>🔄 Trueques</span>
+            </button>
+            <button type="button" class="badge-filter-btn" data-filter="puntos" onclick="filterBadges('puntos')">
+              <span>🪙 Puntos Loop</span>
+            </button>
+            <button type="button" class="badge-filter-btn" data-filter="ecologia" onclick="filterBadges('ecologia')">
+              <span>🌿 Ecología</span>
+            </button>
+            <button type="button" class="badge-filter-btn" data-filter="prestigio" onclick="filterBadges('prestigio')">
+              <span>👑 Prestigio</span>
+            </button>
+          </div>
+
+          <!-- Cuadrícula de Medallas -->
+          <div class="badges-grid" id="gamification-badges-grid">
+            <!-- Las 36 medallas se cargarán aquí dinámicamente -->
+          </div>
+        </div>
+
+        <!-- ================= TAB 4: CONFIGURACIÓN / EDITAR PERFIL ================= -->
+        <div id="tab-settings" class="dash-content-pane">
+          <div class="pane-header-row">
+            <div>
+              <h2 class="pane-title">Configuración de la Cuenta</h2>
+              <p class="pane-subtitle">
+                Actualiza tus datos escolares, preferencias de contacto y seguridad.
+              </p>
+            </div>
+          </div>
+
+          <form id="profile-settings-form" class="settings-form" onsubmit="saveProfileSettings(event)">
+            <!-- Tarjeta de Foto y Avatar de Perfil -->
+            <div class="settings-avatar-card" style="display: flex; align-items: center; gap: 20px; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 18px; padding: 18px 22px; margin-bottom: 24px;">
+              <div id="settings-avatar-preview" style="width: 72px; height: 72px; border-radius: 20px; background: #ffffff; border: 2.5px solid #2563eb; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.15); flex-shrink: 0;">
+                👨‍🎓
+              </div>
+              <div style="flex: 1;">
+                <h4 style="margin: 0 0 4px; font-size: 1.05rem; font-weight: 800; color: #1e293b;">Foto y Avatar de Perfil</h4>
+                <p style="margin: 0 0 10px; font-size: 0.84rem; color: #64748b;">
+                  Sube cualquier foto desde tu dispositivo o selecciona un avatar escolar. Se optimizará automáticamente.
+                </p>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                  <button type="button" class="btn btn-primary btn-sm" onclick="openAvatarPickerModal()" style="padding: 6px 14px; font-size: 0.84rem;">
+                    📷 Cambiar Foto / Avatar
+                  </button>
+                  <button type="button" class="btn btn-outline btn-sm" onclick="resetAvatarToDefault()" style="padding: 6px 12px; font-size: 0.84rem; color: #64748b;">
+                    Restablecer
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-grid">
+              <div class="form-group">
+                <label for="settings-name">Nombre completo</label>
+                <input
+                  type="text"
+                  id="settings-name"
+                  value=""
+                  placeholder="Tu nombre completo"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="settings-email">Correo electrónico escolar</label>
+                <input
+                  type="email"
+                  id="settings-email"
+                  value=""
+                  placeholder="estudiante@colegio.edu"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="settings-school">Institución educativa</label>
+                <select id="settings-school" required>
+                  <option value="Institucion Educativa Fagua sede principal" selected>Institucion Educativa Fagua sede principal</option>
+                  <option value="Institucion Educativa Fagua sede primaria">Institucion Educativa Fagua sede primaria</option>
+                  <option value="Institucion Educativa Fagua sede Tiquiza">Institucion Educativa Fagua sede Tiquiza</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="settings-grade">Grado escolar actual</label>
+                <select id="settings-grade" required>
+                  <option value="6° Grado">6° Grado</option>
+                  <option value="7° Grado">7° Grado</option>
+                  <option value="8° Grado">8° Grado</option>
+                  <option value="9° Grado">9° Grado</option>
+                  <option value="10° Grado" selected>10° Grado</option>
+                  <option value="11° Grado">11° Grado</option>
+                  <option value="Universidad">Universidad</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="settings-bio">Biografía / Materias de interés</label>
+              <textarea
+                id="settings-bio"
+                rows="3"
+                placeholder="Cuéntale a tus compañeros qué materias te gustan o qué tipo de recursos buscas intercambiar..."
+              >Apasionado por la química y la biología. Siempre dispuesto a intercambiar libros de ciencias y calculadoras.</textarea>
+            </div>
+
+            <div class="settings-notifications-box">
+              <h3>Preferencias de Notificación</h3>
+              <label class="custom-checkbox">
+                <input type="checkbox" id="notif-trades" checked />
+                <span class="checkbox-label">Notificarme por correo cuando alguien solicite uno de mis recursos</span>
+              </label>
+              <label class="custom-checkbox" style="margin-top: 8px;">
+                <input type="checkbox" id="notif-match" checked />
+                <span class="checkbox-label">Avisarme cuando se publique un libro de mi grado o interés</span>
+              </label>
+            </div>
+
+            <div class="form-actions-row">
+              <button type="submit" class="btn btn-primary" id="save-profile-btn">
+                <span>Guardar Cambios</span>
+              </button>
+              <button type="button" class="btn btn-outline" onclick="resetForm()">
+                Cancelar
+              </button>
+            </div>
+
+            <!-- Zona de Peligro: Eliminar Cuenta -->
+            <div class="danger-zone-card" style="margin-top: 36px; padding: 24px; border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 18px; background: rgba(239, 68, 68, 0.05);">
+              <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+                <div>
+                  <h4 style="margin: 0 0 6px; color: #dc2626; font-size: 1.05rem; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                    <span>⚠️</span> Zona de Peligro
+                  </h4>
+                  <p style="margin: 0; color: #64748b; font-size: 0.88rem; line-height: 1.4;">
+                    Elimina tu cuenta de US-Loop, tus Puntos Loop y todas tus publicaciones activas de forma irreversible.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  class="btn-delete-account"
+                  onclick="handleDeleteAccount()"
+                  style="padding: 10px 22px; border-radius: 12px; background: #ef4444; color: #ffffff; border: none; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: background 0.2s ease, transform 0.15s ease; box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);"
+                  onmouseover="this.style.background='#dc2626'; this.style.transform='translateY(-2px)'"
+                  onmouseout="this.style.background='#ef4444'; this.style.transform=''"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                  </svg>
+                  <span>Eliminar Mi Cuenta</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer General -->
+    <footer class="account-footer container">
+      <p>© 2026 US-Loop. Comunidad Estudiantil de Intercambio y Donación Solidaria.</p>
+    </footer>
+
+    <!-- Toast de Notificación Flotante -->
+    <div id="account-toast" class="toast-notification" aria-live="polite">
+      <span id="toast-message">Mensaje de notificación</span>
+    </div>
+
+    <!-- Script de Interactividad del Panel de Usuario -->
+    <script>
+      // Cargar información del usuario desde localStorage o redirigir si no ha iniciado sesión
+      document.addEventListener('DOMContentLoaded', () => {
+        const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        if (!storedUser || !storedUser.email || storedUser.isLoggedIn === false) {
+          window.location.href = 'login.html';
+          return;
+        }
+        loadUserProfile();
+        setupDashboardTabs();
+        loadUserStatsAndItems();
+      });
+
+      function updateAvatarDisplay(avatar) {
+        const currentAvatar = avatar || '👨‍🎓';
+        const userAvatarDisplay = document.getElementById('user-avatar-display');
+        if (userAvatarDisplay) {
+          if (typeof window.renderAvatarHtml === 'function') {
+            userAvatarDisplay.innerHTML = window.renderAvatarHtml(currentAvatar, 90, false);
+          } else {
+            userAvatarDisplay.innerText = currentAvatar;
+          }
+        }
+        const settingsAvatarPreview = document.getElementById('settings-avatar-preview');
+        if (settingsAvatarPreview) {
+          if (typeof window.renderAvatarHtml === 'function') {
+            settingsAvatarPreview.innerHTML = window.renderAvatarHtml(currentAvatar, 72, false);
+          } else {
+            settingsAvatarPreview.innerText = currentAvatar;
+          }
+        }
+      }
+
+      function loadUserProfile() {
+        const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        if (storedUser.name) {
+          document.getElementById('user-name-display').innerText = storedUser.name;
+          document.getElementById('settings-name').value = storedUser.name;
+        }
+        if (storedUser.email) {
+          document.getElementById('user-email-display').innerText = storedUser.email;
+          document.getElementById('settings-email').value = storedUser.email;
+        }
+        if (storedUser.grade) {
+          document.getElementById('user-grade-display').innerText = '🎓 ' + storedUser.grade;
+          const gradeSelect = document.getElementById('settings-grade');
+          if (gradeSelect) gradeSelect.value = storedUser.grade;
+        }
+        if (storedUser.institution) {
+          document.getElementById('user-school-display').innerText = '🏫 ' + storedUser.institution;
+          const schoolSelect = document.getElementById('settings-school');
+          if (schoolSelect) schoolSelect.value = storedUser.institution;
+        }
+        if (storedUser.bio) {
+          const bioInput = document.getElementById('settings-bio');
+          if (bioInput) bioInput.value = storedUser.bio;
+        }
+        updateAvatarDisplay(storedUser.avatar || '👨‍🎓');
+
+        const donCount = storedUser.completedDonations || 0;
+        const tradeCount = storedUser.completedTrades || 0;
+        const totalEco = ((donCount * 3.2) + (tradeCount * 2.5)).toFixed(1);
+
+        const gamificationData = typeof window.evaluateAllBadges === 'function'
+          ? window.evaluateAllBadges(storedUser, donCount, tradeCount, totalEco, 0)
+          : null;
+        const pts = gamificationData ? gamificationData.totalPoints : ((storedUser.loopPoints !== undefined && storedUser.loopPoints !== null) ? storedUser.loopPoints : (donCount * 25) + (tradeCount * 20));
+
+        if (typeof window.calculateUserLevelInfo === 'function') {
+          const lvl = window.calculateUserLevelInfo(pts);
+          const isCreator = storedUser.isCreator || storedUser.specialRole === 'creator' || storedUser.specialTitle === 'El Creador' || storedUser.id === 'usr_1790041333118' || ((storedUser.email || '').toLowerCase().trim() === 'xxmendingxxorigin@gmail.com');
+          const isDiosLoop = storedUser.specialTitle === 'Dios del Loop' || storedUser.specialTitle === 'Dios de la Unión' || storedUser.diosDelLoopClaimed || storedUser.diosDeLaUnionClaimed;
+
+          const badge = document.getElementById('user-level-badge');
+          if (badge) {
+            if (isCreator) {
+              badge.className = 'user-level-badge rank-creator';
+              badge.innerHTML = `👑 El Creador <span class="badge-rank-icon">🛠️</span>`;
+              badge.title = 'Rango Supremo y Desarrollador: El Creador 👑🛠️';
+            } else if (isDiosLoop) {
+              badge.className = 'user-level-badge rank-dios-loop';
+              badge.innerHTML = `Nivel 25 Supremo <span class="badge-rank-icon">⚡</span>`;
+              badge.title = 'Consagración Suprema: Dios del Loop ⚡🌌';
+            } else {
+              badge.className = `user-level-badge rank-${lvl.rankKey}`;
+              badge.innerHTML = `Nivel ${lvl.level} <span class="badge-rank-icon">${lvl.rankIcon}</span>`;
+              badge.title = `Nivel ${lvl.level} - Rango: ${lvl.rankTitle} (${pts} Puntos Loop)`;
+            }
+          }
+          const rankTag = document.getElementById('user-rank-tag-display');
+          if (rankTag) {
+            if (isCreator) {
+              rankTag.className = 'profile-rank-tag rank-creator';
+              rankTag.innerHTML = `<span>👑</span> <span>El Creador</span> <span>🛠️</span>`;
+            } else if (isDiosLoop) {
+              rankTag.className = 'profile-rank-tag rank-dios-loop';
+              rankTag.innerHTML = `<span>⚡</span> <span>Dios del Loop</span> <span>🌌</span>`;
+            } else {
+              rankTag.className = `profile-rank-tag rank-${lvl.rankKey}`;
+              rankTag.innerHTML = `<span>${lvl.rankIcon}</span> <span>${lvl.rankTitle}</span>`;
+            }
+          }
+        }
+      }
+
+      async function loadUserStatsAndItems() {
+        window.loadUserStatsAndItems = loadUserStatsAndItems;
+        const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        let donations = [];
+        let exchanges = [];
+        let requests = [];
+
+        try {
+          if (window.location.protocol.startsWith('http')) {
+            const timestamp = Date.now();
+            const [resDon, resExc, resReq, resUsers] = await Promise.all([
+              fetch(`api/donations.php?_t=${timestamp}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null),
+              fetch(`api/exchanges.php?_t=${timestamp}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null),
+              fetch(`api/requests.php?_t=${timestamp}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null),
+              fetch(`api/users.php?_t=${timestamp}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null)
+            ]);
+            donations = Array.isArray(resDon) ? resDon : JSON.parse(localStorage.getItem('donations') || '[]');
+            exchanges = Array.isArray(resExc) ? resExc : JSON.parse(localStorage.getItem('exchanges') || '[]');
+            requests = Array.isArray(resReq) ? resReq : JSON.parse(localStorage.getItem('tradeRequests') || '[]');
+            localStorage.setItem('donations', JSON.stringify(donations));
+            localStorage.setItem('exchanges', JSON.stringify(exchanges));
+            localStorage.setItem('tradeRequests', JSON.stringify(requests));
+
+            if (Array.isArray(resUsers)) {
+              const freshUser = resUsers.find(u => (u.id === storedUser.id) || ((u.email || '').toLowerCase() === (storedUser.email || '').toLowerCase()));
+              if (freshUser) {
+                Object.assign(storedUser, freshUser);
+                localStorage.setItem('currentUser', JSON.stringify(storedUser));
+                loadUserProfile();
+              }
+            }
+          } else if (window.USLoopAPI) {
+            donations = await window.USLoopAPI.getDonations();
+            exchanges = await window.USLoopAPI.getExchanges();
+            requests = await window.USLoopAPI.getRequests();
+          } else {
+            donations = JSON.parse(localStorage.getItem('donations') || '[]');
+            exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
+            requests = JSON.parse(localStorage.getItem('tradeRequests') || '[]');
+          }
+        } catch (e) {
+          console.warn('Error cargando datos en cuenta:', e);
+          donations = JSON.parse(localStorage.getItem('donations') || '[]');
+          exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
+          requests = JSON.parse(localStorage.getItem('tradeRequests') || '[]');
+        }
+
+        // Filtrar recursos correspondientes al usuario actual
+        const currentName = (storedUser.name || '').trim().toLowerCase();
+        const currentEmail = (storedUser.email || '').trim().toLowerCase();
+
+        const isAuthor = (item) => {
+          const itemEmail = (item.authorEmail || item.donorEmail || item.ownerEmail || '').trim().toLowerCase();
+          const itemName = (item.authorName || item.donorName || item.ownerName || item.name || '').trim().toLowerCase();
+          if (currentEmail && itemEmail && currentEmail === itemEmail) return true;
+          if (currentName && itemName && (currentName === itemName || currentName.includes(itemName) || itemName.includes(currentName))) return true;
+          return false;
+        };
+
+        const myDonations = donations.filter(isAuthor);
+        const myExchanges = exchanges.filter(isAuthor);
+        const totalItems = myDonations.length + myExchanges.length;
+
+        const myDonationIds = new Set(myDonations.map(d => String(d.id)));
+        const myExchangeIds = new Set(myExchanges.map(e => String(e.id)));
+        const myTitles = new Set([
+          ...myDonations.map(d => (d.title || '').trim().toLowerCase()),
+          ...myExchanges.map(e => (e.offering || '').trim().toLowerCase())
+        ]);
+
+        const isTargetUser = (req) => {
+          // Las solicitudes rechazadas o finalizadas desaparecen de la bandeja de recibidas
+          if (req.status === 'rejected' || req.status === 'deleted' || req.status === 'completed' || req.status === 'finished') {
+            return false;
+          }
+
+          const targetEmail = (req.targetAuthorEmail || req.target_author_email || '').trim().toLowerCase();
+          const targetName = (req.targetAuthorName || req.target_author_name || '').trim().toLowerCase();
+          const reqItemId = String(req.itemId || req.item_id || '');
+          const reqItemTitle = (req.itemTitle || req.item_title || '').trim().toLowerCase();
+
+          // 1. Coincidencia directa por ID de publicación propia (infalible)
+          if (reqItemId && (myDonationIds.has(reqItemId) || myExchangeIds.has(reqItemId))) {
+            return true;
+          }
+
+          // 2. Coincidencia por correo del autor de la publicación
+          if (currentEmail && targetEmail && currentEmail === targetEmail) {
+            return true;
+          }
+
+          // 3. Coincidencia por nombre del autor
+          if (currentName && targetName && (currentName === targetName || currentName.includes(targetName) || targetName.includes(currentName))) {
+            return true;
+          }
+
+          // 4. Coincidencia por título de recurso si el usuario tiene ese recurso activo
+          if (reqItemTitle && myTitles.has(reqItemTitle)) {
+            return true;
+          }
+
+          return false;
+        };
+
+        const isRequesterUser = (req) => {
+          if (req.status === 'completed' || req.status === 'finished' || req.status === 'deleted') {
+            return false;
+          }
+          const reqEmail = (req.requesterEmail || req.requester_email || '').trim().toLowerCase();
+          const reqName = (req.requesterName || req.requester_name || '').trim().toLowerCase();
+          if (currentEmail && reqEmail && currentEmail === reqEmail) return true;
+          if (currentName && reqName && (currentName === reqName || currentName.includes(reqName) || reqName.includes(currentName))) return true;
+          return false;
+        };
+
+        const myReceivedRequests = requests.filter(isTargetUser);
+        const mySentRequests = requests.filter(isRequesterUser);
+        const totalRequests = myReceivedRequests.length + mySentRequests.length;
+        console.log('[US-Loop] Solicitudes totales en servidor:', requests.length, 'Recibidas:', myReceivedRequests.length, 'Enviadas:', mySentRequests.length);
+
+        // Actualizar tarjetas de métricas
+        const donCount = storedUser.completedDonations || 0;
+        const tradeCount = storedUser.completedTrades || 0;
+        const totalEco = ((donCount * 3.2) + (tradeCount * 2.5)).toFixed(1);
+
+        const statPosts = document.getElementById('stat-posts');
+        if (statPosts) statPosts.innerText = totalItems;
+        const statDonations = document.getElementById('stat-donations');
+        if (statDonations) statDonations.innerText = donCount;
+        const statTrades = document.getElementById('stat-trades');
+        if (statTrades) statTrades.innerText = tradeCount;
+        const statEco = document.getElementById('stat-eco');
+        if (statEco) statEco.innerText = totalEco + ' kg';
+
+        // Actualizar datos de Gamificación y Recompensas (con XP de logros y progreso escolar)
+        updateGamificationUI(storedUser, donCount, tradeCount, totalEco, totalItems);
+
+        // Actualizar pestañas y contadores
+        const tabItemsSpan = document.querySelector('.dash-tab[data-target="tab-my-items"] span');
+        if (tabItemsSpan) tabItemsSpan.innerText = `Mis Recursos (${totalItems})`;
+
+        const isCreator = (storedUser && (storedUser.isCreator || storedUser.specialRole === 'creator' || storedUser.specialTitle === 'El Creador' || storedUser.id === 'usr_1790041333118' || ((storedUser.email || '').toLowerCase().trim() === 'xxmendingxxorigin@gmail.com'))) || false;
+        const isDiosLoop = (storedUser && (storedUser.specialTitle === 'Dios del Loop' || storedUser.specialTitle === 'Dios de la Unión' || storedUser.diosDelLoopClaimed || storedUser.diosDeLaUnionClaimed)) || false;
+        
+        let extraNotifCount = 0;
+        if (isCreator) {
+          const allStoredUsers = JSON.parse(localStorage.getItem('users') || '[]');
+          const pendingCount = allStoredUsers.filter(u => {
+            if (u.id === storedUser.id || (u.email || '').toLowerCase() === (storedUser.email || '').toLowerCase()) return false;
+            const pts = Number(u.loopPoints || 0);
+            return (pts >= 3800 || (u.completedDonations >= 50) || (u.completedBadges && u.completedBadges.length >= 30)) && !u.consecrationApprovedByCreator;
+          }).length;
+          extraNotifCount = pendingCount;
+        } else {
+          const hasApprovedLevel25Notice = (storedUser && storedUser.consecrationApprovedByCreator === true && !isDiosLoop && ((storedUser.loopPoints || 0) >= 3800 || (storedUser.completedBadges && storedUser.completedBadges.length >= 30)));
+          if (hasApprovedLevel25Notice) extraNotifCount = 1;
+        }
+
+        const displayedNotifCount = totalRequests + extraNotifCount;
+
+        const tabReqSpan = document.getElementById('tab-requests-text') || document.querySelector('.dash-tab[data-target="tab-requests"] span');
+        if (tabReqSpan) tabReqSpan.innerText = `Notificaciones & Solicitudes (${displayedNotifCount})`;
+
+        const badgeReq = document.getElementById('badge-requests');
+        if (badgeReq) {
+          if (displayedNotifCount > 0) {
+            badgeReq.innerText = displayedNotifCount;
+            badgeReq.style.display = 'inline-block';
+          } else {
+            badgeReq.style.display = 'none';
+          }
+        }
+
+        const filterAllBtn = document.getElementById('filter-btn-all');
+        if (filterAllBtn) filterAllBtn.innerText = `Todos (${totalItems})`;
+        const filterDonBtn = document.getElementById('filter-btn-donation');
+        if (filterDonBtn) filterDonBtn.innerText = `Donaciones (${myDonations.length})`;
+        const filterExcBtn = document.getElementById('filter-btn-exchange');
+        if (filterExcBtn) filterExcBtn.innerText = `Intercambios (${myExchanges.length})`;
+        const filterClearBtn = document.getElementById('filter-btn-clear-all');
+        if (filterClearBtn) {
+          filterClearBtn.style.display = totalItems > 0 ? 'inline-flex' : 'none';
+        }
+
+        const container = document.getElementById('user-items-container');
+        const emptyItems = document.getElementById('user-empty-items');
+
+        if (totalItems === 0) {
+          if (container) {
+            container.style.display = 'none';
+            container.innerHTML = '';
+          }
+          if (emptyItems) emptyItems.style.display = 'flex';
+        } else {
+          if (emptyItems) emptyItems.style.display = 'none';
+          if (container) {
+            container.style.display = 'grid';
+            container.innerHTML = '';
+
+            myDonations.forEach((item, idx) => {
+              const card = document.createElement('article');
+              card.className = 'user-item-card';
+              card.dataset.type = 'donation';
+              const itemId = item.id || idx;
+              const itemReqs = myReceivedRequests.filter(r => String(r.itemId) === String(item.id));
+              const reqText = itemReqs.length > 0
+                ? `<span class="item-requests-count" style="color: #2563eb; font-weight: 700; background: rgba(37, 99, 235, 0.1); padding: 3px 8px; border-radius: 999px; cursor: pointer;" onclick="document.querySelector('.dash-tab[data-target=\\'tab-requests\\']').click()">🔔 ${itemReqs.length} solicitud(es)</span>`
+                : `<span class="item-requests-count">0 solicitudes</span>`;
+
+              card.innerHTML = `
+                <div class="item-card-badge badge-donacion">🎁 Donación</div>
+                <div class="item-card-body">
+                  <span class="item-category">${item.category || 'Recurso'}</span>
+                  <h3 class="item-title">${item.title || 'Donación sin título'}</h3>
+                  <p class="item-description">${item.description || `Grado: ${item.grade || 'General'} • Estado: ${item.condition || 'Bueno'}`}</p>
+                  <div class="item-meta-footer">
+                    <span class="item-status status-active">● Activa en catálogo</span>
+                    ${reqText}
+                  </div>
+                </div>
+                <div class="item-card-actions">
+                  <button class="btn-item-action" title="Marcar como entregada y finalizar (+25 Puntos)" onclick="finishUserDonation('${itemId}')" style="background: rgba(34, 197, 94, 0.1); color: #16a34a;">
+                    ✓ Entregada (+25 pts)
+                  </button>
+                  <button class="btn-item-action btn-danger" title="Retirar publicación" onclick="deleteDonationItem('${itemId}')">
+                    🗑️ Retirar
+                  </button>
+                </div>
+              `;
+              container.appendChild(card);
+            });
+
+            myExchanges.forEach((item, idx) => {
+              const card = document.createElement('article');
+              card.className = 'user-item-card';
+              card.dataset.type = 'exchange';
+              const itemId = item.id || idx;
+              const itemReqs = myReceivedRequests.filter(r => String(r.itemId) === String(item.id));
+              const reqText = itemReqs.length > 0
+                ? `<span class="item-requests-count" style="color: #2563eb; font-weight: 700; background: rgba(37, 99, 235, 0.1); padding: 3px 8px; border-radius: 999px; cursor: pointer;" onclick="document.querySelector('.dash-tab[data-target=\\'tab-requests\\']').click()">🔔 ${itemReqs.length} solicitud(es)</span>`
+                : `<span class="item-requests-count">0 solicitudes</span>`;
+
+              card.innerHTML = `
+                <div class="item-card-badge badge-intercambio">⇄ Intercambio</div>
+                <div class="item-card-body">
+                  <span class="item-category">${item.category || 'Intercambio'}</span>
+                  <h3 class="item-title">Ofrezco: ${item.offering || 'Artículo'}</h3>
+                  <p class="item-description">Busco: ${item.seeking || item.lookingFor || 'Lo que necesitas'}</p>
+                  <div class="item-meta-footer">
+                    <span class="item-status status-active">● Activa en catálogo</span>
+                    ${reqText}
+                  </div>
+                </div>
+                <div class="item-card-actions">
+                  <button class="btn-item-action" title="Marcar trueque como exitoso (+20 Puntos)" onclick="completeUserExchange('${itemId}')" style="background: rgba(47, 128, 237, 0.1); color: #1d73f0;">
+                    🤝 Completado (+20 pts)
+                  </button>
+                  <button class="btn-item-action btn-danger" title="Cancelar propuesta" onclick="deleteExchangeItem('${itemId}')">
+                    ❌ Cancelar
+                  </button>
+                </div>
+              `;
+              container.appendChild(card);
+            });
+          }
+        }
+
+        // Manejo y renderizado de solicitudes (Recibidas y Enviadas)
+        const reqContainer = document.getElementById('requests-list-container');
+        const emptyReq = document.getElementById('user-empty-requests');
+
+        if (totalRequests === 0) {
+          if (reqContainer) {
+            reqContainer.style.display = 'none';
+            reqContainer.innerHTML = '';
+          }
+          if (emptyReq) emptyReq.style.display = 'flex';
+        } else {
+          if (emptyReq) emptyReq.style.display = 'none';
+          if (reqContainer) {
+            reqContainer.style.display = 'flex';
+            reqContainer.style.flexDirection = 'column';
+            reqContainer.style.gap = '16px';
+            reqContainer.style.width = '100%';
+            reqContainer.innerHTML = '';
+
+            // SECCIÓN 1: SOLICITUDES RECIBIDAS (Para entregar / coordinar)
+            if (myReceivedRequests.length > 0) {
+              const recHeader = document.createElement('div');
+              recHeader.style.cssText = 'font-size: 1.05rem; font-weight: 800; color: #1e293b; margin: 8px 0 2px; display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: wrap;';
+              recHeader.innerHTML = `<span>📥</span> Solicitudes Recibidas (${myReceivedRequests.length}) <span style="font-size: 0.8rem; font-weight: 600; color: #64748b;">(compañeros que solicitan tus recursos)</span>`;
+              reqContainer.appendChild(recHeader);
+
+              myReceivedRequests.forEach(req => {
+                const card = document.createElement('article');
+                card.className = 'request-card';
+                card.id = `request-card-${req.id}`;
+
+                const isDon = req.itemType === 'donation';
+                const isAccepted = req.status === 'accepted' || req.status === 'accepted_donor_confirmed' || req.status === 'accepted_requester_confirmed';
+                const isRejected = req.status === 'rejected';
+                const donorHasConfirmed = req.status === 'accepted_donor_confirmed' || req.status === 'completed' || !!(req.donorConfirmed || req.donor_confirmed);
+                const requesterHasConfirmed = req.status === 'accepted_requester_confirmed' || req.status === 'completed' || !!(req.requesterConfirmed || req.requester_confirmed);
+                const contactUrl = req.requesterContact && req.requesterContact.includes('@')
+                  ? `mailto:${req.requesterContact}?subject=Respuesta a tu solicitud en US-Loop: ${encodeURIComponent(req.itemTitle)}`
+                  : (req.requesterContact ? `https://wa.me/${req.requesterContact.replace(/\D/g, '')}` : '#');
+
+                card.innerHTML = `
+                  <div class="request-card-header">
+                    <div class="request-header-tags">
+                      <span class="request-badge-type ${isDon ? 'request-badge-donation' : 'request-badge-exchange'}">
+                        ${isDon ? '🎁 Solicitud de Donación' : '⇄ Propuesta de Trueque'}
+                      </span>
+                      <span class="request-badge-status ${isAccepted ? 'status-accepted-tag' : (isRejected ? 'status-rejected-tag' : 'status-pending-tag')}">
+                        ${isAccepted ? '🤝 Aceptada / En coordinación' : (isRejected ? '❌ Rechazada' : '⏳ Pendiente')}
+                      </span>
+                    </div>
+                    <span class="request-date">📅 ${req.date || 'Reciente'}</span>
+                  </div>
+
+                  <div class="request-item-reference">
+                    <div style="font-size: 0.78rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Sobre tu publicación:</div>
+                    <div class="request-item-title">${req.itemTitle}</div>
+                    ${!isDon && req.offeredItem ? `
+                      <div class="request-item-offer">
+                        ⇄ Te ofrece a cambio: <strong>${req.offeredItem}</strong>
+                      </div>
+                    ` : ''}
+                  </div>
+
+                  ${(req.scheduledDate || req.scheduled_date) ? `
+                    <div style="background: rgba(34, 197, 94, 0.08); border: 1.5px solid rgba(34, 197, 94, 0.28); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;">
+                      <div style="font-size: 0.88rem; font-weight: 700; color: #166534; display: flex; align-items: center; gap: 6px;">
+                        <span>📅</span> Fecha: <strong>${req.scheduledDate || req.scheduled_date}</strong>
+                      </div>
+                      <div style="font-size: 0.84rem; color: #166534; margin-top: 6px; line-height: 1.4;">
+                        🔔 <strong>Hora asignada para ti:</strong> <span style="font-size: 0.95rem; font-weight: 800; color: #15803d;">${req.reminderTime || req.reminder_time || req.scheduledTime || 'Pendiente'}</span>.
+                      </div>
+                      <div style="margin-top: 6px; font-size: 0.84rem; font-weight: 700; color: #166534; display: flex; align-items: center; gap: 5px;">
+                        <span>🏫</span> Punto de entrega: <u>Entregar en coordinación por favor</u>.
+                      </div>
+                    </div>
+                  ` : ''}
+
+                  ${!isDon ? `
+                    <div class="request-requester-box">
+                      <div class="request-requester-avatar">${typeof window.renderAvatarHtml === 'function' ? window.renderAvatarHtml(req.requesterAvatar || '👨‍🎓', 42, true) : '👨‍🎓'}</div>
+                      <div class="request-requester-details">
+                        <div class="request-requester-name">${req.requesterName}</div>
+                        <div class="request-requester-meta">
+                          🎓 ${req.requesterGrade || 'Estudiante'} • 🏫 ${req.requesterSchool || 'Sede Escolar'}
+                        </div>
+                        <div class="request-requester-contact">
+                          📞 Contacto: <strong>${req.requesterContact || req.requesterEmail || 'No especificado'}</strong>
+                        </div>
+                        ${req.requesterMessage && !req.requesterMessage.startsWith('Entrega programada para') ? `
+                          <div class="request-message-quote">
+                            "${req.requesterMessage}"
+                          </div>
+                        ` : ''}
+                      </div>
+                    </div>
+                  ` : ''}
+
+                  <div class="request-card-actions">
+                    ${!isAccepted && !isRejected ? `
+                      <button class="btn-request-accept" onclick="handleAcceptRequest('${req.id}')">
+                        <span>🤝 Aceptar y Coordinar</span>
+                      </button>
+                    ` : (isAccepted ? `
+                      ${donorHasConfirmed && !requesterHasConfirmed ? `
+                        <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 10px; padding: 8px 12px; font-size: 0.84rem; color: #b45309; font-weight: 700; display: flex; align-items: center; gap: 6px;">
+                          <span>⏳</span> Permiso dado (1/2). Esperando confirmación de ${req.requesterName}...
+                        </div>
+                      ` : `
+                        <button class="btn-request-accept" style="background: ${requesterHasConfirmed ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #2563eb, #1d4ed8)'};" onclick="handleMutualDeliveryConfirmation('${req.id}')">
+                          <span>✓ ${requesterHasConfirmed ? 'Confirmar Entrega (2/2) (+Pts)' : `Concretar Entrega (+${isDon ? '25' : '20'} pts)`}</span>
+                        </button>
+                      `}
+                    ` : '')}
+                    ${!isDon && req.requesterContact ? `
+                      <a href="${contactUrl}" target="_blank" rel="noopener noreferrer" class="btn-request-contact">
+                        <span>💬 Contactar Directamente</span>
+                      </a>
+                    ` : ''}
+                    ${!isRejected && !isAccepted ? `
+                      <button class="btn-request-reject" onclick="handleRejectRequest('${req.id}')">
+                        <span>❌ Rechazar</span>
+                      </button>
+                    ` : ''}
+                  </div>
+                `;
+                reqContainer.appendChild(card);
+              });
+            }
+
+            // SECCIÓN 2: MIS SOLICITUDES ENVIADAS (Lo que pediste o propusiste a otros)
+            if (mySentRequests.length > 0) {
+              const sentHeader = document.createElement('div');
+              sentHeader.style.cssText = 'font-size: 1.05rem; font-weight: 800; color: #1e293b; margin: 24px 0 6px; display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: wrap;';
+              sentHeader.innerHTML = `<span>📤</span> Mis Solicitudes Enviadas (${mySentRequests.length}) <span style="font-size: 0.8rem; font-weight: 600; color: #64748b;">(donaciones que pediste o trueques propuestos)</span>`;
+              reqContainer.appendChild(sentHeader);
+
+              mySentRequests.forEach(req => {
+                const card = document.createElement('article');
+                card.className = 'request-card';
+                card.id = `sent-request-card-${req.id}`;
+                card.style.borderLeft = req.status === 'accepted' ? '4px solid #10b981' : (req.status === 'rejected' ? '4px solid #ef4444' : '4px solid #f59e0b');
+
+                const isDon = req.itemType === 'donation';
+                const isAccepted = req.status === 'accepted' || req.status === 'accepted_donor_confirmed' || req.status === 'accepted_requester_confirmed';
+                const isRejected = req.status === 'rejected';
+                const donorHasConfirmed = req.status === 'accepted_donor_confirmed' || req.status === 'completed' || !!(req.donorConfirmed || req.donor_confirmed);
+                const requesterHasConfirmed = req.status === 'accepted_requester_confirmed' || req.status === 'completed' || !!(req.requesterConfirmed || req.requester_confirmed);
+
+                card.innerHTML = `
+                  <div class="request-card-header">
+                    <div class="request-header-tags">
+                      <span class="request-badge-type ${isDon ? 'request-badge-donation' : 'request-badge-exchange'}">
+                        ${isDon ? '🎁 Solicitud de Donación' : '⇄ Propuesta de Trueque'}
+                      </span>
+                      <span class="request-badge-status ${isAccepted ? 'status-accepted-tag' : (isRejected ? 'status-rejected-tag' : 'status-pending-tag')}">
+                        ${isAccepted ? '✅ Aceptada por el compañero' : (isRejected ? '❌ Rechazada por el compañero' : '⏳ Esperando respuesta')}
+                      </span>
+                    </div>
+                    <span class="request-date">📅 ${req.date || 'Reciente'}</span>
+                  </div>
+
+                  <div class="request-item-reference">
+                    <div style="font-size: 0.78rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Para: <strong>${req.targetAuthorName || 'Donante'}</strong> (🏫 ${req.targetSchool || 'Sede escolar'})</div>
+                    <div class="request-item-title">${req.itemTitle}</div>
+                    ${!isDon && req.offeredItem ? `
+                      <div class="request-item-offer">
+                        ⇄ Ofreciste a cambio: <strong>${req.offeredItem}</strong>
+                      </div>
+                    ` : ''}
+                  </div>
+
+                  ${isAccepted ? `
+                    <div style="background: rgba(16, 185, 129, 0.08); border: 1.5px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 12px 14px; margin-top: 10px;">
+                      <div style="font-size: 0.9rem; font-weight: 800; color: #047857; display: flex; align-items: center; gap: 6px;">
+                        <span>🎉</span> ¡Tu solicitud fue ACEPTADA por ${req.targetAuthorName}!
+                      </div>
+                      ${req.scheduledDate ? `
+                        <div style="font-size: 0.84rem; color: #047857; margin-top: 6px;">
+                          📅 <strong>Fecha programada:</strong> ${req.scheduledDate} &nbsp;|&nbsp; ⏰ <strong>Tu hora de encuentro:</strong> <span style="font-weight: 800;">${req.scheduledTime || 'Hora acordada'}</span>
+                        </div>
+                      ` : ''}
+                      <div style="font-size: 0.84rem; color: #047857; margin-top: 4px; font-weight: 700;">
+                        🏫 Punto de entrega: <u>Entregar en coordinación por favor</u> (${req.targetSchool || 'sede escolar'}).
+                      </div>
+                      <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(16, 185, 129, 0.3);">
+                        ${requesterHasConfirmed && !donorHasConfirmed ? `
+                          <div style="font-size: 0.84rem; color: #b45309; font-weight: 700;">⏳ Has confirmado la ${isDon ? 'recepción' : 'entrega'} (1/2). Esperando confirmación de ${req.targetAuthorName} para finalizar.</div>
+                        ` : (!requesterHasConfirmed && donorHasConfirmed ? `
+                          <div style="margin-bottom: 6px; font-size: 0.84rem; color: #047857; font-weight: 700;">🔔 ${req.targetAuthorName} ya confirmó la entrega. ¡Falta tu confirmación para finalizar!</div>
+                          <button type="button" class="btn btn-primary btn-sm" onclick="handleMutualDeliveryConfirmation('${req.id}')" style="font-size: 0.85rem; padding: 6px 14px;">✓ ${isDon ? 'Confirmar Recepción (2/2)' : 'Confirmar Trueque (2/2) (+20 pts)'}</button>
+                        ` : `
+                          <button type="button" class="btn btn-outline btn-sm" onclick="handleMutualDeliveryConfirmation('${req.id}')" style="font-size: 0.82rem; padding: 5px 12px;">✓ ${isDon ? 'Ya recibí este recurso donado' : 'Ya realizamos el trueque (+20 pts)'}</button>
+                        `)}
+                      </div>
+                    </div>
+                  ` : (isRejected ? `
+                    <div style="background: rgba(239, 68, 68, 0.08); border: 1.5px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 12px 14px; margin-top: 10px;">
+                      <div style="font-size: 0.88rem; font-weight: 800; color: #b91c1c;">
+                        ❌ Solicitud Rechazada por ${req.targetAuthorName}
+                      </div>
+                      <div style="font-size: 0.84rem; color: #7f1d1d; margin-top: 4px;">
+                        El compañero no pudo concretar la donación/trueque en este momento. ¡Puedes explorar otros recursos disponibles!
+                      </div>
+                      <div style="margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap;">
+                        <a href="explorar.html" class="btn btn-outline btn-sm" style="font-size: 0.8rem; padding: 4px 10px; text-decoration: none;">🔍 Explorar catálogo</a>
+                        <button type="button" class="btn btn-outline btn-sm" onclick="dismissSentRequest('${req.id}')" style="font-size: 0.8rem; padding: 4px 10px; color: #dc2626; border-color: rgba(220, 38, 38, 0.3);">🗑️ Quitar aviso</button>
+                      </div>
+                    </div>
+                  ` : `
+                    <div style="background: rgba(245, 158, 11, 0.08); border: 1.5px solid rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 12px 14px; margin-top: 10px;">
+                      <div style="font-size: 0.88rem; font-weight: 700; color: #b45309;">
+                        ⏳ En espera de respuesta de ${req.targetAuthorName}
+                      </div>
+                      <div style="font-size: 0.84rem; color: #92400e; margin-top: 4px;">
+                        Te notificaremos inmediatamente cuando ${req.targetAuthorName} acepte o rechace tu solicitud.
+                      </div>
+                    </div>
+                  `)}
+                `;
+                reqContainer.appendChild(card);
+              });
+            }
+          }
+        }
+      }
+
+      function updateGamificationUI(storedUser, donCount, tradeCount, totalEco, activePostsCount) {
+        const dons = parseInt(donCount, 10) || 0;
+        const trades = parseInt(tradeCount, 10) || 0;
+        const postsCount = parseInt(activePostsCount, 10) || 0;
+        const ecoVal = totalEco !== undefined ? totalEco : ((dons * 3.2) + (trades * 2.5)).toFixed(1);
+
+        // Evaluar todas las medallas y calcular XP otorgada por cada logro
+        const gamData = typeof window.evaluateAllBadges === 'function'
+          ? window.evaluateAllBadges(storedUser, dons, trades, ecoVal, postsCount)
+          : {
+              badges: [],
+              basePoints: (dons * 25) + (trades * 20),
+              achievementBonus: 0,
+              totalPoints: (dons * 25) + (trades * 20),
+              unlockedCount: 0,
+              totalBadges: 36,
+              levelInfo: window.calculateUserLevelInfo ? window.calculateUserLevelInfo((dons * 25) + (trades * 20)) : { level: 1, maxLevel: 25, progressPct: 0, pointsNeeded: 30, nextTarget: 30, nextLevelNum: 2, rankKey: 'principiante', rankTitle: 'Principiante', rankIcon: '🌱', rankColor: '#10b981' }
+            };
+
+        const totalPoints = gamData.totalPoints;
+        const lvl = gamData.levelInfo;
+        const badges = gamData.badges;
+        const achievementBonus = gamData.achievementBonus;
+
+        // Persistir puntos Loop actualizados en sesión
+        if (storedUser) {
+          storedUser.loopPoints = totalPoints;
+          try {
+            localStorage.setItem('currentUser', JSON.stringify(storedUser));
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            const uIdx = users.findIndex(u => (u.email || '').toLowerCase() === (storedUser.email || '').toLowerCase());
+            if (uIdx !== -1) {
+              users[uIdx].loopPoints = totalPoints;
+              localStorage.setItem('users', JSON.stringify(users));
+            }
+          } catch (e) {}
+        }
+
+        const userPointsDisplay = document.getElementById('user-points-display');
+        if (userPointsDisplay) userPointsDisplay.innerText = `🪙 ${totalPoints} Puntos Loop`;
+
+        const totalPointsEl = document.getElementById('gamification-total-points');
+        if (totalPointsEl) totalPointsEl.innerText = `${totalPoints} Puntos Loop`;
+
+        const isCreator = (storedUser && (storedUser.isCreator || storedUser.specialRole === 'creator' || storedUser.specialTitle === 'El Creador' || storedUser.id === 'usr_1790041333118' || ((storedUser.email || '').toLowerCase().trim() === 'xxmendingxxorigin@gmail.com'))) || false;
+        const isDiosLoop = (storedUser && (storedUser.specialTitle === 'Dios del Loop' || storedUser.specialTitle === 'Dios de la Unión' || storedUser.diosDelLoopClaimed || storedUser.diosDeLaUnionClaimed)) || false;
+
+        // 1. Actualizar Badge de Nivel sobre el Avatar
+        const userLevelBadge = document.getElementById('user-level-badge');
+        if (userLevelBadge) {
+          if (isCreator) {
+            userLevelBadge.className = 'user-level-badge rank-creator';
+            userLevelBadge.innerHTML = `👑 El Creador <span class="badge-rank-icon">🛠️</span>`;
+            userLevelBadge.title = 'Rango Supremo y Desarrollador: El Creador 👑🛠️';
+          } else if (isDiosLoop) {
+            userLevelBadge.className = 'user-level-badge rank-dios-loop';
+            userLevelBadge.innerHTML = `Nivel 25 Supremo <span class="badge-rank-icon">⚡</span>`;
+            userLevelBadge.title = `Consagración Suprema: Dios del Loop ⚡🌌 (${totalPoints} Puntos Loop)`;
+          } else {
+            userLevelBadge.className = `user-level-badge rank-${lvl.rankKey}`;
+            userLevelBadge.innerHTML = `Nivel ${lvl.level} <span class="badge-rank-icon">${lvl.rankIcon}</span>`;
+            userLevelBadge.title = `Nivel ${lvl.level} - Rango: ${lvl.rankTitle} (${totalPoints} Puntos Loop)`;
+          }
+        }
+
+        // 2. Actualizar Tag de Rango en el Hero de Perfil
+        const userRankTag = document.getElementById('user-rank-tag-display');
+        if (userRankTag) {
+          if (isCreator) {
+            userRankTag.className = 'profile-rank-tag rank-creator';
+            userRankTag.innerHTML = `<span>👑</span> <span>El Creador</span> <span>🛠️</span>`;
+          } else if (isDiosLoop) {
+            userRankTag.className = 'profile-rank-tag rank-dios-loop';
+            userRankTag.innerHTML = `<span>⚡</span> <span>Dios del Loop</span> <span>🌌</span>`;
+          } else {
+            userRankTag.className = `profile-rank-tag rank-${lvl.rankKey}`;
+            userRankTag.innerHTML = `<span>${lvl.rankIcon}</span> <span>${lvl.rankTitle}</span>`;
+          }
+        }
+
+        // 2.0 Gestión de la Consagración Divina de Nivel 25 ("Dios del Loop") o Panel de El Creador
+        const notifCardContainer = document.getElementById('creators-notification-card-container');
+        const heroConsecrationContainer = document.getElementById('dios-consecration-hero-container');
+
+        if (isCreator) {
+          if (heroConsecrationContainer) {
+            heroConsecrationContainer.style.display = 'block';
+            heroConsecrationContainer.innerHTML = `
+              <div class="dios-consecration-banner" style="border-color: #f59e0b; background: linear-gradient(135deg, #130324 0%, #20053b 45%, #051622 100%);">
+                <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                  <div style="width: 58px; height: 58px; border-radius: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 0 20px rgba(225, 29, 72, 0.65); background: linear-gradient(135deg, #e11d48, #f59e0b); font-size: 2rem;">
+                    👑
+                  </div>
+                  <div style="flex: 1; min-width: 220px;">
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 2px;">
+                      <span style="background: rgba(225, 29, 72, 0.25); border: 1px solid #f43f5e; color: #fda4af; font-size: 0.72rem; font-weight: 900; padding: 2px 10px; border-radius: 999px; text-transform: uppercase;">👑 Rango Supremo del Campus</span>
+                      <span style="color: #94a3b8; font-size: 0.8rem;">Fundador y Desarrollador US-Loop</span>
+                    </div>
+                    <h3 style="margin: 0 0 2px; font-size: 1.15rem; font-weight: 900; color: #ffffff; text-shadow: 0 0 12px rgba(251, 191, 36, 0.6);">
+                      👑 Título Oficial: El Creador 🛠️
+                    </h3>
+                    <p style="margin: 0; font-size: 0.85rem; color: #cbd5e1;">
+                      Tienes la administración suprema del campus escolar. Desde tu panel de notificaciones puedes autorizar a qué estudiantes consagrar como <strong>un «Dios del Loop»</strong>.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+          if (notifCardContainer && typeof window.renderCreatorsNotificationCard === 'function') {
+            window.renderCreatorsNotificationCard(storedUser, notifCardContainer);
+          }
+          if (typeof window.showCreatorsLevel25FloatingNotice === 'function') {
+            window.showCreatorsLevel25FloatingNotice(storedUser);
+          }
+        } else if (lvl.level >= 25) {
+          if (notifCardContainer && typeof window.renderCreatorsNotificationCard === 'function') {
+            window.renderCreatorsNotificationCard(storedUser, notifCardContainer);
+          }
+
+          if (isDiosLoop) {
+            if (heroConsecrationContainer) {
+              heroConsecrationContainer.style.display = 'block';
+              heroConsecrationContainer.innerHTML = `
+                <div class="dios-consecration-banner">
+                  <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                    <div style="width: 58px; height: 58px; border-radius: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 0 18px rgba(251, 191, 36, 0.7);">
+                      ${typeof window.renderAvatarHtml === 'function' ? window.renderAvatarHtml('⚡🌌', 58, false) : '⚡🌌'}
+                    </div>
+                    <div style="flex: 1; min-width: 220px;">
+                      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 2px;">
+                        <span style="background: rgba(251, 191, 36, 0.2); border: 1px solid #fbbf24; color: #fde047; font-size: 0.72rem; font-weight: 800; padding: 2px 10px; border-radius: 999px; text-transform: uppercase;">⚡ Consagración Divina Activa</span>
+                        <span style="color: #94a3b8; font-size: 0.8rem;">Distinción Suprema US-Loop</span>
+                      </div>
+                      <h3 style="margin: 0 0 2px; font-size: 1.15rem; font-weight: 900; color: #ffffff; text-shadow: 0 0 12px rgba(251, 191, 36, 0.6);">
+                        ⚡ Título Oficial: Dios del Loop 🌌
+                      </h3>
+                      <p style="margin: 0; font-size: 0.85rem; color: #cbd5e1;">
+                        Has alcanzado la cima de la economía circular escolar. Tienes el Ícono Divino Supremo y el Título Especial consagrados en tu cuenta.
+                      </p>
+                    </div>
+                  </div>
+                  <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                    <button type="button" class="btn btn-sm" onclick="openAvatarPickerModal()" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); color: #ffffff; font-size: 0.84rem; padding: 8px 16px; border-radius: 12px; cursor: pointer;">
+                      🎭 Cambiar Ícono
+                    </button>
+                  </div>
+                </div>
+              `;
+            }
+          } else {
+            if (heroConsecrationContainer) heroConsecrationContainer.style.display = 'none';
+
+            // Mostrar el aviso flotante suave de los creadores si fue aprobado
+            if (typeof window.showCreatorsLevel25FloatingNotice === 'function') {
+              window.showCreatorsLevel25FloatingNotice(storedUser);
+            }
+          }
+        } else {
+          if (heroConsecrationContainer) heroConsecrationContainer.style.display = 'none';
+          if (notifCardContainer) notifCardContainer.style.display = 'none';
+        }
+
+        // 2.1 Actualizar Barra de Experiencia Minecraft (Hero XP Bar)
+        const heroXpNeededText = document.getElementById('hero-xp-needed-text');
+        if (heroXpNeededText) {
+          heroXpNeededText.innerHTML = lvl.level < lvl.maxLevel
+            ? `Faltan <strong id="hero-xp-points-needed">${lvl.pointsNeeded}</strong> Puntos Loop para Nivel <strong id="hero-xp-next-level">${lvl.nextLevelNum}</strong>`
+            : `¡Nivel Máximo <strong style="color: #80ff00;">(25)</strong> Alcanzado! 👑`;
+        }
+
+        const heroXpFill = document.getElementById('hero-minecraft-xp-fill');
+        if (heroXpFill) {
+          heroXpFill.style.width = `${Math.min(100, Math.max(0, lvl.progressPct))}%`;
+        }
+
+        const heroXpLevelNum = document.getElementById('hero-minecraft-xp-level');
+        if (heroXpLevelNum) {
+          heroXpLevelNum.innerText = lvl.level;
+        }
+
+        const heroXpCurrentProgress = document.getElementById('hero-xp-current-progress');
+        if (heroXpCurrentProgress) {
+          heroXpCurrentProgress.innerText = lvl.level < lvl.maxLevel
+            ? `🪙 ${totalPoints} / ${lvl.nextTarget} Puntos (${Math.round(lvl.progressPct)}%)`
+            : `🪙 ${totalPoints} Puntos Loop (100%)`;
+        }
+
+        const heroXpRankHint = document.getElementById('hero-xp-rank-hint');
+        if (heroXpRankHint) {
+          heroXpRankHint.innerHTML = `Rango: <strong>${lvl.rankIcon} ${lvl.rankTitle}</strong>`;
+        }
+
+        // 3. Actualizar Barra de Progreso de Gamificación
+        const levelNameEl = document.getElementById('gamification-level-name');
+        if (levelNameEl) {
+          levelNameEl.innerHTML = `Nivel ${lvl.level}: <strong style="color: ${lvl.rankColor};">${lvl.rankTitle} ${lvl.rankIcon}</strong>`;
+        }
+
+        const nextLevelEl = document.getElementById('gamification-next-level');
+        if (nextLevelEl) {
+          nextLevelEl.innerText = lvl.level < lvl.maxLevel
+            ? `Siguiente: Nivel ${lvl.nextLevelNum} (${lvl.nextTarget} pts)`
+            : '¡Nivel Máximo (25) Alcanzado!';
+        }
+
+        const progressBarEl = document.getElementById('gamification-progress-bar');
+        if (progressBarEl) {
+          progressBarEl.style.width = `${Math.min(100, Math.max(0, lvl.progressPct))}%`;
+          if (lvl.rankKey === 'principiante') progressBarEl.style.background = 'linear-gradient(90deg, #10b981, #059669)';
+          else if (lvl.rankKey === 'colaborador') progressBarEl.style.background = 'linear-gradient(90deg, #2563eb, #0284c7)';
+          else if (lvl.rankKey === 'solidario') progressBarEl.style.background = 'linear-gradient(90deg, #f59e0b, #d97706)';
+          else if (lvl.rankKey === 'lider') progressBarEl.style.background = 'linear-gradient(90deg, #8b5cf6, #7c3aed)';
+          else progressBarEl.style.background = 'linear-gradient(90deg, #f59e0b, #ec4899, #8b5cf6)';
+        }
+
+        const hintEl = document.getElementById('gamification-progress-hint');
+        if (hintEl) {
+          hintEl.innerHTML = lvl.level < lvl.maxLevel
+            ? `Faltan <strong>${lvl.pointsNeeded} puntos</strong> para alcanzar el <strong>Nivel ${lvl.nextLevelNum} (${lvl.nextRankTitle})</strong>`
+            : '¡Felicitaciones! Has alcanzado el rango supremo de <strong>Embajador del Campus 👑</strong> en US-Loop.';
+        }
+
+        // 4. Renderizar Showcase de los 5 Rangos de Prestigio
+        const ranksGrid = document.getElementById('gamification-ranks-grid');
+        if (ranksGrid && window.ALL_LOOP_RANKS) {
+          ranksGrid.innerHTML = window.ALL_LOOP_RANKS.map(r => {
+            const isCurrent = r.key === lvl.rankKey;
+            const isUnlocked = totalPoints >= r.minPts;
+
+            return `
+              <div class="rank-item-card ${isCurrent ? 'current' : (isUnlocked ? 'unlocked' : 'locked')}">
+                <div class="rank-card-header">
+                  <span class="rank-badge-pill rank-${r.key}">
+                    ${r.title} <span class="badge-rank-icon">${r.icon}</span>
+                  </span>
+                </div>
+                <div class="rank-card-body">
+                  <span class="rank-level-span">${r.levelRange}</span>
+                  <div class="rank-pts-badge">${r.ptsRange}</div>
+                  <p class="rank-card-desc">${r.desc}</p>
+                  <div class="rank-card-perk">${r.perk}</div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        window.currentGamificationBadges = badges;
+        window.activeBadgeFilter = window.activeBadgeFilter || 'all';
+
+        // Actualizar estadísticas del resumen de logros
+        const unlockedCount = badges.filter(b => b.unlocked).length;
+        const totalBadges = badges.length;
+        const unlockedPct = Math.round((unlockedCount / totalBadges) * 100);
+
+        const ratioEl = document.getElementById('badges-unlocked-ratio');
+        if (ratioEl) ratioEl.innerText = `${unlockedCount} / ${totalBadges} (${unlockedPct}%)`;
+
+        const xpTotalEl = document.getElementById('badges-xp-earned-total');
+        if (xpTotalEl) {
+          xpTotalEl.innerHTML = `✨ +${achievementBonus} XP Obtenidos`;
+        }
+
+        const summaryBarEl = document.getElementById('badges-summary-bar');
+        if (summaryBarEl) summaryBarEl.style.width = `${unlockedPct}%`;
+
+        const summaryQuoteEl = document.getElementById('badges-summary-quote');
+        if (summaryQuoteEl) {
+          if (unlockedPct === 100) summaryQuoteEl.innerHTML = '👑 <strong>¡Colección legendaria completada!</strong> Has desbloqueado el 100% de los logros y ganado toda la experiencia de US-Loop.';
+          else if (unlockedPct >= 50) summaryQuoteEl.innerHTML = `🌟 <strong>¡Gran progreso!</strong> Has desbloqueado ${unlockedCount} medallas y acumulado <strong>+${achievementBonus} XP</strong> de bonificación.`;
+          else if (unlockedCount > 0) summaryQuoteEl.innerHTML = `🚀 <strong>¡Buen camino!</strong> Tienes ${unlockedCount} logros desbloqueados (+${achievementBonus} XP). Sigue donando e intercambiando para ganar más.`;
+          else summaryQuoteEl.innerHTML = 'Desbloquea medallas completando intercambios, donando útiles y acumulando Puntos Loop para ganar XP adicional.';
+        }
+
+        // Actualizar contadores de los filtros
+        const filterCountAll = document.getElementById('filter-count-all');
+        if (filterCountAll) filterCountAll.innerText = totalBadges;
+        const filterCountUnlocked = document.getElementById('filter-count-unlocked');
+        if (filterCountUnlocked) filterCountUnlocked.innerText = unlockedCount;
+        const filterCountLocked = document.getElementById('filter-count-locked');
+        if (filterCountLocked) filterCountLocked.innerText = (totalBadges - unlockedCount);
+
+        // Renderizar según el filtro activo
+        if (typeof window.filterBadges === 'function') {
+          window.filterBadges(window.activeBadgeFilter);
+        }
+      }
+
+      window.filterBadges = function(category) {
+        window.activeBadgeFilter = category;
+        const buttons = document.querySelectorAll('.badge-filter-btn');
+        buttons.forEach(btn => {
+          if (btn.getAttribute('data-filter') === category) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+
+        const badges = window.currentGamificationBadges || [];
+        const filtered = badges.filter(b => {
+          if (category === 'all') return true;
+          if (category === 'unlocked') return b.unlocked;
+          if (category === 'locked') return !b.unlocked;
+          return b.categoryKey === category;
+        });
+
+        renderBadgesGrid(filtered);
+      };
+
+      function renderBadgesGrid(badgeList) {
+        const badgesGrid = document.getElementById('gamification-badges-grid');
+        if (!badgesGrid) return;
+
+        if (badgeList.length === 0) {
+          badgesGrid.innerHTML = `
+            <div style="text-align: center; padding: 48px 20px; background: #ffffff; border-radius: 20px; border: 2px dashed #cbd5e1; color: #64748b; margin: 16px 0;">
+              <div style="font-size: 2.2rem; margin-bottom: 8px;">🔍</div>
+              <h4 style="margin: 0 0 6px; color: #1e293b; font-weight: 800; font-size: 1.05rem;">No hay medallas en esta categoría</h4>
+              <p style="margin: 0; font-size: 0.85rem;">Prueba seleccionando otro filtro o participa en la plataforma para desbloquear más.</p>
+            </div>
+          `;
+          return;
+        }
+
+        const CATEGORY_META = {
+          iniciacion: { name: 'Iniciación y Perfil', icon: '🌱', color: '#0369a1', bg: 'rgba(14, 165, 233, 0.08)', border: '#bae6fd' },
+          donaciones: { name: 'Donaciones Solidarias', icon: '🎁', color: '#be123c', bg: 'rgba(244, 63, 94, 0.08)', border: '#fecdd3' },
+          trueques: { name: 'Trueques y Recursos', icon: '🔄', color: '#b45309', bg: 'rgba(245, 158, 11, 0.08)', border: '#fde68a' },
+          puntos: { name: 'Puntos Loop y Prosperidad', icon: '🪙', color: '#6d28d9', bg: 'rgba(139, 92, 246, 0.08)', border: '#ddd6fe' },
+          ecologia: { name: 'Ecología y Sostenibilidad', icon: '🌿', color: '#047857', bg: 'rgba(16, 185, 129, 0.08)', border: '#a7f3d0' },
+          prestigio: { name: 'Prestigio y Leyendas', icon: '👑', color: '#9d174d', bg: 'linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(236, 72, 153, 0.12))', border: '#fbcfe8' }
+        };
+
+        // Agrupar por categoría
+        const groups = {};
+        badgeList.forEach(b => {
+          if (!groups[b.categoryKey]) groups[b.categoryKey] = [];
+          groups[b.categoryKey].push(b);
+        });
+
+        const categoriesOrder = ['iniciacion', 'donaciones', 'trueques', 'puntos', 'ecologia', 'prestigio'];
+
+        let html = '';
+        categoriesOrder.forEach(catKey => {
+          const items = groups[catKey];
+          if (!items || items.length === 0) return;
+
+          const meta = CATEGORY_META[catKey] || { name: catKey, icon: '🏅', color: '#1e293b', bg: '#f1f5f9', border: '#e2e8f0' };
+          const unlockedInCat = items.filter(i => i.unlocked).length;
+          const catEarnedXp = items.filter(i => i.unlocked).reduce((sum, i) => sum + (i.xpReward || 0), 0);
+          const catTotalXp = items.reduce((sum, i) => sum + (i.xpReward || 0), 0);
+
+          html += `
+            <div class="achievement-section-block">
+              <!-- Separador / Encabezado de Categoría -->
+              <div class="category-separator-bar" style="border-left: 5px solid ${meta.color}; background: ${meta.bg};">
+                <div class="category-separator-left">
+                  <span class="category-separator-icon">${meta.icon}</span>
+                  <div class="category-separator-titles">
+                    <h3 class="category-separator-name" style="color: ${meta.color};">${meta.name}</h3>
+                    <span class="category-separator-count">${items.length} Logros disponibles</span>
+                  </div>
+                </div>
+                <div class="category-separator-right">
+                  <span class="category-progress-pill" style="color: ${meta.color}; border: 1px solid ${meta.border};">
+                    ${unlockedInCat} / ${items.length} Desbloqueados
+                  </span>
+                  <span class="category-xp-pill">
+                    ✨ +${catEarnedXp} / +${catTotalXp} XP
+                  </span>
+                </div>
+              </div>
+
+              <!-- Cuadrícula de Tarjetas de Logro -->
+              <div class="badges-category-grid">
+                ${items.map(b => `
+                  <div class="badge-item-card ${b.unlocked ? 'unlocked' : 'locked'} ${b.id === 'pres-6' ? 'badge-institutional-card' : ''}" data-id="${b.id}">
+                    <div class="badge-card-top">
+                      <div class="badge-icon-frame ${b.id === 'pres-6' ? 'institutional-badge-frame' : ''}">
+                        ${b.id === 'pres-6' ? `
+                          <svg viewBox="0 0 100 100" style="width: 44px; height: 44px; display: block; filter: drop-shadow(0 2px 6px rgba(245, 158, 11, 0.6));">
+                            <defs>
+                              <linearGradient id="badgeGold_${b.id}" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#FFFBEB" />
+                                <stop offset="35%" stop-color="#FBBF24" />
+                                <stop offset="75%" stop-color="#D97706" />
+                                <stop offset="100%" stop-color="#78350F" />
+                              </linearGradient>
+                              <linearGradient id="badgeShield_${b.id}" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#1E3A8A" />
+                                <stop offset="50%" stop-color="#2563EB" />
+                                <stop offset="100%" stop-color="#0284C7" />
+                              </linearGradient>
+                            </defs>
+                            <circle cx="50" cy="50" r="46" fill="url(#badgeGold_${b.id})" opacity="0.2" />
+                            <circle cx="50" cy="50" r="42" fill="none" stroke="url(#badgeGold_${b.id})" stroke-width="2.5" stroke-dasharray="3,2" />
+                            <path d="M50 16 L76 26 C76 54 50 82 50 82 C50 82 24 54 24 26 Z" fill="url(#badgeShield_${b.id})" stroke="url(#badgeGold_${b.id})" stroke-width="2.8" />
+                            <path d="M42 48 C36 42 30 56 38 60 C46 64 54 44 62 48 C70 52 64 66 58 58 C50 48 48 64 42 48 Z" fill="none" stroke="#80FF00" stroke-width="3" stroke-linecap="round" />
+                            <path d="M34 32 L30 18 L42 23 L50 11 L58 23 L70 18 L66 32 Z" fill="url(#badgeGold_${b.id})" stroke="#78350F" stroke-width="1.2" />
+                            <circle cx="50" cy="11" r="2.5" fill="#EF4444" />
+                            <circle cx="30" cy="18" r="2" fill="#3B82F6" />
+                            <circle cx="70" cy="18" r="2" fill="#3B82F6" />
+                            <circle cx="50" cy="27" r="2" fill="#80FF00" />
+                            <circle cx="50" cy="74" r="2.5" fill="#FBBF24" />
+                          </svg>
+                        ` : b.icon}
+                      </div>
+                      <div class="badge-tags-group">
+                        <span class="badge-tier-tag tier-${b.tier}">${b.tierIcon} ${b.tierName}</span>
+                        <span class="badge-category-tag cat-${b.categoryKey}">${b.categoryName}</span>
+                        <span class="badge-xp-reward ${b.unlocked ? 'unlocked' : 'locked'}" title="Recompensa de experiencia: ${b.xpReward} Puntos Loop">
+                          ${b.unlocked ? `✓ +${b.xpReward} XP` : `✨ +${b.xpReward} XP`}
+                        </span>
+                      </div>
+                    </div>
+                    <h4 class="badge-card-title">${b.title}</h4>
+                    <p class="badge-card-desc">${b.desc}</p>
+                    ${b.id === 'pres-6' ? `
+                      <div style="margin: 4px 0 8px; font-size: 0.76rem; font-weight: 800; color: #b45309; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 4px 8px; display: inline-flex; align-items: center; gap: 4px;">
+                        🏛️ Recompensa Especial: Avatar "Ícono Institucional"
+                      </div>
+                    ` : ''}
+                    <div class="badge-card-bottom">
+                      ${!b.unlocked && b.targetVal > 1 ? `
+                        <div class="badge-mini-bar-container" title="Progreso: ${b.currentVal}/${b.targetVal}">
+                          <div class="badge-mini-bar-fill" style="width: ${b.progressPct}%;"></div>
+                        </div>
+                      ` : ''}
+                      <div class="badge-status-row">
+                        <span class="badge-card-status">${b.status}</span>
+                        <span class="badge-xp-footer-tag ${b.unlocked ? 'unlocked' : 'locked'}">
+                          ${b.unlocked ? `Recompensa: <strong>+${b.xpReward} XP</strong> otorgados` : `Otorga: <strong>+${b.xpReward} XP</strong>`}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        });
+
+        badgesGrid.innerHTML = html;
+      }
+
+      async function finishUserDonation(itemId) {
+        let requests = [];
+        try {
+          requests = window.USLoopAPI ? await window.USLoopAPI.getRequests() : JSON.parse(localStorage.getItem('tradeRequests') || '[]');
+        } catch (e) {
+          requests = JSON.parse(localStorage.getItem('tradeRequests') || '[]');
+        }
+
+        const relatedReq = requests.find(r => String(r.itemId) === String(itemId) && (r.status === 'accepted' || r.status === 'accepted_donor_confirmed' || r.status === 'accepted_requester_confirmed' || r.status === 'pending'));
+
+        if (relatedReq) {
+          if (relatedReq.status === 'accepted' || relatedReq.status === 'accepted_donor_confirmed' || relatedReq.status === 'accepted_requester_confirmed') {
+            return window.handleMutualDeliveryConfirmation(relatedReq.id);
+          } else {
+            if (window.showCustomAlert) {
+              window.showCustomAlert({
+                title: 'Solicitud Pendiente ⏳',
+                message: `Tienes una solicitud pendiente de ${relatedReq.requesterName || 'un compañero'} para este recurso.\n\nPor favor, ve a la pestaña "Solicitudes", acéptala y luego ambos podrán confirmar la entrega para finalizarla y sumar puntos.`,
+                icon: '📋'
+              });
+            } else {
+              alert('Tienes una solicitud pendiente para este recurso. Acéptala primero en la pestaña Solicitudes.');
+            }
+            return;
+          }
+        }
+
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Finalizar Donación?',
+              message: '¿Deseas marcar esta donación como entregada? Sumarás +25 Puntos Loop.',
+              icon: '🎁',
+              confirmText: 'Sí, Finalizar',
+              cancelText: 'Cancelar'
+            })
+          : confirm('¿Deseas marcar esta donación como entregada? (+25 Pts)');
+
+        if (confirmed) {
+          let donations = JSON.parse(localStorage.getItem('donations') || '[]');
+          const idx = donations.findIndex((d, i) => String(d.id) === String(itemId) || String(i) === String(itemId));
+          if (idx !== -1) {
+            if (window.USLoopAPI) await window.USLoopAPI.finishDonation(donations[idx].id);
+            donations.splice(idx, 1);
+          } else if (donations.length > 0) {
+            if (window.USLoopAPI) await window.USLoopAPI.finishDonation(donations[0].id);
+            donations.splice(0, 1);
+          }
+          localStorage.setItem('donations', JSON.stringify(donations));
+
+          const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+          storedUser.completedDonations = (storedUser.completedDonations || 0) + 1;
+          storedUser.loopPoints = ((storedUser.completedDonations || 0) * 25) + ((storedUser.completedTrades || 0) * 20);
+          localStorage.setItem('currentUser', JSON.stringify(storedUser));
+
+          if (storedUser.email && window.USLoopAPI) {
+            await window.USLoopAPI.updateUserStats(storedUser.email, 'donation');
+          }
+
+          loadUserStatsAndItems();
+          showToast('✓ Donación entregada. ¡Ganaste +25 Puntos Loop! 🪙');
+        }
+      }
+
+      async function completeUserExchange(itemId) {
+        let requests = [];
+        try {
+          requests = window.USLoopAPI ? await window.USLoopAPI.getRequests() : JSON.parse(localStorage.getItem('tradeRequests') || '[]');
+        } catch (e) {
+          requests = JSON.parse(localStorage.getItem('tradeRequests') || '[]');
+        }
+
+        const relatedReq = requests.find(r => String(r.itemId) === String(itemId) && (r.status === 'accepted' || r.status === 'accepted_donor_confirmed' || r.status === 'accepted_requester_confirmed' || r.status === 'pending'));
+
+        if (relatedReq) {
+          if (relatedReq.status === 'accepted' || relatedReq.status === 'accepted_donor_confirmed' || relatedReq.status === 'accepted_requester_confirmed') {
+            return window.handleMutualDeliveryConfirmation(relatedReq.id);
+          } else {
+            if (window.showCustomAlert) {
+              window.showCustomAlert({
+                title: 'Propuesta Pendiente ⏳',
+                message: `Tienes una propuesta de trueque pendiente de ${relatedReq.requesterName || 'un compañero'} para este recurso.\n\nPor favor, ve a la pestaña "Solicitudes", acéptala y luego ambos podrán confirmar la entrega para finalizarla y sumar puntos.`,
+                icon: '⇄'
+              });
+            } else {
+              alert('Tienes una propuesta de trueque pendiente. Acéptala primero en la pestaña Solicitudes.');
+            }
+            return;
+          }
+        }
+
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Trueque Concretado?',
+              message: '¿Deseas marcar este trueque como completado exitosamente? Sumarás +20 Puntos Loop.',
+              icon: '🤝',
+              confirmText: 'Sí, Completado',
+              cancelText: 'Cancelar'
+            })
+          : confirm('¿Deseas marcar este trueque como completado? (+20 Pts)');
+
+        if (confirmed) {
+          let exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
+          const idx = exchanges.findIndex((e, i) => String(e.id) === String(itemId) || String(i) === String(itemId));
+          if (idx !== -1) {
+            if (window.USLoopAPI) await window.USLoopAPI.completeExchange(exchanges[idx].id);
+            exchanges.splice(idx, 1);
+          } else if (exchanges.length > 0) {
+            if (window.USLoopAPI) await window.USLoopAPI.completeExchange(exchanges[0].id);
+            exchanges.splice(0, 1);
+          }
+          localStorage.setItem('exchanges', JSON.stringify(exchanges));
+
+          const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+          storedUser.completedTrades = (storedUser.completedTrades || 0) + 1;
+          storedUser.loopPoints = ((storedUser.completedDonations || 0) * 25) + ((storedUser.completedTrades || 0) * 20);
+          localStorage.setItem('currentUser', JSON.stringify(storedUser));
+
+          if (storedUser.email && window.USLoopAPI) {
+            await window.USLoopAPI.updateUserStats(storedUser.email, 'trade');
+          }
+
+          loadUserStatsAndItems();
+          showToast('✓ ¡Trueque completado con éxito! Sumaste +20 Puntos Loop. 🪙');
+        }
+      }
+
+      async function deleteDonationItem(itemId) {
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Retirar Donación?',
+              message: '¿Deseas retirar esta donación del catálogo?',
+              icon: '🗑️',
+              confirmText: 'Sí, Retirar',
+              cancelText: 'Cancelar'
+            })
+          : confirm('¿Deseas retirar esta donación?');
+
+        if (confirmed) {
+          let donations = JSON.parse(localStorage.getItem('donations') || '[]');
+          const idx = donations.findIndex((d, i) => String(d.id) === String(itemId) || String(i) === String(itemId));
+          if (idx !== -1) {
+            if (window.USLoopAPI) await window.USLoopAPI.finishDonation(donations[idx].id);
+            donations.splice(idx, 1);
+          } else if (donations.length > 0) {
+            if (window.USLoopAPI) await window.USLoopAPI.finishDonation(donations[0].id);
+            donations.splice(0, 1);
+          }
+          localStorage.setItem('donations', JSON.stringify(donations));
+          loadUserStatsAndItems();
+          showToast('Donación retirada con éxito');
+        }
+      }
+
+      async function deleteExchangeItem(itemId) {
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Retirar Intercambio?',
+              message: '¿Deseas cancelar y retirar este intercambio del catálogo?',
+              icon: '🗑️',
+              confirmText: 'Sí, Retirar',
+              cancelText: 'Cancelar'
+            })
+          : confirm('¿Deseas cancelar este intercambio?');
+
+        if (confirmed) {
+          let exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
+          const idx = exchanges.findIndex((e, i) => String(e.id) === String(itemId) || String(i) === String(itemId));
+          if (idx !== -1) {
+            if (window.USLoopAPI) await window.USLoopAPI.completeExchange(exchanges[idx].id);
+            exchanges.splice(idx, 1);
+          } else if (exchanges.length > 0) {
+            if (window.USLoopAPI) await window.USLoopAPI.completeExchange(exchanges[0].id);
+            exchanges.splice(0, 1);
+          }
+          localStorage.setItem('exchanges', JSON.stringify(exchanges));
+          loadUserStatsAndItems();
+          showToast('Intercambio cancelado con éxito');
+        }
+      }
+
+      async function deleteAllActiveItems() {
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Vaciar Publicaciones?',
+              message: '¿Estás seguro de que deseas eliminar todas tus donaciones e intercambios activos del catálogo?',
+              icon: '⚠️',
+              confirmText: 'Sí, Vaciar Todo',
+              cancelText: 'Cancelar'
+            })
+          : confirm('¿Deseas eliminar todas las publicaciones?');
+
+        if (confirmed) {
+          localStorage.setItem('donations', JSON.stringify([]));
+          localStorage.setItem('exchanges', JSON.stringify([]));
+          localStorage.setItem('tradeRequests', JSON.stringify([]));
+          if (window.USLoopAPI && window.USLoopAPI.isServer()) {
+            fetch('api/donations.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'clear_all' }) }).catch(() => {});
+            fetch('api/exchanges.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'clear_all' }) }).catch(() => {});
+          }
+          loadUserStatsAndItems();
+          showToast('✓ Todas las publicaciones e intercambios han sido eliminados.');
+        }
+      }
+
+      // Gestión de pestañas del panel
+      window.switchDashboardTab = function(targetId) {
+        const tabs = document.querySelectorAll('.dash-tab');
+        const panes = document.querySelectorAll('.dash-content-pane');
+
+        tabs.forEach((t) => {
+          if (t.dataset.target === targetId) {
+            t.classList.add('active');
+            t.setAttribute('aria-selected', 'true');
+          } else {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+          }
+        });
+        panes.forEach((p) => {
+          if (p.id === targetId) {
+            p.classList.add('active-pane');
+          } else {
+            p.classList.remove('active-pane');
+          }
+        });
+      };
+
+      function setupDashboardTabs() {
+        const tabs = document.querySelectorAll('.dash-tab');
+        tabs.forEach((tab) => {
+          tab.addEventListener('click', () => {
+            const targetId = tab.dataset.target;
+            window.switchDashboardTab(targetId);
+          });
+        });
+      }
+
+      // Filtro de recursos del usuario
+      function filterMyItems(type, btn) {
+        const buttons = document.querySelectorAll('.subfilter-pill');
+        buttons.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const cards = document.querySelectorAll('.user-item-card');
+        cards.forEach((card) => {
+          if (type === 'all' || card.dataset.type === type) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      }
+
+      // Cambiar avatar y foto de perfil
+      function changeUserAvatar() {
+        if (typeof window.openAvatarPickerModal === 'function') {
+          window.openAvatarPickerModal({
+            onAvatarSelected: (newAvatar) => {
+              updateAvatarDisplay(newAvatar);
+              showToast('✓ ¡Foto de perfil actualizada con éxito! 📸');
+            }
+          });
+        }
+      }
+
+      function resetAvatarToDefault() {
+        if (typeof window.updateUserAvatarGlobally === 'function') {
+          window.updateUserAvatarGlobally('👨‍🎓');
+        } else {
+          const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+          storedUser.avatar = '👨‍🎓';
+          localStorage.setItem('currentUser', JSON.stringify(storedUser));
+        }
+        updateAvatarDisplay('👨‍🎓');
+        showToast('✓ Avatar restablecido por defecto (👨‍🎓)');
+      }
+
+      // Guardar ajustes de perfil
+      function saveProfileSettings(e) {
+        e.preventDefault();
+        const name = document.getElementById('settings-name').value;
+        const email = document.getElementById('settings-email').value;
+        const school = document.getElementById('settings-school').value;
+        const grade = document.getElementById('settings-grade').value;
+        const bio = (document.getElementById('settings-bio') ? document.getElementById('settings-bio').value : '') || '';
+
+        const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        const oldEmail = storedUser.email;
+        storedUser.name = name;
+        storedUser.email = email;
+        storedUser.institution = school;
+        storedUser.grade = grade;
+        storedUser.bio = bio;
+
+        if ((email || '').trim().toLowerCase() === 'xxmendingxxorigin@gmail.com') {
+          storedUser.isCreator = true;
+          storedUser.specialRole = 'creator';
+          storedUser.specialTitle = 'El Creador';
+        }
+
+        localStorage.setItem('currentUser', JSON.stringify(storedUser));
+
+        try {
+          let users = JSON.parse(localStorage.getItem('users') || '[]');
+          const idx = users.findIndex(u => (u.email || '').toLowerCase() === (oldEmail || email || '').toLowerCase());
+          if (idx !== -1) {
+            users[idx] = { ...users[idx], ...storedUser };
+          } else {
+            users.push(storedUser);
+          }
+          localStorage.setItem('users', JSON.stringify(users));
+        } catch (e) {}
+
+        document.getElementById('user-name-display').innerText = name;
+        document.getElementById('user-email-display').innerText = email;
+        document.getElementById('user-school-display').innerText = '🏫 ' + school;
+        document.getElementById('user-grade-display').innerText = '🎓 ' + grade;
+
+        showToast('✓ Perfil actualizado correctamente');
+      }
+
+      function resetForm() {
+        loadUserProfile();
+        showToast('Cambios descartados');
+      }
+
+      // Aceptar solicitud
+      async function handleAcceptRequest(requestId) {
+        let requests = JSON.parse(localStorage.getItem('tradeRequests') || '[]');
+        const req = requests.find(r => String(r.id) === String(requestId));
+        if (!req) return;
+
+        req.status = 'accepted';
+        localStorage.setItem('tradeRequests', JSON.stringify(requests));
+
+        if (window.USLoopAPI) {
+          try {
+            await window.USLoopAPI.updateRequestStatus(requestId, 'accepted');
+          } catch (e) {}
+        }
+
+        const isDon = (req.itemType || req.type) === 'donation';
+        const requesterName = req.requesterName || req.requester_name || 'Compañero';
+        const contactInfo = req.requesterContact || req.requester_phone || req.requesterEmail || req.requester_email || 'sus datos de contacto';
+
+        if (window.showCustomAlert) {
+          await window.showCustomAlert({
+            title: '¡Solicitud Aceptada! 🤝',
+            message: `Has aceptado la propuesta de ${requesterName}.\n\nPuedes acordar la entrega en ${req.requesterSchool || req.requester_school || 'tu sede educativa'} o contactarlo directamente al: ${contactInfo}.\n\nCuando realices la entrega, haz clic en "Concretar Entrega" para sumar tus puntos Loop.`,
+            icon: '🎉',
+            confirmText: 'Entendido'
+          });
+        } else {
+          showToast(`✓ Solicitud aceptada. Contacta a ${requesterName} al ${contactInfo}.`);
+        }
+
+        loadUserStatsAndItems();
+      }
+
+      // Rechazar solicitud
+      async function handleRejectRequest(requestId) {
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Rechazar Solicitud?',
+              message: '¿Estás seguro de que deseas rechazar esta solicitud? Se notificará al compañero que la solicitó.',
+              icon: '❌',
+              confirmText: 'Sí, Rechazar',
+              cancelText: 'Volver'
+            })
+          : confirm('¿Deseas rechazar esta solicitud? Se notificará al solicitante.');
+
+        if (confirmed) {
+          let requests = JSON.parse(localStorage.getItem('tradeRequests') || '[]');
+          const req = requests.find(r => String(r.id) === String(requestId));
+          if (req) {
+            req.status = 'rejected';
+            localStorage.setItem('tradeRequests', JSON.stringify(requests));
+          }
+
+          if (window.USLoopAPI) {
+            try {
+              await window.USLoopAPI.updateRequestStatus(requestId, 'rejected');
+            } catch (e) {}
+          }
+
+          showToast('✓ Solicitud rechazada. Se notificará al solicitante.');
+          loadUserStatsAndItems();
+        }
+      }
+
+      // Descartar aviso de solicitud enviada
+      async function dismissSentRequest(requestId) {
+        let requests = JSON.parse(localStorage.getItem('tradeRequests') || '[]');
+        requests = requests.filter(r => String(r.id) !== String(requestId));
+        localStorage.setItem('tradeRequests', JSON.stringify(requests));
+        if (window.USLoopAPI) {
+          try {
+            await window.USLoopAPI.deleteRequest(requestId);
+          } catch (e) {}
+        }
+        showToast('Aviso retirado de tu lista');
+        loadUserStatsAndItems();
+      }
+
+      // Finalizar y concretar entrega desde la solicitud (Requiere confirmación de ambas cuentas)
+      async function handleFinishFromRequest(requestId, itemId, type) {
+        if (typeof window.handleMutualDeliveryConfirmation === 'function') {
+          return window.handleMutualDeliveryConfirmation(requestId);
+        }
+      }
+
+      // Editar item
+      function editItem(itemName) {
+        showToast(`Abriendo editor para "${itemName}"...`);
+      }
+
+      // Eliminar item
+      async function deleteItem(btn) {
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Retirar Publicación?',
+              message: '¿Estás seguro de que deseas retirar esta publicación de tu inventario?',
+              icon: '🗑️',
+              confirmText: 'Sí, Retirar',
+              cancelText: 'Cancelar'
+            })
+          : confirm('¿Estás seguro de que deseas retirar esta publicación?');
+
+        if (confirmed) {
+          const card = btn.closest('.user-item-card');
+          if (card) {
+            card.remove();
+            showToast('Publicación retirada con éxito');
+          }
+        }
+      }
+
+      // Cerrar sesión
+      async function handleLogout() {
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Cerrar Sesión?',
+              message: '¿Deseas cerrar tu sesión actual de US-Loop?',
+              icon: '🚪',
+              confirmText: 'Sí, Salir',
+              cancelText: 'Permanecer'
+            })
+          : confirm('¿Deseas cerrar tu sesión actual?');
+
+        if (confirmed) {
+          localStorage.removeItem('currentUser');
+          window.location.href = 'login.html';
+        }
+      }
+
+      // Eliminar cuenta permanentemente
+      async function handleDeleteAccount() {
+        const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        if (!storedUser || !storedUser.email) return;
+
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Eliminar Cuenta Permanentemente?',
+              message: '¿Estás seguro de que deseas eliminar tu cuenta de US-Loop? Se borrará todo tu perfil, puntos acumulados y publicaciones activas de forma irreversible.',
+              icon: '⚠️',
+              confirmText: 'Sí, Eliminar Mi Cuenta',
+              cancelText: 'Cancelar'
+            })
+          : confirm('¿Estás seguro de que deseas eliminar tu cuenta de US-Loop permanentemente?');
+
+        if (!confirmed) return;
+
+        try {
+          if (window.USLoopAPI) {
+            await window.USLoopAPI.deleteUserAccount(storedUser.email);
+          } else {
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            users = users.filter(u => (u.email || '').toLowerCase() !== (storedUser.email || '').toLowerCase());
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.removeItem('currentUser');
+          }
+
+          if (window.showCustomAlert) {
+            await window.showCustomAlert({
+              title: 'Cuenta Eliminada',
+              message: 'Tu cuenta y publicaciones asociadas han sido eliminadas correctamente de US-Loop.',
+              icon: '🗑️',
+              confirmText: 'Ir a Inicio'
+            });
+          }
+          window.location.href = 'index.html';
+        } catch (err) {
+          if (window.showCustomAlert) {
+            await window.showCustomAlert({
+              title: 'Error',
+              message: err.message || 'No se pudo eliminar la cuenta.',
+              icon: '⚠️'
+            });
+          } else {
+            alert('Error al eliminar cuenta');
+          }
+        }
+      }
+
+      // Toast notification helper
+      function showToast(message) {
+        const toast = document.getElementById('account-toast');
+        const msgSpan = document.getElementById('toast-message');
+        msgSpan.innerText = message;
+        toast.classList.add('show');
+
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3500);
+      }
+
+      window.triggerGamificationRefresh = function() {
+        loadUserProfile();
+        loadUserStatsAndItems();
+      };
+    </script>
+    <script src="script.js?v=5.7"></script>
+  </body>
+</html>

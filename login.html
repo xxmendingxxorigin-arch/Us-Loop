@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>US-LOOP | Iniciar sesión y Registro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css?v=8.2" />
+  </head>
+  <body class="login-body">
+    <!-- Botón Volver a Inicio superior izquierdo -->
+    <a href="index.html" class="back-home-btn" id="back-to-home">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      <span>Volver a Inicio</span>
+    </a>
+
+    <main class="login-wrapper">
+      <div class="login-card-container">
+        <!-- Logo -->
+        <div class="login-header-logo">
+          <img
+            src="img/logo.png"
+            alt="US-LOOP Logo"
+            class="logo-image"
+          />
+        </div>
+
+        <!-- Header -->
+        <h1 class="login-card-title">Bienvenido a Us-Loop</h1>
+        <p class="login-card-subtitle">
+          La comunidad de intercambio y donación escolar
+        </p>
+
+        <!-- Pestañas Iniciar Sesión / Crear Cuenta -->
+        <div class="auth-tabs" role="tablist">
+          <button
+            type="button"
+            class="auth-tab active"
+            data-tab="signin"
+            id="tab-signin"
+            role="tab"
+            aria-selected="true"
+          >
+            Iniciar Sesión
+          </button>
+          <button
+            type="button"
+            class="auth-tab"
+            data-tab="signup"
+            id="tab-signup"
+            role="tab"
+            aria-selected="false"
+          >
+            Crear Cuenta
+          </button>
+        </div>
+
+        <!-- Formulario Iniciar Sesión -->
+        <form id="signin-form" class="auth-form active-form">
+          <div class="auth-field">
+            <label for="signin-email">Correo electrónico o usuario</label>
+            <div class="input-with-icon">
+              <span class="field-icon" aria-hidden="true">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                </svg>
+              </span>
+              <input
+                type="text"
+                id="signin-email"
+                name="email"
+                placeholder="estudiante@colegio.edu"
+                required
+                autocomplete="username"
+              />
+            </div>
+          </div>
+
+          <div class="auth-field">
+            <div class="field-label-row">
+              <label for="signin-password">Contraseña</label>
+              <a
+                href="#"
+                class="forgot-link"
+                onclick="handleForgotPassword(event)"
+                >¿La olvidaste?</a
+              >
+            </div>
+            <div class="input-with-icon">
+              <span class="field-icon" aria-hidden="true">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </span>
+              <input
+                type="password"
+                id="signin-password"
+                name="password"
+                placeholder="••••••••"
+                required
+                autocomplete="current-password"
+              />
+              <button
+                type="button"
+                class="pwd-toggle-btn"
+                aria-label="Mostrar u ocultar contraseña"
+                onclick="togglePasswordVisibility('signin-password', this)"
+              >
+                <svg
+                  class="eye-icon"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="auth-remember-row">
+            <label class="custom-checkbox" for="remember-me">
+              <input type="checkbox" id="remember-me" name="remember" />
+              <span class="checkbox-label">Recordar mi sesión</span>
+            </label>
+          </div>
+
+          <button type="submit" class="auth-submit-btn" id="btn-submit-signin">
+            <span>Ingresar</span>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Formulario Crear Cuenta -->
+        <form id="signup-form" class="auth-form">
+          <!-- Nombre completo -->
+          <div class="auth-field">
+            <label for="signup-name">Nombre completo</label>
+            <div class="input-with-icon">
+              <span class="field-icon" aria-hidden="true">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </span>
+              <input
+                type="text"
+                id="signup-name"
+                name="name"
+                placeholder="Ej. Carlos Mendoza"
+                required
+                autocomplete="name"
+              />
+            </div>
+          </div>
+
+          <!-- Fila de 2 columnas: Grado escolar e Institución educativa -->
+          <div class="auth-grid-2">
+            <div class="auth-field">
+              <label for="signup-grade">Grado escolar</label>
+              <div class="input-with-icon select-wrapper">
+                <span class="field-icon" aria-hidden="true">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                    <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                  </svg>
+                </span>
+                <select id="signup-grade" name="grade" required>
+                  <option value="" disabled selected>Selecciona</option>
+                  <option value="6">6° Grado</option>
+                  <option value="7">7° Grado</option>
+                  <option value="8">8° Grado</option>
+                  <option value="9">9° Grado</option>
+                  <option value="10">10° Grado</option>
+                  <option value="11">11° Grado</option>
+                  <option value="universidad">Universidad</option>
+                  <option value="otro">Otro</option>
+                </select>
+                <span class="select-chevron" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            <div class="auth-field">
+              <label for="signup-institution">Institución educativa</label>
+              <div class="input-with-icon select-wrapper">
+                <span class="field-icon" aria-hidden="true">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+                    <path d="M9 22v-4h6v4"></path>
+                    <path d="M8 6h.01"></path>
+                    <path d="M16 6h.01"></path>
+                    <path d="M8 10h.01"></path>
+                    <path d="M16 10h.01"></path>
+                    <path d="M8 14h.01"></path>
+                    <path d="M16 14h.01"></path>
+                  </svg>
+                </span>
+                <select id="signup-institution" name="institution" required>
+                  <option value="" disabled selected>Selecciona tu sede</option>
+                  <option value="Institucion Educativa Fagua sede principal">Institucion Educativa Fagua sede principal</option>
+                  <option value="Institucion Educativa Fagua sede primaria">Institucion Educativa Fagua sede primaria</option>
+                  <option value="Institucion Educativa Fagua sede Tiquiza">Institucion Educativa Fagua sede Tiquiza</option>
+                </select>
+                <span class="select-chevron" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Correo electrónico -->
+          <div class="auth-field">
+            <label for="signup-email">Correo electrónico</label>
+            <div class="input-with-icon">
+              <span class="field-icon" aria-hidden="true">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                </svg>
+              </span>
+              <input
+                type="email"
+                id="signup-email"
+                name="email"
+                placeholder="tu.correo@estudiante.com"
+                required
+                autocomplete="email"
+              />
+            </div>
+          </div>
+
+          <!-- Fila de 2 columnas: Contraseña y Confirmar -->
+          <div class="auth-grid-2">
+            <div class="auth-field">
+              <label for="signup-password">Contraseña</label>
+              <div class="input-with-icon">
+                <input
+                  type="password"
+                  id="signup-password"
+                  name="password"
+                  placeholder="Mínimo 6 caracteres"
+                  required
+                  minlength="6"
+                  autocomplete="new-password"
+                  class="input-compact"
+                />
+                <button
+                  type="button"
+                  class="pwd-toggle-btn"
+                  aria-label="Mostrar u ocultar contraseña"
+                  onclick="togglePasswordVisibility('signup-password', this)"
+                >
+                  <svg
+                    class="eye-icon"
+                    width="17"
+                    height="17"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"
+                    ></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="auth-field">
+              <label for="signup-confirm-password">Confirmar</label>
+              <div class="input-with-icon">
+                <input
+                  type="password"
+                  id="signup-confirm-password"
+                  name="confirm-password"
+                  placeholder="Repite contraseña"
+                  required
+                  minlength="6"
+                  autocomplete="new-password"
+                  class="input-compact-simple"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Checkbox normas de convivencia -->
+          <div class="auth-remember-row">
+            <label class="custom-checkbox" for="signup-terms">
+              <input type="checkbox" id="signup-terms" name="terms" required />
+              <span class="checkbox-label">
+                Acepto las
+                <a
+                  href="#"
+                  class="terms-highlight-link"
+                  onclick="alertNormas(event)"
+                  >normas de convivencia</a
+                >
+                de Us-Loop
+              </span>
+            </label>
+          </div>
+
+          <!-- Botón Crear Mi Cuenta -->
+          <button type="submit" class="auth-submit-btn" id="btn-submit-signup">
+            <span>Crear Mi Cuenta</span>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <line x1="19" y1="8" x2="19" y2="14"></line>
+              <line x1="22" y1="11" x2="16" y2="11"></line>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Footer -->
+        <div class="auth-footer">
+          <p class="auth-footer-text">
+            Al unirte ayudas a que ningún estudiante se quede sin recursos para
+            aprender.
+          </p>
+          <div class="auth-footer-icons" aria-hidden="true">
+            <span>🎒</span>
+            <span>✨</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="script.js?v=6.0"></script>
+    <script>
+      // Tab switching logic
+      const tabs = document.querySelectorAll('.auth-tab');
+      const forms = {
+        signin: document.getElementById('signin-form'),
+        signup: document.getElementById('signup-form'),
+      };
+
+      function activateTab(tabName) {
+        tabs.forEach((t) => {
+          const isActive = t.dataset.tab === tabName;
+          t.classList.toggle('active', isActive);
+          t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+
+        if (tabName === 'signin') {
+          forms.signin.classList.add('active-form');
+          forms.signup.classList.remove('active-form');
+        } else {
+          forms.signup.classList.add('active-form');
+          forms.signin.classList.remove('active-form');
+        }
+      }
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          activateTab(tab.dataset.tab);
+        });
+      });
+
+      // Detect hash on load
+      if (window.location.hash === '#signup') {
+        activateTab('signup');
+      } else {
+        activateTab('signin');
+      }
+
+      // Toggle Password Visibility
+      function togglePasswordVisibility(inputId, btn) {
+        const input = document.getElementById(inputId);
+        const isPassword = input.type === 'password';
+        input.type = isPassword ? 'text' : 'password';
+
+        if (isPassword) {
+          btn.innerHTML = `
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+              <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
+              <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+              <line x1="2" y1="2" x2="22" y2="22"></line>
+            </svg>
+          `;
+        } else {
+          btn.innerHTML = `
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          `;
+        }
+      }
+
+      async function handleForgotPassword(e) {
+        e.preventDefault();
+        if (window.showCustomAlert) {
+          await window.showCustomAlert({
+            title: 'Recuperar Contraseña',
+            message: 'Se ha enviado un enlace para restablecer tu contraseña a tu correo electrónico.',
+            icon: '✉️'
+          });
+        } else {
+          alert('Se ha enviado un enlace a tu correo electrónico.');
+        }
+      }
+
+      async function alertNormas(e) {
+        e.preventDefault();
+        if (window.showCustomAlert) {
+          await window.showCustomAlert({
+            title: 'Normas de Convivencia',
+            message: '1. Respeto mutuo entre compañeros.\n2. Cuidado y honestidad con los recursos compartidos.\n3. Puntualidad en entregas y devoluciones.',
+            icon: '📜'
+          });
+        } else {
+          alert('Normas US-Loop: Respeto, Honestidad y Puntualidad.');
+        }
+      }
+
+      // Submit handlers
+      document.getElementById('signin-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const emailInput = document.getElementById('signin-email').value.trim();
+        const passwordInput = document.getElementById('signin-password')?.value || '';
+
+        if (!emailInput || !passwordInput) {
+          if (window.showCustomAlert) {
+            await window.showCustomAlert({
+              title: 'Campos requeridos',
+              message: 'Por favor ingresa tu correo y contraseña para iniciar sesión.',
+              icon: '⚠️'
+            });
+          } else {
+            alert('Por favor completa todos los campos.');
+          }
+          return;
+        }
+
+        try {
+          let loggedUser = null;
+
+          // Intento de inicio de sesión en servidor / backend
+          if (window.USLoopAPI && window.USLoopAPI.isServer()) {
+            try {
+              const res = await window.USLoopAPI.loginUser(emailInput, passwordInput);
+              if (res && res.user) {
+                loggedUser = res.user;
+              }
+            } catch (err) {
+              if (window.showCustomAlert) {
+                await window.showCustomAlert({
+                  title: 'Credenciales Incorrectas',
+                  message: err.message || 'El correo electrónico o la contraseña son incorrectos.',
+                  icon: '🔒',
+                  confirmText: 'Intentar de nuevo'
+                });
+              } else {
+                alert(err.message || 'El correo electrónico o la contraseña son incorrectos.');
+              }
+              return;
+            }
+          }
+
+          // Fallback validación local
+          if (!loggedUser) {
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            let storedUser = users.find((u) => (u.email || '').toLowerCase() === emailInput.toLowerCase());
+
+            if (!storedUser || !storedUser.password || storedUser.password !== passwordInput) {
+              if (window.showCustomAlert) {
+                await window.showCustomAlert({
+                  title: 'Credenciales Incorrectas',
+                  message: 'El correo electrónico o la contraseña son incorrectos. Por favor verifica tus datos o crea una cuenta si eres nuevo.',
+                  icon: '🔒',
+                  confirmText: 'Intentar de nuevo'
+                });
+              } else {
+                alert('El correo electrónico o la contraseña son incorrectos.');
+              }
+              return;
+            }
+
+            loggedUser = storedUser;
+          }
+
+          loggedUser.isLoggedIn = true;
+          if ((loggedUser.email || '').trim().toLowerCase() === 'xxmendingxxorigin@gmail.com') {
+            loggedUser.isCreator = true;
+            loggedUser.specialRole = 'creator';
+            loggedUser.specialTitle = 'El Creador';
+          }
+          localStorage.setItem('currentUser', JSON.stringify(loggedUser));
+          
+          if (window.showCustomAlert) {
+            await window.showCustomAlert({
+              title: `¡Bienvenido, ${loggedUser.name}!`,
+              message: 'Has iniciado sesión correctamente en US-Loop.',
+              icon: '🎉',
+              confirmText: 'Continuar'
+            });
+          } else {
+            alert(`¡Bienvenido, ${loggedUser.name}! Has iniciado sesión correctamente.`);
+          }
+          window.location.href = 'index.html';
+        } catch (err) {
+          alert(err.message || 'El correo electrónico o la contraseña son incorrectos.');
+        }
+      });
+
+      document.getElementById('signup-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const pwd = document.getElementById('signup-password').value;
+        const confirmPwd = document.getElementById('signup-confirm-password').value;
+
+        if (pwd !== confirmPwd) {
+          if (window.showCustomAlert) {
+            await window.showCustomAlert({
+              title: 'Contraseñas no coinciden',
+              message: 'Las contraseñas ingresadas no coinciden. Por favor revísalas.',
+              icon: '⚠️'
+            });
+          } else {
+            alert('Las contraseñas no coinciden. Por favor revísalas.');
+          }
+          return;
+        }
+
+        const nameInput = document.getElementById('signup-name').value.trim();
+        const emailInput = document.getElementById('signup-email').value.trim();
+        const gradeSelect = document.getElementById('signup-grade');
+        const gradeText = gradeSelect.options[gradeSelect.selectedIndex]?.text || '10° Grado';
+        const schoolSelect = document.getElementById('signup-institution');
+        const schoolText = schoolSelect.options[schoolSelect.selectedIndex]?.text || 'Institucion Educativa Fagua sede principal';
+
+        const isCreatorEmail = emailInput.toLowerCase() === 'xxmendingxxorigin@gmail.com';
+
+        const newUser = {
+          id: 'usr_' + Date.now(),
+          name: isCreatorEmail ? (nameInput || 'Juan David Raigoso Gomez') : (nameInput || 'Estudiante'),
+          email: emailInput,
+          password: pwd,
+          grade: isCreatorEmail ? '11° Grado' : gradeText,
+          institution: schoolText,
+          avatar: isCreatorEmail ? '⚡🌌' : '👨‍🎓',
+          isLoggedIn: true,
+          completedDonations: isCreatorEmail ? 65 : 0,
+          completedTrades: isCreatorEmail ? 65 : 0,
+          loopPoints: isCreatorEmail ? 4077 : 0,
+          ecoSaved: isCreatorEmail ? 245 : 0,
+          bio: isCreatorEmail ? '¡Creador Principal y Desarrollador de US-Loop! 👑🛠️ Administrador del campus y guardián de la economía circular escolar.' : '',
+          isCreator: isCreatorEmail ? true : false,
+          specialRole: isCreatorEmail ? 'creator' : 'student',
+          specialTitle: isCreatorEmail ? 'El Creador' : ''
+        };
+
+        try {
+          if (window.USLoopAPI) {
+            await window.USLoopAPI.signupUser(newUser);
+          }
+          
+          let users = JSON.parse(localStorage.getItem('users') || '[]');
+          if (!users.some(u => (u.email || '').toLowerCase() === emailInput.toLowerCase())) {
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+          }
+          localStorage.setItem('currentUser', JSON.stringify(newUser));
+          
+          if (window.showCustomAlert) {
+            await window.showCustomAlert({
+              title: '¡Cuenta Creada!',
+              message: `¡Bienvenido a US-Loop, ${newUser.name}! Tu cuenta ha sido creada exitosamente.`,
+              icon: '🎒',
+              confirmText: 'Ir a Inicio'
+            });
+          } else {
+            alert(`¡Bienvenido a US-Loop, ${newUser.name}! Tu cuenta ha sido creada exitosamente.`);
+          }
+          window.location.href = 'index.html';
+        } catch (err) {
+          if (window.showCustomAlert) {
+            await window.showCustomAlert({
+              title: 'Atención',
+              message: err.message || 'Error al crear la cuenta.',
+              icon: '⚠️'
+            });
+          } else {
+            alert(err.message || 'Error al crear la cuenta.');
+          }
+        }
+      });
+
+      // Sincronizar lista de usuarios desde el servidor/JSON al abrir la página
+      if (window.USLoopAPI && window.USLoopAPI.getUsers) {
+        window.USLoopAPI.getUsers().catch(() => {});
+      }
+    </script>
+  </body>
+</html>
