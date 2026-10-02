@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>US-LOOP | Donar recursos</title>
+    <title>US-Loop | Donar Recursos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -23,9 +23,9 @@
         <a href="explorar.html">Catálogo</a>
         <a href="donar.html">Donar</a>
         <a href="intercambio.html">Intercambio</a>
-        <a href="https://www.instagram.com/usloop01?igsi=NTU5eG5ha3ptbWVr" target="_blank" rel="noopener noreferrer">Contáctenos</a>
+        <a href="https://www.instagram.com/usloop01?igsi=NTU5eG5ha3ptbWVr" target="_blank" rel="noopener noreferrer">Contáctanos</a>
       </div>
-      <a class="login-btn" href="login.html">Iniciar Sesión</a>
+      <a class="login-btn" href="login.html">Iniciar sesión</a>
     </nav>
 
     <header class="explore-header">
@@ -55,7 +55,7 @@
         <div class="donate-wrapper">
           <!-- Formulario de detalles -->
           <section class="donate-form">
-            <h2 class="form-title">Detalles del Recurso</h2>
+            <h2 class="form-title">Detalles del recurso</h2>
             <p class="form-subtitle">Diligencia la información para que otros compañeros puedan encontrar tu donación fácilmente.</p>
 
             <div class="form-group">
@@ -68,9 +68,9 @@
                 <label for="category">Categoría *</label>
                 <select id="category" name="category" required>
                   <option value="">Selecciona una categoría</option>
-                  <option value="Libros y Lecturas">Libros y Lecturas</option>
+                  <option value="Libros y Lecturas">Libros y lecturas</option>
                   <option value="Cuadernos">Cuadernos</option>
-                  <option value="Útiles Escolares">Útiles Escolares</option>
+                  <option value="Útiles Escolares">Útiles escolares</option>
                   <option value="Uniforme">Uniforme</option>
                   <option value="Tecnología">Tecnología</option>
                   <option value="Otros">Otros</option>
@@ -97,7 +97,6 @@
                 <select id="condition" name="condition" required>
                   <option value="">Selecciona estado</option>
                   <option value="Como nuevo (Excelente)">Como nuevo (Excelente)</option>
-                  <option value="Muy bueno">Muy bueno</option>
                   <option value="Bueno">Bueno</option>
                   <option value="Regular">Regular</option>
                 </select>
@@ -110,17 +109,22 @@
             </div>
 
             <div class="form-group">
+              <label for="description">Descripción del material *</label>
+              <textarea id="description" name="description" rows="3" placeholder="Describe los detalles del libro o útil: editorial, edición, estado de las hojas, accesorios incluidos, etc." required></textarea>
+            </div>
+
+            <div class="form-group">
               <label for="school">Colegio o Institución Educativa *</label>
               <select id="school" name="school" required>
                 <option value="">Selecciona tu sede</option>
-                <option value="Institucion Educativa Fagua sede principal">Institucion Educativa Fagua sede principal</option>
-                <option value="Institucion Educativa Fagua sede primaria">Institucion Educativa Fagua sede primaria</option>
-                <option value="Institucion Educativa Fagua sede Tiquiza">Institucion Educativa Fagua sede Tiquiza</option>
+                <option value="Institución Educativa Fagua sede principal">Institución Educativa Fagua sede principal</option>
+                <option value="Institución Educativa Fagua sede primaria">Institución Educativa Fagua sede primaria</option>
+                <option value="Institución Educativa Fagua sede Tiquiza">Institución Educativa Fagua sede Tiquiza</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label>Selecciona un icono representativo</label>
+              <label>Selecciona un ícono representativo</label>
               <div class="icon-selector">
                 <button type="button" class="icon-btn active" data-icon="📕" title="Libro">
                   <span class="icon-big">📕</span>
@@ -166,7 +170,7 @@
 
             <!-- Botón de publicar en Desktop -->
             <div class="desktop-submit-wrap">
-              <button type="submit" class="btn btn-primary btn-publish-main">Publicar Donación 🎁</button>
+              <button type="submit" class="btn btn-primary btn-publish-main">Publicar donación 🎁</button>
             </div>
           </section>
 
@@ -183,27 +187,27 @@
               </div>
 
               <div class="preview-content">
-                <span class="preview-badge">✓ Donación Gratuita</span>
+                <span class="preview-badge">✓ Donación gratuita</span>
                 <p class="preview-category">LIBROS Y LECTURAS</p>
                 <h3 class="preview-title" id="previewTitle">Título de tu publicación</h3>
                 <p class="preview-description">Aquí se mostrará la descripción detallada del recurso que quieres donar para ayudar a otro estudiante.</p>
                 
                 <div class="preview-meta">
                   <div class="preview-meta-item">
-                    <span class="meta-label" id="previewName">Tu Nombre</span>
+                    <span class="meta-label" id="previewName">Tu nombre</span>
                   </div>
                   <div class="preview-meta-item">
                     <span class="meta-label" id="previewCondition">Estado: Como nuevo</span>
                   </div>
                 </div>
 
-                <button type="button" class="preview-link">Vista Previa de Tarjeta →</button>
+                <button type="button" class="preview-link">Vista previa de tarjeta →</button>
               </div>
             </div>
 
             <!-- Botón de publicar en Móvil y Tablet (después de la vista previa) -->
             <div class="mobile-submit-wrap">
-              <button type="submit" class="btn btn-primary btn-publish-main">Publicar Donación 🎁</button>
+              <button type="submit" class="btn btn-primary btn-publish-main">Publicar donación 🎁</button>
             </div>
           </aside>
         </div>
@@ -216,8 +220,10 @@
       const titleInput = document.getElementById('title');
       const categorySelect = document.getElementById('category');
       const conditionSelect = document.getElementById('condition');
+      const descriptionInput = document.getElementById('description');
       const previewTitle = document.getElementById('previewTitle');
       const previewCategory = document.querySelector('.preview-category');
+      const previewDescription = document.querySelector('.preview-description');
       const previewEmoji = document.getElementById('previewEmoji');
       const selectedIconInput = document.getElementById('selectedIcon');
       const iconButtons = document.querySelectorAll('.icon-btn');
@@ -232,6 +238,13 @@
       titleInput.addEventListener('input', () => {
         previewTitle.textContent = titleInput.value || 'Título de tu publicación';
       });
+
+      // Update preview description
+      if (descriptionInput && previewDescription) {
+        descriptionInput.addEventListener('input', () => {
+          previewDescription.textContent = descriptionInput.value.trim() || 'Aquí se mostrará la descripción detallada del recurso que quieres donar para ayudar a otro estudiante.';
+        });
+      }
 
       // Update preview category
       categorySelect.addEventListener('change', () => {
@@ -310,7 +323,7 @@
               title: 'Cuenta Requerida para Donar',
               message: 'Para donar y compartir material escolar con tu comunidad estudiantil, necesitas iniciar sesión o crear tu cuenta en US-Loop.',
               icon: '🔒',
-              confirmText: 'Iniciar Sesión / Crear Cuenta'
+              confirmText: 'Iniciar sesión / Crear cuenta'
             });
           } else {
             alert('Para publicar una donación necesitas iniciar sesión o crear una cuenta.');
@@ -346,10 +359,10 @@
         if (!isLoggedIn) {
           if (window.showCustomAlert) {
             await window.showCustomAlert({
-              title: 'Inicia Sesión Requerido',
+              title: 'Inicio de Sesión Requerido',
               message: 'Para publicar una donación, necesitas iniciar sesión con tu cuenta estudiantil.',
               icon: '🔒',
-              confirmText: 'Iniciar Sesión'
+              confirmText: 'Iniciar sesión'
             });
           } else {
             alert('Debes iniciar sesión para publicar una donación.');
@@ -367,6 +380,7 @@
           id: 'don_' + Date.now(),
           type: 'donation',
           title: document.getElementById('title').value.trim(),
+          description: document.getElementById('description') ? document.getElementById('description').value.trim() : '',
           category: document.getElementById('category').value || 'Libros y Lecturas',
           grade: document.getElementById('grade').value || 'General',
           condition: document.getElementById('condition').value || 'Bueno',
@@ -376,8 +390,8 @@
           authorName: authorName,
           authorEmail: authorEmail,
           donorEmail: authorEmail,
-          school: document.getElementById('school').value || currentUser.institution || 'Institucion Educativa Fagua sede principal',
-          institution: document.getElementById('school').value || currentUser.institution || 'Institucion Educativa Fagua sede principal',
+          school: document.getElementById('school').value || currentUser.institution || 'Institución Educativa Fagua sede principal',
+          institution: document.getElementById('school').value || currentUser.institution || 'Institución Educativa Fagua sede principal',
           authorAvatar: currentUser.avatar || '👨‍🎓',
           status: 'active',
           icon: document.getElementById('selectedIcon').value || '📕',

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>US-LOOP | Proponer Intercambio</title>
+    <title>US-Loop | Proponer Intercambio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -23,9 +23,9 @@
         <a href="explorar.html">Catálogo</a>
         <a href="donar.html">Donar</a>
         <a href="intercambio.html">Intercambio</a>
-        <a href="https://www.instagram.com/usloop01?igsi=NTU5eG5ha3ptbWVr" target="_blank" rel="noopener noreferrer">Contáctenos</a>
+        <a href="https://www.instagram.com/usloop01?igsi=NTU5eG5ha3ptbWVr" target="_blank" rel="noopener noreferrer">Contáctanos</a>
       </div>
-      <a class="login-btn" href="login.html">Iniciar Sesión</a>
+      <a class="login-btn" href="login.html">Iniciar sesión</a>
     </nav>
 
     <header class="explore-header">
@@ -36,7 +36,7 @@
 
       <div class="container hero-title-wrap explore-hero-layout">
         <div class="explore-hero-text">
-          <h1 class="catalog-title">Proponer un Intercambio</h1>
+          <h1 class="catalog-title">Proponer un intercambio</h1>
           <p class="catalog-subtitle">Ofrece algo que tengas y busca lo que necesitas para tus clases.</p>
         </div>
         <div class="explore-hero-mascot">
@@ -55,7 +55,7 @@
         <div class="donate-wrapper">
           <!-- Formulario de intercambio -->
           <section class="donate-form">
-            <h2 class="form-title">Detalles del Intercambio</h2>
+            <h2 class="form-title">Detalles del intercambio</h2>
             <p class="form-subtitle">Cuéntale a otros estudiantes qué ofreces y qué buscas.</p>
 
             <div class="form-group">
@@ -73,9 +73,9 @@
                 <label for="category">Categoría *</label>
                 <select id="category" name="category" required>
                   <option value="">Selecciona una categoría</option>
-                  <option value="Libros y Lecturas">Libros y Lecturas</option>
+                  <option value="Libros y Lecturas">Libros y lecturas</option>
                   <option value="Cuadernos">Cuadernos</option>
-                  <option value="Útiles Escolares">Útiles Escolares</option>
+                  <option value="Útiles Escolares">Útiles escolares</option>
                   <option value="Uniforme">Uniforme</option>
                   <option value="Tecnología">Tecnología</option>
                   <option value="Otros">Otros</option>
@@ -98,17 +98,33 @@
 
             <div class="form-row">
               <div class="form-group">
+                <label for="condition">Estado del material *</label>
+                <select id="condition" name="condition" required>
+                  <option value="">Selecciona estado</option>
+                  <option value="Como nuevo (Excelente)">Como nuevo (Excelente)</option>
+                  <option value="Bueno">Bueno</option>
+                  <option value="Regular">Regular</option>
+                </select>
+              </div>
+
+              <div class="form-group">
                 <label for="fullname">Tu nombre completo *</label>
                 <input type="text" id="fullname" name="fullname" placeholder="Tu nombre" required />
               </div>
+            </div>
+
+            <div class="form-group">
+              <label for="description">Descripción detallada del intercambio *</label>
+              <textarea id="description" name="description" rows="3" placeholder="Describe los detalles de lo que ofreces y buscas: estado, edición, detalles específicos para el trueque..." required></textarea>
+            </div>
 
               <div class="form-group">
                 <label for="school">Colegio o Institución Educativa *</label>
                 <select id="school" name="school" required>
                   <option value="">Selecciona tu sede</option>
-                  <option value="Institucion Educativa Fagua sede principal">Institucion Educativa Fagua sede principal</option>
-                  <option value="Institucion Educativa Fagua sede primaria">Institucion Educativa Fagua sede primaria</option>
-                  <option value="Institucion Educativa Fagua sede Tiquiza">Institucion Educativa Fagua sede Tiquiza</option>
+                  <option value="Institución Educativa Fagua sede principal">Institución Educativa Fagua sede principal</option>
+                  <option value="Institución Educativa Fagua sede primaria">Institución Educativa Fagua sede primaria</option>
+                  <option value="Institución Educativa Fagua sede Tiquiza">Institución Educativa Fagua sede Tiquiza</option>
                 </select>
               </div>
             </div>
@@ -121,7 +137,7 @@
 
             <!-- Botón de publicar en Desktop -->
             <div class="desktop-submit-wrap">
-              <button type="submit" class="btn btn-primary btn-publish-main">Publicar Intercambio ⇄</button>
+              <button type="submit" class="btn btn-primary btn-publish-main">Publicar intercambio ⇄</button>
             </div>
           </section>
 
@@ -138,24 +154,28 @@
               </div>
 
               <div class="preview-content">
-                <span class="preview-badge">⇄ Intercambio Activo</span>
+                <span class="preview-badge">⇄ Intercambio activo</span>
                 <p class="preview-category">LIBROS Y LECTURAS</p>
-                <h3 class="preview-title" id="previewOffering">Ofrezco: Tu item</h3>
-                <p class="preview-description" id="previewSeeking">Busco: Lo que necesitas</p>
+                <h3 class="preview-title" id="previewOffering">Ofrezco: Tu artículo</h3>
+                <p class="preview-description" id="previewSeeking" style="color: #2563eb; font-weight: 600; margin: 4px 0 6px; font-size: 0.95rem;">Busco: Lo que necesitas</p>
+                <p class="preview-description" id="previewDescription" style="color: #5f6f86; font-size: 0.88rem; line-height: 1.45; margin: 0 0 10px;">Aquí se mostrará la descripción detallada del material que ofreces para el intercambio escolar.</p>
                 
                 <div class="preview-meta">
                   <div class="preview-meta-item">
-                    <span class="meta-label" id="previewExchangeName">Tu Nombre</span>
+                    <span class="meta-label" id="previewExchangeName">Tu nombre</span>
+                  </div>
+                  <div class="preview-meta-item">
+                    <span class="meta-label" id="previewCondition">Estado: Como nuevo</span>
                   </div>
                 </div>
 
-                <button type="button" class="preview-link">Vista Previa de Trueque →</button>
+                <button type="button" class="preview-link">Vista previa de trueque →</button>
               </div>
             </div>
 
             <!-- Botón de publicar en Móvil y Tablet (después de la vista previa) -->
             <div class="mobile-submit-wrap">
-              <button type="submit" class="btn btn-primary btn-publish-main">Publicar Intercambio ⇄</button>
+              <button type="submit" class="btn btn-primary btn-publish-main">Publicar intercambio ⇄</button>
             </div>
           </aside>
         </div>
@@ -168,9 +188,13 @@
       const offeringInput = document.getElementById('offering');
       const seekingInput = document.getElementById('seeking');
       const categorySelect = document.getElementById('category');
+      const conditionSelect = document.getElementById('condition');
+      const descriptionInput = document.getElementById('description');
       const fullnameInput = document.getElementById('fullname');
       const previewOffering = document.getElementById('previewOffering');
       const previewSeeking = document.getElementById('previewSeeking');
+      const previewDescription = document.getElementById('previewDescription');
+      const previewCondition = document.getElementById('previewCondition');
       const previewCategory = document.querySelector('.preview-category');
       const previewExchangeName = document.getElementById('previewExchangeName');
       const photoInput = document.getElementById('photo');
@@ -178,13 +202,27 @@
 
       // Update preview offering
       offeringInput.addEventListener('input', () => {
-        previewOffering.textContent = 'Ofrezco: ' + (offeringInput.value || 'Tu item');
+        previewOffering.textContent = 'Ofrezco: ' + (offeringInput.value || 'Tu artículo');
       });
 
       // Update preview seeking
       seekingInput.addEventListener('input', () => {
         previewSeeking.textContent = 'Busco: ' + (seekingInput.value || 'Lo que necesitas');
       });
+
+      // Update preview description
+      if (descriptionInput && previewDescription) {
+        descriptionInput.addEventListener('input', () => {
+          previewDescription.textContent = descriptionInput.value.trim() || 'Aquí se mostrará la descripción detallada del material que ofreces para el intercambio escolar.';
+        });
+      }
+
+      // Update preview condition
+      if (conditionSelect && previewCondition) {
+        conditionSelect.addEventListener('change', () => {
+          previewCondition.textContent = 'Estado: ' + (conditionSelect.value || 'Como nuevo');
+        });
+      }
 
       // Update preview category
       categorySelect.addEventListener('change', () => {
@@ -194,7 +232,7 @@
       // Update preview name
       if (fullnameInput && previewExchangeName) {
         fullnameInput.addEventListener('input', () => {
-          previewExchangeName.textContent = fullnameInput.value || 'Tu Nombre';
+          previewExchangeName.textContent = fullnameInput.value || 'Tu nombre';
         });
       }
 
@@ -232,7 +270,7 @@
               title: 'Cuenta Requerida para Intercambiar',
               message: 'Para proponer un intercambio escolar y recibir propuestas de trueque de otros compañeros, necesitas iniciar sesión o crear tu cuenta en US-Loop.',
               icon: '🔒',
-              confirmText: 'Iniciar Sesión / Crear Cuenta'
+              confirmText: 'Iniciar sesión / Crear cuenta'
             });
           } else {
             alert('Para publicar un trueque necesitas iniciar sesión o crear una cuenta.');
@@ -268,10 +306,10 @@
         if (!isLoggedIn) {
           if (window.showCustomAlert) {
             await window.showCustomAlert({
-              title: 'Inicia Sesión Requerido',
+              title: 'Inicio de Sesión Requerido',
               message: 'Para publicar un intercambio escolar, necesitas iniciar sesión con tu cuenta estudiantil.',
               icon: '🔒',
-              confirmText: 'Iniciar Sesión'
+              confirmText: 'Iniciar sesión'
             });
           } else {
             alert('Debes iniciar sesión para proponer un intercambio.');
@@ -291,15 +329,18 @@
           offering: document.getElementById('offering').value.trim(),
           seeking: document.getElementById('seeking').value.trim(),
           lookingFor: document.getElementById('seeking').value.trim(),
+          description: document.getElementById('description') ? document.getElementById('description').value.trim() : '',
           category: document.getElementById('category').value || 'Libros y Lecturas',
           grade: document.getElementById('grade').value || 'General',
+          condition: document.getElementById('condition') ? document.getElementById('condition').value || 'Bueno' : 'Bueno',
+          condition_status: document.getElementById('condition') ? document.getElementById('condition').value || 'Bueno' : 'Bueno',
           name: authorName,
           ownerName: authorName,
           authorName: authorName,
           authorEmail: authorEmail,
           ownerEmail: authorEmail,
-          school: document.getElementById('school').value || currentUser.institution || 'Institucion Educativa Fagua sede principal',
-          institution: document.getElementById('school').value || currentUser.institution || 'Institucion Educativa Fagua sede principal',
+          school: document.getElementById('school').value || currentUser.institution || 'Institución Educativa Fagua sede principal',
+          institution: document.getElementById('school').value || currentUser.institution || 'Institución Educativa Fagua sede principal',
           authorAvatar: currentUser.avatar || '👨‍🎓',
           status: 'active',
           icon: '⇄',

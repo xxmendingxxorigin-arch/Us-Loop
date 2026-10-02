@@ -43,7 +43,7 @@
         </div>
 
         <!-- Header -->
-        <h1 class="login-card-title">Bienvenido a Us-Loop</h1>
+        <h1 class="login-card-title">Bienvenido a US-Loop</h1>
         <p class="login-card-subtitle">
           La comunidad de intercambio y donación escolar
         </p>
@@ -58,7 +58,7 @@
             role="tab"
             aria-selected="true"
           >
-            Iniciar Sesión
+            Iniciar sesión
           </button>
           <button
             type="button"
@@ -68,7 +68,7 @@
             role="tab"
             aria-selected="false"
           >
-            Crear Cuenta
+            Crear cuenta
           </button>
         </div>
 
@@ -292,9 +292,9 @@
                 </span>
                 <select id="signup-institution" name="institution" required>
                   <option value="" disabled selected>Selecciona tu sede</option>
-                  <option value="Institucion Educativa Fagua sede principal">Institucion Educativa Fagua sede principal</option>
-                  <option value="Institucion Educativa Fagua sede primaria">Institucion Educativa Fagua sede primaria</option>
-                  <option value="Institucion Educativa Fagua sede Tiquiza">Institucion Educativa Fagua sede Tiquiza</option>
+                  <option value="Institución Educativa Fagua sede principal">Institución Educativa Fagua sede principal</option>
+                  <option value="Institución Educativa Fagua sede primaria">Institución Educativa Fagua sede primaria</option>
+                  <option value="Institución Educativa Fagua sede Tiquiza">Institución Educativa Fagua sede Tiquiza</option>
                 </select>
                 <span class="select-chevron" aria-hidden="true">
                   <svg
@@ -392,7 +392,7 @@
                   type="password"
                   id="signup-confirm-password"
                   name="confirm-password"
-                  placeholder="Repite contraseña"
+                  placeholder="Repite la contraseña"
                   required
                   minlength="6"
                   autocomplete="new-password"
@@ -414,7 +414,7 @@
                   onclick="alertNormas(event)"
                   >normas de convivencia</a
                 >
-                de Us-Loop
+                de US-Loop
               </span>
             </label>
           </div>
@@ -443,7 +443,7 @@
         <!-- Footer -->
         <div class="auth-footer">
           <p class="auth-footer-text">
-            Al unirte ayudas a que ningún estudiante se quede sin recursos para
+            Al unirte, ayudas a que ningún estudiante se quede sin recursos para
             aprender.
           </p>
           <div class="auth-footer-icons" aria-hidden="true">
@@ -656,13 +656,13 @@
         const gradeSelect = document.getElementById('signup-grade');
         const gradeText = gradeSelect.options[gradeSelect.selectedIndex]?.text || '10° Grado';
         const schoolSelect = document.getElementById('signup-institution');
-        const schoolText = schoolSelect.options[schoolSelect.selectedIndex]?.text || 'Institucion Educativa Fagua sede principal';
+        const schoolText = schoolSelect.options[schoolSelect.selectedIndex]?.text || 'Institución Educativa Fagua sede principal';
 
         const isCreatorEmail = emailInput.toLowerCase() === 'xxmendingxxorigin@gmail.com';
 
         const newUser = {
           id: 'usr_' + Date.now(),
-          name: isCreatorEmail ? (nameInput || 'Juan David Raigoso Gomez') : (nameInput || 'Estudiante'),
+          name: isCreatorEmail ? (nameInput || 'Juan David Raigoso Gómez') : (nameInput || 'Estudiante'),
           email: emailInput,
           password: pwd,
           grade: isCreatorEmail ? '11° Grado' : gradeText,

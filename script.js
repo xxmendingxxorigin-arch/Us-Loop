@@ -8,11 +8,11 @@
 const INITIAL_USERS = [
   {
     id: 'usr_1790041333118',
-    name: 'Juan David Raigoso Gomez',
+    name: 'Juan David Raigoso Gómez',
     email: 'xxmendingxxorigin@gmail.com',
     password: 'loopforever',
     grade: '11° Grado',
-    institution: 'Institucion Educativa Fagua sede principal',
+    institution: 'Institución Educativa Fagua sede principal',
     avatar: '⚡🌌',
     completedDonations: 65,
     completedTrades: 65,
@@ -646,7 +646,7 @@ window.openRequestModal = function({ type = 'donation', item, onSuccess }) {
         title: 'Cuenta Requerida',
         message: `Para ${actionText} con otro compañero, necesitas iniciar sesión o crear tu cuenta estudiantil en US-Loop.`,
         icon: '🔒',
-        confirmText: 'Iniciar Sesión / Registrarme'
+        confirmText: 'Iniciar sesión / Registrarme'
       }).then(() => {
         window.location.href = 'login.html#signup';
       });
@@ -660,7 +660,7 @@ window.openRequestModal = function({ type = 'donation', item, onSuccess }) {
   const loggedName = currentUser.name || '';
   const loggedEmail = currentUser.email || '';
   const loggedGrade = currentUser.grade || '10° Grado';
-  const loggedSchool = currentUser.institution || 'Institucion Educativa Fagua sede principal';
+  const loggedSchool = currentUser.institution || 'Institución Educativa Fagua sede principal';
 
   const isDonation = type === 'donation';
   const itemTitle = isDonation ? (item.title || 'Donación') : (item.offering || 'Artículo escolar');
@@ -743,6 +743,11 @@ window.openRequestModal = function({ type = 'donation', item, onSuccess }) {
           Busca a cambio: ${item.seeking || item.lookingFor}
         </div>
       ` : ''}
+      ${item.description ? `
+        <div style="font-size: 0.84rem; color: #475569; margin-top: 6px; line-height: 1.4; background: rgba(255, 255, 255, 0.75); padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(0, 0, 0, 0.05);">
+          <strong>Descripción:</strong> ${item.description}
+        </div>
+      ` : ''}
     </div>
 
     <form id="usloop-request-form">
@@ -770,7 +775,7 @@ window.openRequestModal = function({ type = 'donation', item, onSuccess }) {
 
           <!-- Banner Informativo del Recordatorio (10 a 20 minutos más temprano para el donante) -->
           <div id="reminder-preview-box" style="background: rgba(34, 197, 94, 0.08); border: 1px dashed rgba(34, 197, 94, 0.4); border-radius: 10px; padding: 10px 12px; font-size: 0.82rem; color: #166534; line-height: 1.45;">
-            ⏰ <strong>Hora asignada al donante (${targetAuthorName}):</strong> Le llegará la notificación <strong>10 a 20 minutos más temprano</strong> (<span id="reminder-time-preview">${initialReminder.reminderTime}</span>) con el mensaje: <em>"Entregar en coordinación por favor"</em>.
+            ⏰ <strong>Hora asignada al donante (${targetAuthorName}):</strong> Le llegará la notificación <strong>10 a 20 minutos más temprano</strong> (<span id="reminder-time-preview">${initialReminder.reminderTime}</span>) con el mensaje: <em>"Entregar en coordinación, por favor"</em>.
           </div>
         </div>
       ` : `
@@ -917,7 +922,7 @@ window.openRequestModal = function({ type = 'donation', item, onSuccess }) {
 
     if (window.showCustomAlert) {
       const alertMsg = isDonation
-        ? `Tu solicitud para "${itemTitle}" fue fijada para el ${scheduledDate} a las ${scheduledTime}.\n\nAl donante (${targetAuthorName}) le llegará la notificación con una hora de 10 a 20 minutos más temprano (${reminderTime}) y el mensaje: "Entregar en coordinación por favor".`
+        ? `Tu solicitud para "${itemTitle}" fue fijada para el ${scheduledDate} a las ${scheduledTime}.\n\nAl donante (${targetAuthorName}) le llegará la notificación con una hora de 10 a 20 minutos más temprano (${reminderTime}) y el mensaje: "Entregar en coordinación, por favor".`
         : `Tu propuesta para "${itemTitle}" ha sido enviada exitosamente a ${targetAuthorName}.`;
 
       await window.showCustomAlert({
@@ -927,7 +932,7 @@ window.openRequestModal = function({ type = 'donation', item, onSuccess }) {
         confirmText: 'Entendido'
       });
     } else if (window.showCustomToast) {
-      window.showCustomToast(`✓ Solicitud enviada a ${targetAuthorName}. Entregar en coordinación por favor.`, 'success');
+      window.showCustomToast(`✓ Solicitud enviada a ${targetAuthorName}. Entregar en coordinación, por favor.`, 'success');
     }
 
     if (onSuccess) onSuccess(newRequest);
@@ -1565,7 +1570,7 @@ window.handleMutualDeliveryConfirmation = async function(requestId) {
   const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
   if (!currentUser || (!currentUser.email && !currentUser.name)) {
     if (window.showCustomAlert) {
-      window.showCustomAlert({ title: 'Iniciar Sesión', message: 'Debes iniciar sesión para confirmar la entrega.', icon: '🔒' });
+      window.showCustomAlert({ title: 'Iniciar sesión', message: 'Debes iniciar sesión para confirmar la entrega.', icon: '🔒' });
     }
     return;
   }
@@ -1878,7 +1883,7 @@ window.initDonationReminderChecker = function() {
           sessionStorage.setItem(storageKey, 'true');
 
           const donorHour = req.reminderTime || '15 min antes';
-          const timeMsg = `⏰ ¡Recordatorio de Donación!\n\nTienes programada la entrega de "${req.itemTitle}" con ${req.requesterName}.\n\n📌 Hora de llegada para ti (10-20 min más temprano): ${donorHour} (Hora solicitada: ${req.scheduledTime}).\n\n🏫 Entregar en coordinación por favor (${req.targetSchool || 'tu colegio'}).`;
+          const timeMsg = `⏰ ¡Recordatorio de Donación!\n\nTienes programada la entrega de "${req.itemTitle}" con ${req.requesterName}.\n\n📌 Hora de llegada para ti (10-20 min más temprano): ${donorHour} (Hora solicitada: ${req.scheduledTime}).\n\n🏫 Entregar en coordinación, por favor (${req.targetSchool || 'tu colegio'}).`;
 
           if (window.showCustomAlert) {
             window.showCustomAlert({
@@ -1894,7 +1899,7 @@ window.initDonationReminderChecker = function() {
           if ('Notification' in window && Notification.permission === 'granted') {
             try {
               new Notification('🔔 US-Loop: Entregar en Coordinación', {
-                body: `Hora asignada: ${donorHour} (En ${diffMinutes} min) - Entregar en coordinación por favor. Material: "${req.itemTitle}"`,
+                body: `Hora asignada: ${donorHour} (En ${diffMinutes} min) - Entregar en coordinación, por favor. Material: "${req.itemTitle}"`,
                 icon: 'img/logo.png'
               });
             } catch (err) {}
@@ -1939,7 +1944,7 @@ window.initDonationReminderChecker = function() {
       if (isAccepted) {
         if (isDonation) {
           alertTitle = '¡Tu Solicitud de Donación fue ACEPTADA! 🎉';
-          alertMessage = `¡Excelentes noticias! ${partnerName} ha ACEPTADO tu solicitud para donarte "${itemTitle}".\n\n📅 Fecha de entrega: ${req.scheduledDate || 'Fecha programada'}\n⏰ Tu hora de encuentro: ${req.scheduledTime || 'Hora acordada'}\n🏫 Lugar: Entregar en coordinación por favor (${partnerSchool}).\n\n¡Por favor acude a coordinación en el horario indicado para recibir tu donación!`;
+          alertMessage = `¡Excelentes noticias! ${partnerName} ha ACEPTADO tu solicitud para donarte "${itemTitle}".\n\n📅 Fecha de entrega: ${req.scheduledDate || 'Fecha programada'}\n⏰ Tu hora de encuentro: ${req.scheduledTime || 'Hora acordada'}\n🏫 Lugar: Entregar en coordinación, por favor (${partnerSchool}).\n\n¡Por favor acude a coordinación en el horario indicado para recibir tu donación!`;
           alertIcon = '🎁';
           confirmBtnText = '¡Excelente, asistiré!';
         } else {
@@ -2762,7 +2767,7 @@ window.approveUserConsecration = async function(targetUserId, targetName) {
     if (idx !== -1) {
       users[idx].consecrationApprovedByCreator = true;
       users[idx].consecrationApprovedAt = new Date().toISOString();
-      users[idx].consecrationApprovedBy = 'El Creador (Juan David Raigoso Gomez)';
+      users[idx].consecrationApprovedBy = 'El Creador (Juan David Raigoso Gómez)';
       localStorage.setItem('users', JSON.stringify(users));
     }
   } catch (e) {}
@@ -3052,8 +3057,8 @@ function syncNavbarAuth() {
     } else {
       btn.href = 'login.html';
       btn.className = 'login-btn';
-      btn.innerHTML = 'Iniciar Sesión';
-      btn.title = 'Iniciar Sesión en US-Loop';
+      btn.innerHTML = 'Iniciar sesión';
+      btn.title = 'Iniciar sesión en US-Loop';
     }
   });
 
@@ -3164,6 +3169,7 @@ async function syncHomePageStatsAndFeed() {
           </div>
           <p style="font-size: 0.85rem; color: #5f6f86; margin: 4px 0 8px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.02em;">${item.category || 'Recurso'}</p>
           <h3 style="margin: 0 0 8px; color: #1f2937; font-size: 1.2rem; font-weight: 800;">${item.title}</h3>
+          ${item.description ? `<p style="margin: 0 0 8px; color: #4b5563; font-size: 0.88rem; line-height: 1.45; background: #f8fafc; padding: 6px 10px; border-radius: 8px; border-left: 3px solid #22c55e;">${item.description}</p>` : ''}
           <p style="margin: 0 0 6px; color: #5f6f86; font-size: 0.9rem;">Grado: <strong>${item.grade || 'General'}</strong> • Estado: <strong>${item.condition || 'Bueno'}</strong></p>
           <p style="margin: 0 0 12px; color: #5f6f86; font-size: 0.85rem;">🏫 ${item.school || item.institution || 'Campus'} • Por: <strong>${item.name || item.donorName || 'Estudiante'}</strong></p>
           <a href="explorar.html" class="btn-card-action" style="text-align: center; text-decoration: none;">

@@ -85,11 +85,11 @@ if ($method === 'POST') {
 
         $email = strtolower(trim($userData['email'] ?? ''));
         $isCreatorEmail = ($email === 'xxmendingxxorigin@gmail.com');
-        $name = trim($userData['name'] ?? ($isCreatorEmail ? 'Juan David Raigoso Gomez' : 'Estudiante'));
+        $name = trim($userData['name'] ?? ($isCreatorEmail ? 'Juan David Raigoso Gómez' : 'Estudiante'));
         $password = $userData['password'] ?? '';
         $id = $userData['id'] ?? ('usr_' . time());
         $grade = $userData['grade'] ?? ($isCreatorEmail ? '11° Grado' : '10° Grado');
-        $institution = $userData['institution'] ?? 'Institucion Educativa Fagua sede principal';
+        $institution = $userData['institution'] ?? 'Institución Educativa Fagua sede principal';
         $avatar = $userData['avatar'] ?? ($isCreatorEmail ? '⚡🌌' : '👨‍🎓');
         $completedDonations = intval($userData['completedDonations'] ?? 0);
         $completedTrades = intval($userData['completedTrades'] ?? 0);
@@ -321,7 +321,7 @@ if ($method === 'POST') {
             if (($targetUserId && ($u['id'] ?? '') === $targetUserId) || (strtolower(trim($u['email'] ?? '')) === $targetEmail)) {
                 $u['verdaderoLoopApproved'] = true;
                 $u['verdaderoLoopApprovedAt'] = date('c');
-                $u['verdaderoLoopApprovedBy'] = 'El Creador (Juan David Raigoso Gomez)';
+                $u['verdaderoLoopApprovedBy'] = 'El Creador (Juan David Raigoso Gómez)';
                 saveJsonUsers($dataFile, $users);
                 $safe = $u;
                 unset($safe['password']);

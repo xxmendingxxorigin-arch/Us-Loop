@@ -27,9 +27,9 @@
         <a href="explorar.html">Catálogo</a>
         <a href="donar.html">Donar</a>
         <a href="intercambio.html">Intercambio</a>
-        <a href="https://www.instagram.com/usloop01?igsi=NTU5eG5ha3ptbWVr" target="_blank" rel="noopener noreferrer">Contáctenos</a>
+        <a href="https://www.instagram.com/usloop01?igsi=NTU5eG5ha3ptbWVr" target="_blank" rel="noopener noreferrer">Contáctanos</a>
       </div>
-      <a class="login-btn" href="login.html">Iniciar Sesión</a>
+      <a class="login-btn" href="login.html">Iniciar sesión</a>
     </nav>
 
     <header class="explore-header">
@@ -83,11 +83,11 @@
             <polyline points="7 23 3 19 7 15"></polyline>
             <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
           </svg>
-          <span>Proponer Intercambio ⇄</span>
+          <span>Proponer intercambio ⇄</span>
         </a>
       </div>
 
-      <div class="filter-row" id="exchange-categories-row" aria-label="Categorias de intercambio">
+      <div class="filter-row" id="exchange-categories-row" aria-label="Categorías de intercambio">
         <button class="filter-pill active" data-category="all">Todos</button>
         <button class="filter-pill" data-category="Libros">Libros</button>
         <button class="filter-pill" data-category="Apuntes">Apuntes</button>
@@ -105,7 +105,7 @@
         <h2>No hay intercambios activos</h2>
         <p>Publica un artículo o revisa pronto nuevas ofertas de la comunidad.</p>
         <div class="empty-state-actions">
-          <a href="intercambio-form.html" class="btn btn-primary">Proponer Intercambio ⇄</a>
+          <a href="intercambio-form.html" class="btn btn-primary">Proponer intercambio ⇄</a>
         </div>
       </section>
     </main>
@@ -193,11 +193,12 @@
           if (query) {
             const offeringMatch = (exchange.offering || '').toLowerCase().includes(query);
             const seekingMatch = (exchange.lookingFor || exchange.seeking || '').toLowerCase().includes(query);
+            const descriptionMatch = (exchange.description || '').toLowerCase().includes(query);
             const categoryMatch = (exchange.category || '').toLowerCase().includes(query);
             const nameMatch = (exchange.ownerName || exchange.name || '').toLowerCase().includes(query);
             const schoolMatch = (exchange.institution || exchange.school || '').toLowerCase().includes(query);
 
-            if (!offeringMatch && !seekingMatch && !categoryMatch && !nameMatch && !schoolMatch) {
+            if (!offeringMatch && !seekingMatch && !descriptionMatch && !categoryMatch && !nameMatch && !schoolMatch) {
               return false;
             }
           }
@@ -242,7 +243,8 @@
             <p style="font-size: 0.85rem; color: #5f6f86; margin: 4px 0 8px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.02em;">${exchange.category || 'General'}</p>
             <h3 style="margin: 0 0 6px; color: #1f2937; font-size: 1.2rem; font-weight: 800;">Ofrezco: ${exchange.offering}</h3>
             <p style="margin: 0 0 6px; color: #2563eb; font-size: 0.95rem; font-weight: 600;">Busco: ${exchange.lookingFor || exchange.seeking || 'Recurso escolar'}</p>
-            <p style="margin: 0 0 6px; color: #5f6f86; font-size: 0.9rem;">Grado: <strong>${exchange.grade || 'General'}</strong></p>
+            ${exchange.description ? `<p style="margin: 0 0 8px; color: #4b5563; font-size: 0.88rem; line-height: 1.45; background: #f8fafc; padding: 6px 10px; border-radius: 8px; border-left: 3px solid #3b82f6;">${exchange.description}</p>` : ''}
+            <p style="margin: 0 0 6px; color: #5f6f86; font-size: 0.9rem;">Grado: <strong>${exchange.grade || 'General'}</strong>${(exchange.condition || exchange.condition_status) ? ` • Estado: <strong>${exchange.condition || exchange.condition_status}</strong>` : ''}</p>
             <p style="margin: 0 0 12px; color: #5f6f86; font-size: 0.85rem;">🏫 ${exchange.institution || exchange.school || 'Campus'} • Por: <strong>${exchange.ownerName || exchange.name || 'Estudiante'}</strong></p>
             ${isAuthor ? `
               <div class="author-actions-group">

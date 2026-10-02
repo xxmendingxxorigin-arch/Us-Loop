@@ -27,9 +27,9 @@
         <a href="explorar.html">Catálogo</a>
         <a href="donar.html">Donar</a>
         <a href="intercambio.html">Intercambio</a>
-        <a href="https://www.instagram.com/usloop01?igsi=NTU5eG5ha3ptbWVr" target="_blank" rel="noopener noreferrer">Contáctenos</a>
+        <a href="https://www.instagram.com/usloop01?igsi=NTU5eG5ha3ptbWVr" target="_blank" rel="noopener noreferrer">Contáctanos</a>
       </div>
-      <a class="login-btn" href="login.html">Iniciar Sesión</a>
+      <a class="login-btn" href="login.html">Iniciar sesión</a>
     </nav>
 
     <header class="explore-header">
@@ -40,7 +40,7 @@
 
       <div class="container hero-title-wrap explore-hero-layout">
         <div class="explore-hero-text">
-          <h1 class="catalog-title">Catálogo Comunitario de Recursos</h1>
+          <h1 class="catalog-title">Catálogo comunitario de recursos</h1>
           <p class="catalog-subtitle">
             Encuentra libros, materiales y útiles donados o disponibles para intercambio escolar por otros estudiantes.
           </p>
@@ -64,7 +64,7 @@
         </div>
 
         <select class="select-box" id="filter-grade" aria-label="Filtrar por grado">
-          <option value="all">Todos los Grados</option>
+          <option value="all">Todos los grados</option>
           <option value="6">6° Grado</option>
           <option value="7">7° Grado</option>
           <option value="8">8° Grado</option>
@@ -76,7 +76,7 @@
         </select>
 
         <select class="select-box" id="filter-type" aria-label="Filtrar por tipo de publicación">
-          <option value="all">Todos los Tipos</option>
+          <option value="all">Todos los tipos</option>
           <option value="donation">Donaciones 🎁</option>
           <option value="exchange">Intercambios ⇄</option>
         </select>
@@ -85,20 +85,20 @@
       <!-- Botones de Acción centrados debajo de la barra de búsqueda -->
       <div class="mid-action-bar" style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px;">
         <a href="donar.html" class="top-cta-btn top-cta-donate">
-          <span>Publicar Donación 🎁</span>
+          <span>Publicar donación 🎁</span>
         </a>
         <a href="intercambio-form.html" class="top-cta-btn top-cta-exchange">
-          <span>Proponer Intercambio ⇄</span>
+          <span>Proponer intercambio ⇄</span>
         </a>
       </div>
 
       <div class="filter-row" id="categories-filter-row" aria-label="Categorías de recursos">
         <button class="filter-pill active" data-category="all">Todos</button>
-        <button class="filter-pill" data-category="Libros y Lecturas">Libros y Lecturas</button>
-        <button class="filter-pill" data-category="Papelería y Útiles">Papelería y Útiles</button>
-        <button class="filter-pill" data-category="Tecnología y Calculadoras">Tecnología y Calculadoras</button>
-        <button class="filter-pill" data-category="Uniformes y Batas">Uniformes y Batas</button>
-        <button class="filter-pill" data-category="Arte y Laboratorio">Arte y Laboratorio</button>
+        <button class="filter-pill" data-category="Libros y Lecturas">Libros y lecturas</button>
+        <button class="filter-pill" data-category="Papelería y Útiles">Papelería y útiles</button>
+        <button class="filter-pill" data-category="Tecnología y Calculadoras">Tecnología y calculadoras</button>
+        <button class="filter-pill" data-category="Uniformes y Batas">Uniformes y batas</button>
+        <button class="filter-pill" data-category="Arte y Laboratorio">Arte y laboratorio</button>
       </div>
 
       <section id="donations-grid" class="card-grid" aria-live="polite">
@@ -110,8 +110,8 @@
         <h2>No se encontraron recursos</h2>
         <p>Aún no hay publicaciones que coincidan con tu búsqueda. Sé el primero en compartir un recurso con tu comunidad.</p>
         <div class="empty-state-actions">
-          <a href="donar.html" class="btn btn-primary">Publicar Donación 🎁</a>
-          <a href="intercambio-form.html" class="btn btn-secondary">Proponer Intercambio ⇄</a>
+          <a href="donar.html" class="btn btn-primary">Publicar donación 🎁</a>
+          <a href="intercambio-form.html" class="btn btn-secondary">Proponer intercambio ⇄</a>
         </div>
       </section>
     </main>
@@ -184,9 +184,10 @@
           id: d.id || ('don_' + i),
           type: 'donation',
           title: d.title || 'Donación sin título',
+          description: d.description || '',
           category: d.category || 'Recursos',
           grade: d.grade || 'General',
-          condition: d.condition || 'Buen estado',
+          condition: d.condition || d.condition_status || 'Buen estado',
           name: d.donorName || d.name || 'Estudiante',
           school: d.institution || d.school || 'Colegio Sede Principal',
           authorEmail: d.donorEmail || d.authorEmail || '',
@@ -202,8 +203,10 @@
           type: 'exchange',
           offering: e.offering || 'Artículo escolar',
           seeking: e.lookingFor || e.seeking || 'Material de estudio',
+          description: e.description || '',
           category: e.category || 'Intercambio',
           grade: e.grade || 'General',
+          condition: e.condition || e.condition_status || 'Buen estado',
           name: e.ownerName || e.name || 'Estudiante',
           school: e.institution || e.school || 'Colegio Sede Principal',
           authorEmail: e.ownerEmail || e.authorEmail || '',
@@ -244,11 +247,12 @@
             const titleMatch = (item.title || '').toLowerCase().includes(query);
             const offeringMatch = (item.offering || '').toLowerCase().includes(query);
             const seekingMatch = (item.seeking || '').toLowerCase().includes(query);
+            const descriptionMatch = (item.description || '').toLowerCase().includes(query);
             const categoryMatch = (item.category || '').toLowerCase().includes(query);
             const nameMatch = (item.name || '').toLowerCase().includes(query);
             const schoolMatch = (item.school || '').toLowerCase().includes(query);
 
-            if (!titleMatch && !offeringMatch && !seekingMatch && !categoryMatch && !nameMatch && !schoolMatch) {
+            if (!titleMatch && !offeringMatch && !seekingMatch && !descriptionMatch && !categoryMatch && !nameMatch && !schoolMatch) {
               return false;
             }
           }
@@ -295,6 +299,7 @@
               </div>
               <p style="font-size: 0.85rem; color: #5f6f86; margin: 4px 0 8px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.02em;">${item.category}</p>
               <h3 style="margin: 0 0 8px; color: #1f2937; font-size: 1.2rem; font-weight: 800;">${item.title}</h3>
+              ${item.description ? `<p style="margin: 0 0 8px; color: #4b5563; font-size: 0.88rem; line-height: 1.45; background: #f8fafc; padding: 6px 10px; border-radius: 8px; border-left: 3px solid #22c55e;">${item.description}</p>` : ''}
               <p style="margin: 0 0 6px; color: #5f6f86; font-size: 0.9rem;">Grado: <strong>${item.grade}</strong> • Estado: <strong>${item.condition}</strong></p>
               <p style="margin: 0 0 12px; color: #5f6f86; font-size: 0.85rem;">🏫 ${item.school} • Por: <strong>${item.name}</strong></p>
               ${isAuthor ? `
@@ -317,7 +322,8 @@
               <p style="font-size: 0.85rem; color: #5f6f86; margin: 4px 0 8px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.02em;">${item.category}</p>
               <h3 style="margin: 0 0 6px; color: #1f2937; font-size: 1.15rem; font-weight: 800;">Ofrezco: ${item.offering}</h3>
               <p style="margin: 0 0 6px; color: #2563eb; font-size: 0.95rem; font-weight: 600;">Busco: ${item.seeking}</p>
-              <p style="margin: 0 0 6px; color: #5f6f86; font-size: 0.9rem;">Grado: <strong>${item.grade}</strong></p>
+              ${item.description ? `<p style="margin: 0 0 8px; color: #4b5563; font-size: 0.88rem; line-height: 1.45; background: #f8fafc; padding: 6px 10px; border-radius: 8px; border-left: 3px solid #3b82f6;">${item.description}</p>` : ''}
+              <p style="margin: 0 0 6px; color: #5f6f86; font-size: 0.9rem;">Grado: <strong>${item.grade}</strong>${item.condition ? ` • Estado: <strong>${item.condition}</strong>` : ''}</p>
               <p style="margin: 0 0 12px; color: #5f6f86; font-size: 0.85rem;">🏫 ${item.school} • Por: <strong>${item.name}</strong></p>
               ${isAuthor ? `
                 <div class="author-actions-group">

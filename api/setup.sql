@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` VARCHAR(191) NOT NULL UNIQUE,
   `password` VARCHAR(255) NOT NULL,
   `grade` VARCHAR(50) DEFAULT '10° Grado',
-  `institution` VARCHAR(255) DEFAULT 'Institucion Educativa Fagua sede principal',
+  `institution` VARCHAR(255) DEFAULT 'Institución Educativa Fagua sede principal',
   `avatar` LONGTEXT,
   `completedDonations` INT DEFAULT 0,
   `completedTrades` INT DEFAULT 0,

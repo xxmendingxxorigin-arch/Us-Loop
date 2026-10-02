@@ -196,11 +196,11 @@ const server = http.createServer(async (req, res) => {
 
         const newUser = {
           id: userData.id || ('usr_' + Date.now()),
-          name: (userData.name || (isCreatorEmail ? 'Juan David Raigoso Gomez' : 'Estudiante')).trim(),
+          name: (userData.name || (isCreatorEmail ? 'Juan David Raigoso Gómez' : 'Estudiante')).trim(),
           email: email,
           password: password,
           grade: userData.grade || '11° Grado',
-          institution: userData.institution || 'Institucion Educativa Fagua sede principal',
+          institution: userData.institution || 'Institución Educativa Fagua sede principal',
           avatar: userData.avatar || (isCreatorEmail ? '⚡🌌' : '👨‍🎓'),
           bio: userData.bio || (isCreatorEmail ? '¡Creador Principal y Desarrollador de US-Loop! 👑🛠️ Administrador del campus y guardián de la economía circular escolar.' : ''),
           completedDonations: Number(userData.completedDonations !== undefined ? userData.completedDonations : 0),
@@ -309,7 +309,7 @@ const server = http.createServer(async (req, res) => {
 
         users[targetIdx].consecrationApprovedByCreator = true;
         users[targetIdx].consecrationApprovedAt = new Date().toISOString();
-        users[targetIdx].consecrationApprovedBy = 'El Creador (Juan David Raigoso Gomez)';
+        users[targetIdx].consecrationApprovedBy = 'El Creador (Juan David Raigoso Gómez)';
 
         writeJsonFile('users.json', users);
 
@@ -353,7 +353,7 @@ const server = http.createServer(async (req, res) => {
 
         users[targetIdx].verdaderoLoopApproved = true;
         users[targetIdx].verdaderoLoopApprovedAt = new Date().toISOString();
-        users[targetIdx].verdaderoLoopApprovedBy = 'El Creador (Juan David Raigoso Gomez)';
+        users[targetIdx].verdaderoLoopApprovedBy = 'El Creador (Juan David Raigoso Gómez)';
 
         writeJsonFile('users.json', users);
 
