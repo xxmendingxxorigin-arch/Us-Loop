@@ -109,6 +109,20 @@ window.USLoopAPI = {
     }
   },
 
+  async getUser(email) {
+    if (!email) return null;
+    try {
+      const q = query(collection(db, 'users'), where('email', '==', email.toLowerCase()));
+      const snap = await getDocs(q);
+      if (!snap.empty) {
+        return { _docId: snap.docs[0].id, ...snap.docs[0].data() };
+      }
+    } catch (e) {
+      console.warn('Error obteniendo usuario:', e);
+    }
+    return null;
+  },
+
   async loginUser(email, password) {
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -173,24 +187,55 @@ window.USLoopAPI = {
   async updateUserStats(email, type) {
     if (!email) return;
     try {
-      const q = query(collection(db, 'users'), where('email', '==', email.toLowerCase()));
+      const cleanEmail = email.toLowerCase().trim();
+      const q = query(collection(db, 'users'), where('email', '==', cleanEmail));
       const snap = await getDocs(q);
+      let donations = 0;
+      let trades = 0;
+      let loopPoints = 0;
+      let ecoSaved = 0.0;
+
       if (!snap.empty) {
-        const data = snap.docs[0].data();
-        const donations = (data.completedDonations || 0) + (type === 'donation' ? 1 : 0);
-        const trades = (data.completedTrades || 0) + (type === 'trade' ? 1 : 0);
-        const loopPoints = (donations * 25) + (trades * 20);
-        const ecoSaved = parseFloat(((donations * 3.2) + (trades * 2.5)).toFixed(1));
-        await updateDoc(snap.docs[0].ref, { completedDonations: donations, completedTrades: trades, loopPoints, ecoSaved });
-        let users = JSON.parse(localStorage.getItem('users') || '[]');
-        const idx = users.findIndex(u => (u.email || '').toLowerCase() === email.toLowerCase());
-        if (idx !== -1) { users[idx] = { ...users[idx], completedDonations: donations, completedTrades: trades, loopPoints, ecoSaved }; localStorage.setItem('users', JSON.stringify(users)); }
+        const userDoc = snap.docs[0];
+        const data = userDoc.data();
+        donations = (data.completedDonations || 0) + (type === 'donation' ? 1 : 0);
+        trades = (data.completedTrades || 0) + (type === 'trade' ? 1 : 0);
+        loopPoints = (donations * 25) + (trades * 20);
+        ecoSaved = parseFloat(((donations * 3.2) + (trades * 2.5)).toFixed(1));
+        await updateDoc(userDoc.ref, { completedDonations: donations, completedTrades: trades, loopPoints, ecoSaved });
+      } else {
         const cu = JSON.parse(localStorage.getItem('currentUser') || '{}');
-        if ((cu.email || '').toLowerCase() === email.toLowerCase()) {
-          Object.assign(cu, { completedDonations: donations, completedTrades: trades, loopPoints, ecoSaved });
-          localStorage.setItem('currentUser', JSON.stringify(cu));
-        }
+        donations = (cu.completedDonations || 0) + (type === 'donation' ? 1 : 0);
+        trades = (cu.completedTrades || 0) + (type === 'trade' ? 1 : 0);
+        loopPoints = (donations * 25) + (trades * 20);
+        ecoSaved = parseFloat(((donations * 3.2) + (trades * 2.5)).toFixed(1));
+        const newDocId = 'usr_' + Date.now();
+        await setDoc(doc(db, 'users', newDocId), {
+          id: newDocId,
+          name: cu.name || 'Estudiante',
+          email: cleanEmail,
+          completedDonations: donations,
+          completedTrades: trades,
+          loopPoints,
+          ecoSaved,
+          grade: cu.grade || '10 Grado',
+          institution: cu.institution || 'Institución Educativa Fagua sede principal',
+          createdAt: serverTimestamp()
+        });
       }
+
+      let users = JSON.parse(localStorage.getItem('users') || '[]');
+      const idx = users.findIndex(u => (u.email || '').toLowerCase() === cleanEmail);
+      if (idx !== -1) {
+        users[idx] = { ...users[idx], completedDonations: donations, completedTrades: trades, loopPoints, ecoSaved };
+        localStorage.setItem('users', JSON.stringify(users));
+      }
+      const cu = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      if ((cu.email || '').toLowerCase() === cleanEmail) {
+        Object.assign(cu, { completedDonations: donations, completedTrades: trades, loopPoints, ecoSaved });
+        localStorage.setItem('currentUser', JSON.stringify(cu));
+      }
+      return { success: true, loopPoints, completedDonations: donations, completedTrades: trades, ecoSaved };
     } catch (e) { console.warn('Error actualizando estadisticas:', e); }
   },
 
@@ -353,7 +398,23 @@ window.USLoopAPI = {
         const donorConfirmed = confirmedBy === 'donor' ? true : (data.donorConfirmed || false);
         const requesterConfirmed = confirmedBy === 'requester' ? true : (data.requesterConfirmed || false);
         const bothConfirmed = donorConfirmed && requesterConfirmed;
-        if (bothConfirmed) updates.status = 'completed';
+        if (bothConfirmed) {
+          updates.status = 'completed';
+          // Otorgar puntos automáticamente en Firestore a las cuentas involucradas
+          const isDonation = (data.itemType || data.type) === 'donation';
+          const donorEmail = (data.targetAuthorEmail || '').toLowerCase();
+          const reqEmail = (data.requesterEmail || '').toLowerCase();
+          if (isDonation) {
+            if (donorEmail) await this.updateUserStats(donorEmail, 'donation');
+          } else {
+            if (donorEmail) await this.updateUserStats(donorEmail, 'trade');
+            if (reqEmail) await this.updateUserStats(reqEmail, 'trade');
+          }
+          if (data.itemId) {
+            if (isDonation) await this.finishDonation(data.itemId);
+            else await this.completeExchange(data.itemId);
+          }
+        }
         await updateDoc(docRef, updates);
         let requests = JSON.parse(localStorage.getItem('tradeRequests') || '[]');
         const idx = requests.findIndex(r => String(r.id) === String(id));

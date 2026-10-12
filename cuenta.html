@@ -1129,7 +1129,22 @@
 
       async function loadUserStatsAndItems() {
         window.loadUserStatsAndItems = loadUserStatsAndItems;
-        const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        let storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+        // Sincronizar puntos y perfil frescos desde Firestore
+        if (storedUser.email && window.USLoopAPI && window.USLoopAPI.getUser) {
+          try {
+            const fresh = await window.USLoopAPI.getUser(storedUser.email);
+            if (fresh) {
+              storedUser = { ...storedUser, ...fresh };
+              localStorage.setItem('currentUser', JSON.stringify(storedUser));
+              loadUserProfile();
+            }
+          } catch (e) {
+            console.warn('Error sincronizando perfil:', e);
+          }
+        }
+
         let donations = [];
         let exchanges = [];
         let requests = [];
@@ -2456,7 +2471,7 @@
         showToast(`Abriendo editor para "${itemName}"...`);
       }
 
-      // Funciones para gestionar publicaciones propias en cuenta.html
+      // Funciones de eliminación de recursos en cuenta.html
       async function deleteDonationItem(id) {
         const confirmed = window.showCustomConfirm
           ? await window.showCustomConfirm({
@@ -2481,40 +2496,6 @@
         }
       }
 
-      async function finishUserDonation(id) {
-        const confirmed = window.showCustomConfirm
-          ? await window.showCustomConfirm({
-              title: '¿Donación Entregada?',
-              message: '¿Confirmas que ya entregaste este material escolar al compañero? Sumarás +25 Puntos Loop.',
-              icon: '🎁',
-              confirmText: 'Sí, Entregada',
-              cancelText: 'Cancelar'
-            })
-          : confirm('¿Confirmas que ya entregaste esta donación? (+25 Pts)');
-
-        if (confirmed) {
-          const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-          if (window.USLoopAPI) {
-            await window.USLoopAPI.finishDonation(id);
-            if (currentUser.email) {
-              await window.USLoopAPI.updateUserStats(currentUser.email, 'donation');
-            }
-          } else {
-            let donations = JSON.parse(localStorage.getItem('donations') || '[]');
-            donations = donations.filter(d => String(d.id) !== String(id));
-            localStorage.setItem('donations', JSON.stringify(donations));
-          }
-
-          currentUser.completedDonations = (currentUser.completedDonations || 0) + 1;
-          currentUser.loopPoints = ((currentUser.completedDonations || 0) * 25) + ((currentUser.completedTrades || 0) * 20);
-          currentUser.ecoSaved = parseFloat(((currentUser.completedDonations * 3.2) + ((currentUser.completedTrades || 0) * 2.5)).toFixed(1));
-          localStorage.setItem('currentUser', JSON.stringify(currentUser));
-
-          showToast('🎁 ¡Donación completada con éxito! +25 Puntos Loop.');
-          loadUserStatsAndItems();
-        }
-      }
-
       async function deleteExchangeItem(id) {
         const confirmed = window.showCustomConfirm
           ? await window.showCustomConfirm({
@@ -2535,40 +2516,6 @@
             localStorage.setItem('exchanges', JSON.stringify(exchanges));
           }
           showToast('Propuesta de intercambio retirada.');
-          loadUserStatsAndItems();
-        }
-      }
-
-      async function completeUserExchange(id) {
-        const confirmed = window.showCustomConfirm
-          ? await window.showCustomConfirm({
-              title: '¿Trueque Completado?',
-              message: '¿Confirmas que el intercambio se realizó con éxito? Sumarás +20 Puntos Loop.',
-              icon: '🤝',
-              confirmText: 'Sí, Completado',
-              cancelText: 'Cancelar'
-            })
-          : confirm('¿Confirmas que se completó el trueque? (+20 Pts)');
-
-        if (confirmed) {
-          const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-          if (window.USLoopAPI) {
-            await window.USLoopAPI.completeExchange(id);
-            if (currentUser.email) {
-              await window.USLoopAPI.updateUserStats(currentUser.email, 'trade');
-            }
-          } else {
-            let exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
-            exchanges = exchanges.filter(e => String(e.id) !== String(id));
-            localStorage.setItem('exchanges', JSON.stringify(exchanges));
-          }
-
-          currentUser.completedTrades = (currentUser.completedTrades || 0) + 1;
-          currentUser.loopPoints = ((currentUser.completedDonations || 0) * 25) + ((currentUser.completedTrades || 0) * 20);
-          currentUser.ecoSaved = parseFloat((((currentUser.completedDonations || 0) * 3.2) + (currentUser.completedTrades * 2.5)).toFixed(1));
-          localStorage.setItem('currentUser', JSON.stringify(currentUser));
-
-          showToast('🤝 ¡Trueque completado exitosamente! +20 Puntos Loop.');
           loadUserStatsAndItems();
         }
       }
@@ -2678,7 +2625,7 @@
         loadUserStatsAndItems();
       };
     </script>
-    <script src="script.js?v=10.0"></script>
-    <script type="module" src="firebase-config.js?v=10.0"></script>
+    <script src="script.js?v=11.0"></script>
+    <script type="module" src="firebase-config.js?v=11.0"></script>
   </body>
 </html>
