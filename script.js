@@ -2184,6 +2184,8 @@ window.renderAvatarHtml = function(avatar, size = 24, isRound = true, extraClass
         <circle cx="50" cy="74" r="2.5" fill="#FBBF24" />
       </svg>
     </div>`;
+  }
+
   // 3. Corona de El Creador 👑 (Insignia Suprema del Fundador)
   if (currentAvatar === '👑') {
     const fontSize = typeof size === 'number' ? (size * 0.58) + 'px' : '1.4rem';
