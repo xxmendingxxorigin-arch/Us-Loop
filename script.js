@@ -2198,16 +2198,14 @@ window.renderAvatarHtml = function(avatar, size = 24, isRound = true, extraClass
     </div>`;
   }
 
-  // 3. Corona de El Creador 👑 (Insignia Suprema del Fundador)
-  if (currentAvatar === '👑') {
-    const fontSize = typeof size === 'number' ? (size * 0.58) + 'px' : '1.4rem';
-    return `<div class="creator-crown-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 30%, #451a03 0%, #1c0901 65%, #0c0401 100%); box-shadow: 0 0 16px rgba(245, 158, 11, 0.65), 0 0 24px rgba(225, 29, 72, 0.4); border: 2.2px solid #fbbf24; font-size: ${fontSize}; user-select: none;" title="Corona de El Creador 👑">
-      👑
-    </div>`;
+  // 3. Galardones Especiales con Arte Vectorial de Alta Definición (Corona, ICFES, Materias, Premiaciones)
+  const specialSvg = typeof window.renderSpecialHonorSvg === 'function' ? window.renderSpecialHonorSvg(currentAvatar, sizeStyle, borderRadius, extraClass) : null;
+  if (specialSvg) {
+    return specialSvg;
   }
 
-  // 4. Medallones de Galardón Especial (ICFES, Materias Escolares y Premiaciones)
-  const honorItem = (window.SPECIAL_HONORS_CATALOG || []).find(h => h.icon === currentAvatar);
+  // 4. Medallones de Galardón Especial (Fallback si no tuviera SVG dedicado)
+  const honorItem = (window.SPECIAL_HONORS_CATALOG || []).find(h => h.icon === currentAvatar || h.id === currentAvatar);
   if (honorItem) {
     const fontSize = typeof size === 'number' ? (size * 0.52) + 'px' : '1.3rem';
     return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; border-radius: ${borderRadius}; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: radial-gradient(circle at 50% 30%, #1e1b4b 0%, #0f172a 100%); border: 2px solid ${honorItem.color || '#f59e0b'}; box-shadow: 0 0 12px ${honorItem.glow || 'rgba(245, 158, 11, 0.45)'}; font-size: ${fontSize}; line-height: 1; user-select: none;" title="${honorItem.name} • ${honorItem.badge}">
@@ -2231,6 +2229,438 @@ window.renderAvatarHtml = function(avatar, size = 24, isRound = true, extraClass
     return `<span class="${extraClass}" style="font-size: ${fontSize}; line-height: 1; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; user-select: none;">${currentAvatar}</span>`;
   }
 };
+
+/**
+ * Renderizador de Arte Vectorial SVG Exclusivo para Galardones Especiales
+ * Otorga a cada logo una identidad épica con degradados celestiales, laureles y escudos.
+ */
+window.renderSpecialHonorSvg = function(key, sizeStyle, borderRadius, extraClass = '') {
+  if (!key) return null;
+
+  // 1. Corona Suprema de El Creador 👑
+  if (key === '👑' || key === 'CORONA_CREADOR' || key === 'honor_creador_corona') {
+    return `<div class="creator-crown-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 25%, #451a03 0%, #1f0902 60%, #0c0401 100%); box-shadow: 0 0 16px rgba(245, 158, 11, 0.65), 0 0 28px rgba(225, 29, 72, 0.4); border: 2.2px solid #fbbf24;" title="Corona Suprema de El Creador 👑">
+      <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; display: block;">
+        <defs>
+          <linearGradient id="crGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFBEB" />
+            <stop offset="30%" stop-color="#FCD34D" />
+            <stop offset="70%" stop-color="#F59E0B" />
+            <stop offset="100%" stop-color="#78350F" />
+          </linearGradient>
+          <linearGradient id="crVelvetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#991B1B" />
+            <stop offset="60%" stop-color="#7F1D1D" />
+            <stop offset="100%" stop-color="#450A0A" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="47" fill="#180408" />
+        <circle cx="50" cy="50" r="43" fill="none" stroke="url(#crGoldGrad)" stroke-width="1.8" stroke-dasharray="2,2" opacity="0.8" />
+        <path d="M26 62 Q50 35 74 62 Z" fill="url(#crVelvetGrad)" opacity="0.95" />
+        <rect x="22" y="60" width="56" height="12" rx="4" fill="url(#crGoldGrad)" stroke="#78350F" stroke-width="1.2" />
+        <circle cx="32" cy="66" r="2.4" fill="#3B82F6" />
+        <circle cx="41" cy="66" r="2.4" fill="#EF4444" />
+        <circle cx="50" cy="66" r="3" fill="#10B981" />
+        <circle cx="59" cy="66" r="2.4" fill="#EF4444" />
+        <circle cx="68" cy="66" r="2.4" fill="#3B82F6" />
+        <path d="M24 60 L20 38 L34 48 L50 24 L66 48 L80 38 L76 60 Z" fill="url(#crGoldGrad)" stroke="#78350F" stroke-width="1.2" />
+        <circle cx="50" cy="22" r="3.2" fill="url(#crGoldGrad)" />
+        <path d="M50 14 L50 20 M47 17 L53 17" stroke="#FFF" stroke-width="2" stroke-linecap="round" />
+        <circle cx="20" cy="38" r="3" fill="#EF4444" stroke="#FFF" stroke-width="0.8" />
+        <circle cx="34" cy="48" r="2.4" fill="#38BDF8" />
+        <circle cx="66" cy="48" r="2.4" fill="#38BDF8" />
+        <circle cx="80" cy="38" r="3" fill="#EF4444" stroke="#FFF" stroke-width="0.8" />
+        <polygon points="50,46 51.5,49.5 55,50 52.5,52.5 53,56 50,54 47,56 47.5,52.5 45,50 48.5,49.5" fill="#FFF" />
+      </svg>
+    </div>`;
+  }
+
+  // 2. Mejor ICFES • Saber 11 🎯📜
+  if (key === '🎯📜' || key === 'honor_icfes_supremo' || key === 'ICFES_SUPREMO') {
+    return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 25%, #0f172a 0%, #1e1b4b 60%, #030712 100%); box-shadow: 0 0 16px rgba(245, 158, 11, 0.65), 0 0 24px rgba(2, 132, 199, 0.45); border: 2.2px solid #f59e0b;" title="Galardón: Mejor ICFES • Saber 11 🎯📜">
+      <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; display: block;">
+        <defs>
+          <linearGradient id="icfesGold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFBEB" /><stop offset="35%" stop-color="#FBBF24" /><stop offset="75%" stop-color="#D97706" /><stop offset="100%" stop-color="#78350F" />
+          </linearGradient>
+          <linearGradient id="icfesRuby" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#EF4444" /><stop offset="100%" stop-color="#991B1B" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#090d16" />
+        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#icfesGold)" stroke-width="2" opacity="0.85" />
+        <path d="M22 66 C16 46 22 28 34 20" fill="none" stroke="url(#icfesGold)" stroke-width="2.2" stroke-linecap="round" />
+        <path d="M78 66 C84 46 78 28 66 20" fill="none" stroke="url(#icfesGold)" stroke-width="2.2" stroke-linecap="round" />
+        <circle cx="50" cy="42" r="23" fill="#1e293b" stroke="url(#icfesGold)" stroke-width="2" />
+        <circle cx="50" cy="42" r="16" fill="url(#icfesRuby)" stroke="#FFF" stroke-width="1.2" />
+        <circle cx="50" cy="42" r="9.5" fill="#FFF" stroke="url(#icfesGold)" stroke-width="1.2" />
+        <circle cx="50" cy="42" r="4" fill="url(#icfesRuby)" />
+        <line x1="26" y1="60" x2="48" y2="44" stroke="#FDE047" stroke-width="2.6" stroke-linecap="round" />
+        <path d="M23 64 L29 61 L27 56 Z" fill="#F59E0B" />
+        <path d="M26 71 L74 71 Q78 71 76 78 L24 78 Q22 71 26 71 Z" fill="#FEF3C7" stroke="#92400E" stroke-width="1.2" />
+        <text x="50" y="76.5" font-size="5.5" font-weight="900" text-anchor="middle" fill="#92400E" font-family="sans-serif">SABER 11 • 500</text>
+        <circle cx="50" cy="83" r="4.2" fill="url(#icfesRuby)" stroke="url(#icfesGold)" stroke-width="1" />
+      </svg>
+    </div>`;
+  }
+
+  // 3. Puntaje Sobresaliente ICFES 🏆🌟
+  if (key === '🏆🌟' || key === 'honor_icfes_destacado') {
+    return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 25%, #1e1035 0%, #0f0521 100%); box-shadow: 0 0 16px rgba(234, 179, 8, 0.6); border: 2.2px solid #eab308;" title="Galardón: Puntaje Sobresaliente ICFES 🏆🌟">
+      <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; display: block;">
+        <defs>
+          <linearGradient id="trophyGold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFBEB" /><stop offset="30%" stop-color="#FCD34D" /><stop offset="70%" stop-color="#F59E0B" /><stop offset="100%" stop-color="#92400E" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#130822" />
+        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#trophyGold)" stroke-width="2" stroke-dasharray="3,2" />
+        <path d="M34 30 L66 30 L60 54 C58 62 52 66 50 66 C48 66 42 62 40 54 Z" fill="url(#trophyGold)" stroke="#78350F" stroke-width="1.5" />
+        <path d="M47 66 L53 66 L53 75 L47 75 Z" fill="url(#trophyGold)" stroke="#78350F" stroke-width="1.2" />
+        <rect x="36" y="75" width="28" height="8" rx="3" fill="#312E81" stroke="url(#trophyGold)" stroke-width="1.5" />
+        <path d="M34 34 C24 34 24 48 37 50" fill="none" stroke="url(#trophyGold)" stroke-width="2.5" stroke-linecap="round" />
+        <path d="M66 34 C76 34 76 48 63 50" fill="none" stroke="url(#trophyGold)" stroke-width="2.5" stroke-linecap="round" />
+        <polygon points="50,11 53,21 63,23 55,29 58,39 50,33 42,39 45,29 37,23 47,21" fill="#FFFBEB" stroke="#F59E0B" stroke-width="1" />
+        <circle cx="50" cy="23" r="2.5" fill="#EF4444" />
+      </svg>
+    </div>`;
+  }
+
+  // 4. Mayor Nota • Matemáticas 📐✨
+  if (key === '📐✨' || key === 'honor_nota_matematicas') {
+    return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 25%, #0c2a4d 0%, #031427 100%); box-shadow: 0 0 16px rgba(2, 132, 199, 0.65); border: 2.2px solid #0284c7;" title="Galardón: Mayor Nota • Matemáticas 📐✨">
+      <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; display: block;">
+        <defs>
+          <linearGradient id="mathBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#BAE6FD" /><stop offset="40%" stop-color="#38BDF8" /><stop offset="80%" stop-color="#0284C7" /><stop offset="100%" stop-color="#0369A1" />
+          </linearGradient>
+          <linearGradient id="mathGold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FDE047" /><stop offset="100%" stop-color="#D97706" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#041629" />
+        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#mathBlue)" stroke-width="1.8" opacity="0.6" />
+        <line x1="20" y1="50" x2="80" y2="50" stroke="#0ea5e9" stroke-width="0.8" opacity="0.4" />
+        <line x1="50" y1="20" x2="50" y2="80" stroke="#0ea5e9" stroke-width="0.8" opacity="0.4" />
+        <circle cx="50" cy="50" r="28" fill="none" stroke="#38bdf8" stroke-width="1" stroke-dasharray="2,3" opacity="0.5" />
+        <polygon points="26,74 74,74 26,26" fill="rgba(2, 132, 199, 0.35)" stroke="url(#mathBlue)" stroke-width="2.5" />
+        <polygon points="34,68 62,68 34,40" fill="#041629" stroke="url(#mathBlue)" stroke-width="1.5" />
+        <path d="M50 20 L38 68 M50 20 L62 68 M40 50 L60 50" stroke="url(#mathGold)" stroke-width="2.5" stroke-linecap="round" />
+        <circle cx="50" cy="20" r="3.5" fill="url(#mathGold)" stroke="#FFF" stroke-width="1" />
+        <text x="50" y="44" font-size="14" font-weight="900" fill="#38BDF8" text-anchor="middle" font-family="serif">π</text>
+        <text x="70" y="32" font-size="10" font-weight="900" fill="#FDE047" font-family="serif">∑</text>
+        <text x="30" y="32" font-size="10" font-weight="900" fill="#FDE047" font-family="serif">∞</text>
+      </svg>
+    </div>`;
+  }
+
+  // 5. Mayor Nota • Ciencias Naturales 🔬🧪
+  if (key === '🔬🧪' || key === 'honor_nota_ciencias') {
+    return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 25%, #064e3b 0%, #022c22 100%); box-shadow: 0 0 16px rgba(16, 185, 129, 0.65); border: 2.2px solid #10b981;" title="Galardón: Mayor Nota • Ciencias Naturales 🔬🧪">
+      <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; display: block;">
+        <defs>
+          <linearGradient id="bioGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#A7F3D0" /><stop offset="30%" stop-color="#34D399" /><stop offset="70%" stop-color="#10B981" /><stop offset="100%" stop-color="#047857" />
+          </linearGradient>
+          <linearGradient id="atomCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#E0F2FE" /><stop offset="100%" stop-color="#38BDF8" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#03251c" />
+        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#bioGreen)" stroke-width="2" opacity="0.75" />
+        <ellipse cx="50" cy="46" rx="34" ry="12" fill="none" stroke="url(#atomCyan)" stroke-width="1.8" transform="rotate(-30 50 46)" opacity="0.8" />
+        <ellipse cx="50" cy="46" rx="34" ry="12" fill="none" stroke="url(#bioGreen)" stroke-width="1.8" transform="rotate(30 50 46)" opacity="0.8" />
+        <ellipse cx="50" cy="46" rx="34" ry="12" fill="none" stroke="#FDE047" stroke-width="1.4" transform="rotate(90 50 46)" opacity="0.6" />
+        <circle cx="26" cy="36" r="2.5" fill="#38BDF8" />
+        <circle cx="74" cy="36" r="2.5" fill="#34D399" />
+        <circle cx="50" cy="14" r="2.2" fill="#FDE047" />
+        <path d="M46 36 L46 46 L32 72 C30 76 33 80 38 80 L62 80 C67 80 70 76 68 72 L54 46 L54 36 Z" fill="#083329" stroke="url(#bioGreen)" stroke-width="2.4" />
+        <path d="M35 68 Q50 64 65 68 L62 78 L38 78 Z" fill="url(#bioGreen)" opacity="0.85" />
+        <circle cx="45" cy="71" r="2" fill="#FFF" opacity="0.8" />
+        <circle cx="55" cy="73" r="1.5" fill="#FFF" opacity="0.8" />
+        <circle cx="50" cy="58" r="1.8" fill="#FFF" opacity="0.8" />
+        <rect x="44" y="33" width="12" height="4" rx="2" fill="#34D399" />
+      </svg>
+    </div>`;
+  }
+
+  // 6. Mayor Nota • Lenguaje y Literatura 📖✍️
+  if (key === '📖✍️' || key === 'honor_nota_lenguaje') {
+    return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 25%, #381a0e 0%, #170802 100%); box-shadow: 0 0 16px rgba(217, 119, 6, 0.65); border: 2.2px solid #d97706;" title="Galardón: Mayor Nota • Lenguaje y Literatura 📖✍️">
+      <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; display: block;">
+        <defs>
+          <linearGradient id="langParch" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFBEB" /><stop offset="60%" stop-color="#FEF3C7" /><stop offset="100%" stop-color="#FDE68A" />
+          </linearGradient>
+          <linearGradient id="langGold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FCD34D" /><stop offset="60%" stop-color="#F59E0B" /><stop offset="100%" stop-color="#B45309" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#200d05" />
+        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#langGold)" stroke-width="2" opacity="0.75" />
+        <path d="M18 64 C28 60 42 62 50 68 C58 62 72 60 82 64 L82 40 C72 36 58 38 50 44 C42 38 28 36 18 40 Z" fill="url(#langParch)" stroke="#78350F" stroke-width="1.8" />
+        <line x1="50" y1="44" x2="50" y2="68" stroke="#78350F" stroke-width="2" />
+        <line x1="24" y1="46" x2="44" y2="46" stroke="#B45309" stroke-width="1" stroke-linecap="round" />
+        <line x1="24" y1="52" x2="42" y2="52" stroke="#B45309" stroke-width="1" stroke-linecap="round" />
+        <line x1="24" y1="58" x2="40" y2="58" stroke="#B45309" stroke-width="1" stroke-linecap="round" />
+        <line x1="56" y1="46" x2="76" y2="46" stroke="#B45309" stroke-width="1" stroke-linecap="round" />
+        <line x1="56" y1="52" x2="74" y2="52" stroke="#B45309" stroke-width="1" stroke-linecap="round" />
+        <line x1="56" y1="58" x2="72" y2="58" stroke="#B45309" stroke-width="1" stroke-linecap="round" />
+        <path d="M50 44 Q56 22 74 14 C70 24 64 36 52 44 Z" fill="url(#langGold)" stroke="#FFF" stroke-width="0.8" />
+        <line x1="50" y1="44" x2="72" y2="16" stroke="#FFF" stroke-width="0.8" />
+        <circle cx="50" cy="45" r="1.5" fill="#EF4444" />
+        <polygon points="34,22 36,26 40,28 36,30 34,34 32,30 28,28 32,26" fill="#FDE047" />
+      </svg>
+    </div>`;
+  }
+
+  // 7. Mayor Nota • Ciencias Sociales 🌍🏛️
+  if (key === '🌍🏛️' || key === 'honor_nota_sociales') {
+    return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 25%, #2d1508 0%, #120803 100%); box-shadow: 0 0 16px rgba(180, 83, 9, 0.65); border: 2.2px solid #b45309;" title="Galardón: Mayor Nota • Ciencias Sociales 🌍🏛️">
+      <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; display: block;">
+        <defs>
+          <linearGradient id="socBronze" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FDE68A" /><stop offset="40%" stop-color="#D97706" /><stop offset="100%" stop-color="#78350F" />
+          </linearGradient>
+          <linearGradient id="socGlobe" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#60A5FA" /><stop offset="100%" stop-color="#1D4ED8" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#170c06" />
+        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#socBronze)" stroke-width="2" />
+        <circle cx="50" cy="38" r="22" fill="url(#socGlobe)" opacity="0.65" />
+        <ellipse cx="50" cy="38" rx="22" ry="8" fill="none" stroke="url(#socBronze)" stroke-width="1.2" />
+        <ellipse cx="50" cy="38" rx="8" ry="22" fill="none" stroke="url(#socBronze)" stroke-width="1.2" />
+        <polygon points="50,42 24,52 76,52" fill="url(#socBronze)" stroke="#451A03" stroke-width="1.2" />
+        <rect x="26" y="52" width="48" height="4" fill="url(#socBronze)" />
+        <rect x="28" y="56" width="6" height="20" rx="1.5" fill="url(#socBronze)" />
+        <rect x="41" y="56" width="6" height="20" rx="1.5" fill="url(#socBronze)" />
+        <rect x="53" y="56" width="6" height="20" rx="1.5" fill="url(#socBronze)" />
+        <rect x="66" y="56" width="6" height="20" rx="1.5" fill="url(#socBronze)" />
+        <rect x="22" y="76" width="56" height="6" rx="2" fill="url(#socBronze)" stroke="#451A03" stroke-width="1" />
+      </svg>
+    </div>`;
+  }
+
+  // 8. Mayor Nota • Inglés e Idiomas 🌐🗣️
+  if (key === '🌐🗣️' || key === 'honor_nota_ingles') {
+    return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 25%, #1e3a8a 0%, #0a1128 100%); box-shadow: 0 0 16px rgba(37, 99, 235, 0.65); border: 2.2px solid #2563eb;" title="Galardón: Mayor Nota • Inglés e Idiomas 🌐🗣️">
+      <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; display: block;">
+        <defs>
+          <linearGradient id="engBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#60A5FA" /><stop offset="50%" stop-color="#2563EB" /><stop offset="100%" stop-color="#1E3A8A" />
+          </linearGradient>
+          <linearGradient id="engGold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFBEB" /><stop offset="50%" stop-color="#FBBF24" /><stop offset="100%" stop-color="#D97706" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#061226" />
+        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#engBlue)" stroke-width="2" />
+        <path d="M50 16 L76 26 C76 56 50 82 50 82 C50 82 24 56 24 26 Z" fill="url(#engBlue)" stroke="url(#engGold)" stroke-width="2.5" />
+        <path d="M26 34 L74 68 M26 68 L74 34" stroke="#FFF" stroke-width="2.4" opacity="0.4" />
+        <path d="M50 18 L50 78 M24 48 L76 48" stroke="#EF4444" stroke-width="3" stroke-linecap="round" />
+        <circle cx="50" cy="48" r="14" fill="#0f172a" stroke="url(#engGold)" stroke-width="2" />
+        <text x="50" y="53" font-size="12" font-weight="900" fill="#FFF" text-anchor="middle" font-family="sans-serif">EN</text>
+        <polygon points="50,12 52,16 57,17 53,20 54,25 50,22 46,25 47,20 43,17 48,16" fill="url(#engGold)" />
+      </svg>
+    </div>`;
+  }
+
+  // 9. Mayor Nota • Tecnología e Informática 💻⚡
+  if (key === '💻⚡' || key === 'honor_nota_tecnologia') {
+    return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 25%, #3b0764 0%, #0d031c 100%); box-shadow: 0 0 16px rgba(124, 58, 237, 0.7); border: 2.2px solid #7c3aed;" title="Galardón: Mayor Nota • Tecnología e Informática 💻⚡">
+      <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; display: block;">
+        <defs>
+          <linearGradient id="techPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#C084FC" /><stop offset="40%" stop-color="#9333EA" /><stop offset="100%" stop-color="#581C87" />
+          </linearGradient>
+          <linearGradient id="techNeon" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38BDF8" /><stop offset="100%" stop-color="#06B6D4" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#0c071e" />
+        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#techPurple)" stroke-width="2" />
+        <rect x="32" y="32" width="36" height="36" rx="6" fill="#13082b" stroke="url(#techNeon)" stroke-width="2.4" />
+        <line x1="38" y1="26" x2="38" y2="32" stroke="url(#techNeon)" stroke-width="2" />
+        <line x1="50" y1="26" x2="50" y2="32" stroke="url(#techNeon)" stroke-width="2" />
+        <line x1="62" y1="26" x2="62" y2="32" stroke="url(#techNeon)" stroke-width="2" />
+        <line x1="38" y1="68" x2="38" y2="74" stroke="url(#techNeon)" stroke-width="2" />
+        <line x1="50" y1="68" x2="50" y2="74" stroke="url(#techNeon)" stroke-width="2" />
+        <line x1="62" y1="68" x2="62" y2="74" stroke="url(#techNeon)" stroke-width="2" />
+        <line x1="26" y1="38" x2="32" y2="38" stroke="url(#techNeon)" stroke-width="2" />
+        <line x1="26" y1="50" x2="32" y2="50" stroke="url(#techNeon)" stroke-width="2" />
+        <line x1="26" y1="62" x2="32" y2="62" stroke="url(#techNeon)" stroke-width="2" />
+        <line x1="68" y1="38" x2="74" y2="38" stroke="url(#techNeon)" stroke-width="2" />
+        <line x1="68" y1="50" x2="74" y2="50" stroke="url(#techNeon)" stroke-width="2" />
+        <line x1="68" y1="62" x2="74" y2="62" stroke="url(#techNeon)" stroke-width="2" />
+        <path d="M18 18 L26 26 L26 38" fill="none" stroke="url(#techPurple)" stroke-width="1.2" />
+        <path d="M82 18 L74 26 L74 38" fill="none" stroke="url(#techPurple)" stroke-width="1.2" />
+        <circle cx="18" cy="18" r="2" fill="#38BDF8" />
+        <circle cx="82" cy="18" r="2" fill="#C084FC" />
+        <text x="50" y="55" font-size="14" font-weight="900" fill="#38BDF8" text-anchor="middle" font-family="monospace">&lt;/&gt;</text>
+        <polygon points="53,24 45,46 51,46 47,62 61,42 53,42" fill="#FDE047" stroke="#FFF" stroke-width="0.8" />
+      </svg>
+    </div>`;
+  }
+
+  // 10. Mayor Nota • Educación Artística 🎨🖌️
+  if (key === '🎨🖌️' || key === 'honor_nota_artes') {
+    return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 25%, #4a0433 0%, #170110 100%); box-shadow: 0 0 16px rgba(219, 39, 119, 0.65); border: 2.2px solid #db2777;" title="Galardón: Mayor Nota • Educación Artística 🎨🖌️">
+      <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; display: block;">
+        <defs>
+          <linearGradient id="artWood" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FCD34D" /><stop offset="50%" stop-color="#D97706" /><stop offset="100%" stop-color="#92400E" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#20061e" />
+        <circle cx="50" cy="50" r="44" fill="none" stroke="#EC4899" stroke-width="2" opacity="0.75" />
+        <path d="M42 22 C64 20 80 32 80 50 C80 68 66 78 50 78 C36 78 22 68 22 50 C22 36 30 24 42 22 Z" fill="url(#artWood)" stroke="#78350F" stroke-width="2" />
+        <circle cx="66" cy="62" r="5.5" fill="#20061e" stroke="#78350F" stroke-width="1.5" />
+        <circle cx="34" cy="34" r="4.2" fill="#EF4444" stroke="#FFF" stroke-width="0.8" />
+        <circle cx="48" cy="30" r="4.2" fill="#F59E0B" stroke="#FFF" stroke-width="0.8" />
+        <circle cx="62" cy="34" r="4.2" fill="#10B981" stroke="#FFF" stroke-width="0.8" />
+        <circle cx="70" cy="46" r="4.2" fill="#3B82F6" stroke="#FFF" stroke-width="0.8" />
+        <circle cx="36" cy="62" r="4.2" fill="#A855F7" stroke="#FFF" stroke-width="0.8" />
+        <path d="M22 78 L56 44 M56 44 L64 36 L68 40 L60 48 Z" fill="#E2E8F0" stroke="#475569" stroke-width="1.2" />
+        <path d="M64 36 Q74 26 78 22 Q72 32 68 40 Z" fill="#EC4899" />
+      </svg>
+    </div>`;
+  }
+
+  // 11. Mayor Nota • Educación Física ⚽🏅
+  if (key === '⚽🏅' || key === 'honor_nota_deportes') {
+    return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 25%, #431407 0%, #150501 100%); box-shadow: 0 0 16px rgba(234, 88, 12, 0.65); border: 2.2px solid #ea580c;" title="Galardón: Mayor Nota • Educación Física ⚽🏅">
+      <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; display: block;">
+        <defs>
+          <linearGradient id="sportFlame" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FEF08A" /><stop offset="30%" stop-color="#F97316" /><stop offset="70%" stop-color="#EA580C" /><stop offset="100%" stop-color="#C2410C" />
+          </linearGradient>
+          <linearGradient id="sportGold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFBEB" /><stop offset="100%" stop-color="#F59E0B" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#240702" />
+        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#sportFlame)" stroke-width="2" />
+        <path d="M18 42 C12 30 20 20 34 26 C26 30 26 40 34 46 Z" fill="url(#sportGold)" opacity="0.9" />
+        <path d="M82 42 C88 30 80 20 66 26 C74 30 74 40 66 46 Z" fill="url(#sportGold)" opacity="0.9" />
+        <circle cx="50" cy="50" r="22" fill="#FFFFFF" stroke="#0F172A" stroke-width="2" />
+        <polygon points="50,42 58,47 55,56 45,56 42,47" fill="#0F172A" />
+        <line x1="50" y1="42" x2="50" y2="28" stroke="#0F172A" stroke-width="1.8" />
+        <line x1="58" y1="47" x2="70" y2="44" stroke="#0F172A" stroke-width="1.8" />
+        <line x1="55" y1="56" x2="64" y2="67" stroke="#0F172A" stroke-width="1.8" />
+        <line x1="45" y1="56" x2="36" y2="67" stroke="#0F172A" stroke-width="1.8" />
+        <line x1="42" y1="47" x2="30" y2="44" stroke="#0F172A" stroke-width="1.8" />
+        <path d="M50 12 Q56 20 50 26 Q44 20 50 12 Z" fill="url(#sportFlame)" />
+        <circle cx="50" cy="18" r="2" fill="#FEF08A" />
+      </svg>
+    </div>`;
+  }
+
+  // 12. Estudiante del Año US-Loop ⭐🎖️
+  if (key === '⭐🎖️' || key === 'honor_estudiante_ano') {
+    return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 25%, #451a03 0%, #1c0801 100%); box-shadow: 0 0 18px rgba(234, 179, 8, 0.7); border: 2.2px solid #eab308;" title="Premiación Especial: Estudiante del Año US-Loop ⭐🎖️">
+      <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; display: block;">
+        <defs>
+          <linearGradient id="yearGold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFBEB" /><stop offset="30%" stop-color="#FDE047" /><stop offset="70%" stop-color="#F59E0B" /><stop offset="100%" stop-color="#92400E" />
+          </linearGradient>
+          <linearGradient id="yearRuby" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F43F5E" /><stop offset="100%" stop-color="#881337" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#1c0715" />
+        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#yearGold)" stroke-width="2.5" />
+        <polygon points="50,12 55,28 71,17 64,33 80,38 66,48 78,59 62,61 68,77 52,69 50,86 44,70 32,77 38,61 22,59 34,48 20,38 36,33 29,17 45,28" fill="url(#yearGold)" stroke="#78350F" stroke-width="1.2" />
+        <circle cx="50" cy="50" r="20" fill="url(#yearRuby)" stroke="url(#yearGold)" stroke-width="2.4" />
+        <path d="M38 52 L36 42 L43 45 L50 38 L57 45 L64 42 L62 52 Z" fill="url(#yearGold)" stroke="#78350F" stroke-width="1" />
+        <circle cx="50" cy="38" r="2" fill="#FFF" />
+        <path d="M44 58 C40 54 36 62 41 64 C46 66 50 56 55 58 C60 60 56 68 52 64" fill="none" stroke="#80FF00" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </div>`;
+  }
+
+  // 13. Guardián Ecológico Verde 🌱🌍
+  if (key === '🌱🌍' || key === 'honor_guardian_verde') {
+    return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 25%, #052e16 0%, #011409 100%); box-shadow: 0 0 16px rgba(22, 163, 74, 0.65); border: 2.2px solid #16a34a;" title="Premiación Especial: Guardián Ecológico Verde 🌱🌍">
+      <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; display: block;">
+        <defs>
+          <linearGradient id="ecoLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#86EFAC" /><stop offset="50%" stop-color="#22C55E" /><stop offset="100%" stop-color="#15803D" />
+          </linearGradient>
+          <linearGradient id="ecoEarth" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38BDF8" /><stop offset="60%" stop-color="#0284C7" /><stop offset="100%" stop-color="#0369A1" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#032115" />
+        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#ecoLeaf)" stroke-width="2" opacity="0.8" />
+        <circle cx="50" cy="50" r="26" fill="url(#ecoEarth)" stroke="url(#ecoLeaf)" stroke-width="2" />
+        <path d="M42 36 C48 34 54 38 52 44 C50 48 42 50 38 46 Z" fill="#22C55E" opacity="0.9" />
+        <path d="M54 48 C62 46 66 52 64 60 C58 64 52 58 54 48 Z" fill="#22C55E" opacity="0.9" />
+        <path d="M36 56 C40 54 44 60 40 66 Z" fill="#22C55E" opacity="0.9" />
+        <path d="M50 48 Q50 20 34 22 C34 36 44 44 50 48 Z" fill="url(#ecoLeaf)" stroke="#FFF" stroke-width="1" />
+        <path d="M50 48 Q52 14 66 18 C64 32 54 42 50 48 Z" fill="#4ADE80" stroke="#FFF" stroke-width="1" />
+        <circle cx="50" cy="30" r="2.2" fill="#BAE6FD" />
+        <circle cx="50" cy="50" r="38" fill="none" stroke="#4ADE80" stroke-width="1.8" stroke-dasharray="8,4" />
+      </svg>
+    </div>`;
+  }
+
+  // 14. Líder de Solidaridad Escolar 🤝💖
+  if (key === '🤝💖' || key === 'honor_solidaridad') {
+    return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 25%, #4c0519 0%, #190108 100%); box-shadow: 0 0 16px rgba(225, 29, 72, 0.65); border: 2.2px solid #e11d48;" title="Premiación Especial: Líder de Solidaridad Escolar 🤝💖">
+      <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; display: block;">
+        <defs>
+          <linearGradient id="heartPink" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FDA4AF" /><stop offset="40%" stop-color="#F43F5E" /><stop offset="100%" stop-color="#BE123C" />
+          </linearGradient>
+          <linearGradient id="handsGold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFBEB" /><stop offset="60%" stop-color="#FCD34D" /><stop offset="100%" stop-color="#D97706" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#24050d" />
+        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#heartPink)" stroke-width="2" />
+        <path d="M16 48 C10 32 20 22 36 30 C26 36 26 48 36 54 Z" fill="url(#handsGold)" opacity="0.8" />
+        <path d="M84 48 C90 32 80 22 64 30 C74 36 74 48 64 54 Z" fill="url(#handsGold)" opacity="0.8" />
+        <path d="M50 72 C32 56 24 44 28 32 C32 22 44 22 50 32 C56 22 68 22 72 32 C76 44 68 56 50 72 Z" fill="url(#heartPink)" stroke="#FFF" stroke-width="1.8" />
+        <path d="M38 46 Q46 38 52 44 Q58 50 50 56 Q42 50 38 46 Z" fill="url(#handsGold)" stroke="#78350F" stroke-width="1.2" />
+        <circle cx="50" cy="30" r="2.5" fill="#FDE047" />
+      </svg>
+    </div>`;
+  }
+
+  // 15. Premio Innovación & Emprendimiento 💡🚀
+  if (key === '💡🚀' || key === 'honor_innovacion') {
+    return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 25%, #311042 0%, #11031c 100%); box-shadow: 0 0 16px rgba(99, 102, 241, 0.65); border: 2.2px solid #6366f1;" title="Premiación Especial: Innovación & Emprendimiento 💡🚀">
+      <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; display: block;">
+        <defs>
+          <linearGradient id="innoRocket" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFFFF" /><stop offset="40%" stop-color="#E0E7FF" /><stop offset="100%" stop-color="#818CF8" />
+          </linearGradient>
+          <linearGradient id="innoBulb" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FEF08A" /><stop offset="50%" stop-color="#FBBF24" /><stop offset="100%" stop-color="#D97706" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="48" fill="#13072b" />
+        <circle cx="50" cy="50" r="44" fill="none" stroke="url(#innoBulb)" stroke-width="2" />
+        <path d="M50 20 C36 20 30 32 34 44 C38 52 42 56 42 64 L58 64 C58 56 62 52 66 44 C70 32 64 20 50 20 Z" fill="rgba(245, 158, 11, 0.2)" stroke="url(#innoBulb)" stroke-width="2.2" />
+        <rect x="44" y="64" width="12" height="4" rx="1.5" fill="#94A3B8" />
+        <rect x="46" y="68" width="8" height="3" rx="1" fill="#64748B" />
+        <path d="M50 22 C46 32 44 42 44 50 L56 50 C56 42 54 32 50 22 Z" fill="url(#innoRocket)" stroke="#3730A3" stroke-width="1.2" />
+        <path d="M44 46 L38 54 L44 52 Z" fill="#EF4444" />
+        <path d="M56 46 L62 54 L56 52 Z" fill="#EF4444" />
+        <circle cx="50" cy="34" r="3" fill="#38BDF8" stroke="#FFF" stroke-width="0.8" />
+        <polygon points="46,50 50,62 54,50" fill="#F97316" />
+        <polygon points="48,50 50,58 52,50" fill="#FEF08A" />
+        <line x1="24" y1="26" x2="18" y2="22" stroke="url(#innoBulb)" stroke-width="2" stroke-linecap="round" />
+        <line x1="76" y1="26" x2="82" y2="22" stroke="url(#innoBulb)" stroke-width="2" stroke-linecap="round" />
+        <line x1="50" y1="14" x2="50" y2="8" stroke="url(#innoBulb)" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </div>`;
+  }
+
+  return null;
+};
+
 
 /**
  * Procesa y optimiza cualquier archivo de imagen seleccionado por el usuario en el navegador

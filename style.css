@@ -5123,3 +5123,24 @@ select.select-box:focus {
   }
 }
 
+/* Efectos Táctiles y Animación para Íconos Especiales de Honor */
+.special-honor-avatar-wrap,
+.creator-crown-avatar-wrap,
+.dios-union-avatar-wrap,
+.institutional-avatar-wrap {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+  user-select: none;
+}
+
+.special-honor-avatar-wrap:hover,
+.creator-crown-avatar-wrap:hover {
+  transform: scale(1.08);
+}
+
+.special-honor-avatar-wrap svg,
+.creator-crown-avatar-wrap svg,
+.dios-union-avatar-wrap svg,
+.institutional-avatar-wrap svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+}
+
