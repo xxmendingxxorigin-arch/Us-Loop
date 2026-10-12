@@ -68,31 +68,28 @@ function initStorageIfEmpty() {
 // Inicializar de inmediato
 initStorageIfEmpty();
 
-// Estado de conexión: Firebase siempre disponible si firebase-config.js carga
-let isServerAvailable = true;
-
-async function checkServerConnection() {
-  // Firebase reemplaza el servidor PHP - siempre disponible
-  isServerAvailable = true;
-  return true;
-}
-
 // Esperar a que firebase-config.js inicialice window.USLoopAPI
-function waitForFirebase(callback, retries = 20) {
+function waitForFirebase(callback, retries = 30) {
   if (window.USLoopAPI && window._fbDb) {
     callback();
   } else if (retries > 0) {
-    setTimeout(() => waitForFirebase(callback, retries - 1), 100);
+    setTimeout(() => waitForFirebase(callback, retries - 1), 150);
   } else {
-    // Fallback: usar la API local si Firebase no carga
     console.warn('Firebase no disponible, usando almacenamiento local.');
     callback();
   }
 }
 
 waitForFirebase(() => {
+  // Recargar datos desde Firebase en todas las paginas
   if (typeof syncHomePageStatsAndFeed === 'function') {
     syncHomePageStatsAndFeed();
+  }
+  if (typeof renderCatalog === 'function') {
+    window.USLoopAPI.getDonations().then(() => renderCatalog());
+  }
+  if (typeof renderExchanges === 'function') {
+    window.USLoopAPI.getExchanges().then(() => renderExchanges());
   }
 });
 

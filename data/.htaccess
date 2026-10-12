@@ -1,5 +1,0 @@
-# Denegar acceso público directo a archivos JSON de datos
-<FilesMatch "\.(json|lock)$">
-  Order Allow,Deny
-  Deny from all
-</FilesMatch>
