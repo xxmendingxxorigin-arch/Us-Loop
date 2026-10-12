@@ -223,10 +223,14 @@
 
           const itemEmail = (exchange.ownerEmail || exchange.authorEmail || '').toLowerCase().trim();
           const itemAuthor = (exchange.ownerName || exchange.authorName || exchange.name || '').toLowerCase().trim();
-          const isAuthor = isLoggedIn && (
-            (currentEmail && itemEmail && currentEmail === itemEmail) ||
-            (currentName && itemAuthor && currentName === itemAuthor)
-          );
+          let isAuthor = false;
+          if (isLoggedIn) {
+            if (currentEmail && itemEmail) {
+              isAuthor = currentEmail === itemEmail;
+            } else if (!itemEmail && currentName && itemAuthor) {
+              isAuthor = currentName === itemAuthor;
+            }
+          }
 
           const exchangeId = exchange.id || ('exc_' + idx);
           
@@ -378,7 +382,7 @@
         });
       });
     </script>
-    <script src="script.js?v=7.0"></script>
-    <script type="module" src="firebase-config.js?v=8.0"></script>
+    <script src="script.js?v=9.0"></script>
+    <script type="module" src="firebase-config.js?v=9.0"></script>
   </body>
 </html>

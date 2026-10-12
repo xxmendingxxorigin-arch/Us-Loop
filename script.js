@@ -1599,20 +1599,27 @@ window.handleMutualDeliveryConfirmation = async function(requestId) {
   const requesterHasConfirmed = req.status === 'accepted_requester_confirmed' || req.status === 'completed' || !!(req.requesterConfirmed || req.requester_confirmed);
 
   // Verificar si es donante o solicitante
-  let isDonor = (currentEmail && targetEmail && currentEmail === targetEmail) ||
-                (currentName && targetName && (currentName === targetName || currentName.includes(targetName) || targetName.includes(currentName)));
-  let isRequester = (currentEmail && reqEmail && currentEmail === reqEmail) ||
-                    (currentName && reqName && (currentName === reqName || currentName.includes(reqName) || reqName.includes(currentName)));
+  let isDonor = false;
+  if (currentEmail && targetEmail) {
+    isDonor = currentEmail === targetEmail;
+  } else if (!targetEmail && currentName && targetName) {
+    isDonor = currentName === targetName;
+  }
+
+  let isRequester = false;
+  if (currentEmail && reqEmail) {
+    isRequester = currentEmail === reqEmail;
+  } else if (!reqEmail && currentName && reqName) {
+    isRequester = currentName === reqName;
+  }
 
   if (!isDonor && !isRequester) {
     const myDonations = JSON.parse(localStorage.getItem('donations') || '[]');
     const myExchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
-    const ownsItem = myDonations.some(d => String(d.id) === String(req.itemId) || (d.title || '').trim().toLowerCase() === (req.itemTitle || '').trim().toLowerCase()) ||
-                     myExchanges.some(e => String(e.id) === String(req.itemId) || (e.offering || '').trim().toLowerCase() === (req.itemTitle || '').trim().toLowerCase());
+    const ownsItem = myDonations.some(d => String(d.id) === String(req.itemId)) ||
+                     myExchanges.some(e => String(e.id) === String(req.itemId));
     if (ownsItem) {
       isDonor = true;
-    } else {
-      isRequester = true;
     }
   }
 
@@ -1854,13 +1861,11 @@ window.initDonationReminderChecker = function() {
       const reqName = (r.requesterName || r.requester_name || '').toLowerCase().trim();
 
       // Si el usuario actual es quien pidió la donación, NO es el donante
-      const isRequester = (currentEmail && reqEmail && currentEmail === reqEmail) ||
-                          (currentName && reqName && (currentName === reqName || currentName.includes(reqName)));
+      const isRequester = currentEmail && reqEmail ? currentEmail === reqEmail : (!reqEmail && currentName && reqName && currentName === reqName);
       if (isRequester) return false;
 
       // Debe ser el donante objetivo
-      const isTargetDonor = (currentEmail && targetEmail && currentEmail === targetEmail) ||
-                            (currentName && targetName && (currentName === targetName || currentName.includes(targetName)));
+      const isTargetDonor = currentEmail && targetEmail ? currentEmail === targetEmail : (!targetEmail && currentName && targetName && currentName === targetName);
 
       return isTargetDonor;
     });
@@ -1914,8 +1919,7 @@ window.initDonationReminderChecker = function() {
       const reqEmail = (r.requesterEmail || r.requester_email || '').toLowerCase().trim();
       const reqName = (r.requesterName || r.requester_name || '').toLowerCase().trim();
 
-      const isRequester = (currentEmail && reqEmail && currentEmail === reqEmail) ||
-                          (currentName && reqName && (currentName === reqName || currentName.includes(reqName) || reqName.includes(currentName)));
+      const isRequester = currentEmail && reqEmail ? currentEmail === reqEmail : (!reqEmail && currentName && reqName && currentName === reqName);
       return isRequester;
     });
 
@@ -2009,10 +2013,8 @@ window.initDonationReminderChecker = function() {
       const reqEmail = (req.requesterEmail || req.requester_email || '').toLowerCase().trim();
       const reqName = (req.requesterName || req.requester_name || '').toLowerCase().trim();
 
-      const isDonor = (currentEmail && targetEmail && currentEmail === targetEmail) ||
-                      (currentName && targetName && (currentName === targetName || currentName.includes(targetName)));
-      const isRequester = (currentEmail && reqEmail && currentEmail === reqEmail) ||
-                          (currentName && reqName && (currentName === reqName || currentName.includes(reqName)));
+      const isDonor = currentEmail && targetEmail ? currentEmail === targetEmail : (!targetEmail && currentName && targetName && currentName === targetName);
+      const isRequester = currentEmail && reqEmail ? currentEmail === reqEmail : (!reqEmail && currentName && reqName && currentName === reqName);
 
       if (!isDonor && !isRequester) return;
 

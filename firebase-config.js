@@ -229,7 +229,8 @@ window.USLoopAPI = {
   async saveDonation(donation) {
     try {
       const docId = donation.id || ('don_' + Date.now());
-      const data = { ...donation, id: docId, authorEmail: (donation.authorEmail || donation.donorEmail || '').toLowerCase(), status: 'active', createdAt: serverTimestamp() };
+      const userEmail = (auth.currentUser?.email || donation.authorEmail || donation.donorEmail || '').toLowerCase();
+      const data = { ...donation, id: docId, authorEmail: userEmail, donorEmail: userEmail, status: 'active', createdAt: serverTimestamp() };
       await setDoc(doc(db, 'donations', docId), data);
       let donations = JSON.parse(localStorage.getItem('donations') || '[]');
       donations.unshift(data);
@@ -271,7 +272,8 @@ window.USLoopAPI = {
   async saveExchange(exchange) {
     try {
       const docId = exchange.id || ('exc_' + Date.now());
-      const data = { ...exchange, id: docId, authorEmail: (exchange.authorEmail || exchange.ownerEmail || '').toLowerCase(), status: 'active', createdAt: serverTimestamp() };
+      const userEmail = (auth.currentUser?.email || exchange.authorEmail || exchange.ownerEmail || '').toLowerCase();
+      const data = { ...exchange, id: docId, authorEmail: userEmail, ownerEmail: userEmail, status: 'active', createdAt: serverTimestamp() };
       await setDoc(doc(db, 'exchanges', docId), data);
       let exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
       exchanges.unshift(data);
@@ -313,7 +315,8 @@ window.USLoopAPI = {
   async saveRequest(request) {
     try {
       const docId = request.id || ('req_' + Date.now());
-      const data = { ...request, id: docId, status: request.status || 'pending', createdAt: serverTimestamp() };
+      const reqEmail = (auth.currentUser?.email || request.requesterEmail || request.requesterContact || '').toLowerCase();
+      const data = { ...request, id: docId, requesterEmail: reqEmail, status: request.status || 'pending', createdAt: serverTimestamp() };
       await setDoc(doc(db, 'requests', docId), data);
       let requests = JSON.parse(localStorage.getItem('tradeRequests') || '[]');
       requests.unshift(data);

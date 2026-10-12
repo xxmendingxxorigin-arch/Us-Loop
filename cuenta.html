@@ -1180,9 +1180,13 @@
 
         const isAuthor = (item) => {
           const itemEmail = (item.authorEmail || item.donorEmail || item.ownerEmail || '').trim().toLowerCase();
-          const itemName = (item.authorName || item.donorName || item.ownerName || item.name || '').trim().toLowerCase();
-          if (currentEmail && itemEmail && currentEmail === itemEmail) return true;
-          if (currentName && itemName && (currentName === itemName || currentName.includes(itemName) || itemName.includes(currentName))) return true;
+          if (currentEmail && itemEmail) {
+            return currentEmail === itemEmail;
+          }
+          if (!itemEmail && currentName) {
+            const itemName = (item.authorName || item.donorName || item.ownerName || item.name || '').trim().toLowerCase();
+            return itemName && currentName === itemName;
+          }
           return false;
         };
 
@@ -1204,9 +1208,7 @@
           }
 
           const targetEmail = (req.targetAuthorEmail || req.target_author_email || '').trim().toLowerCase();
-          const targetName = (req.targetAuthorName || req.target_author_name || '').trim().toLowerCase();
           const reqItemId = String(req.itemId || req.item_id || '');
-          const reqItemTitle = (req.itemTitle || req.item_title || '').trim().toLowerCase();
 
           // 1. Coincidencia directa por ID de publicación propia (infalible)
           if (reqItemId && (myDonationIds.has(reqItemId) || myExchangeIds.has(reqItemId))) {
@@ -1214,18 +1216,14 @@
           }
 
           // 2. Coincidencia por correo del autor de la publicación
-          if (currentEmail && targetEmail && currentEmail === targetEmail) {
-            return true;
+          if (currentEmail && targetEmail) {
+            return currentEmail === targetEmail;
           }
 
-          // 3. Coincidencia por nombre del autor
-          if (currentName && targetName && (currentName === targetName || currentName.includes(targetName) || targetName.includes(currentName))) {
-            return true;
-          }
-
-          // 4. Coincidencia por título de recurso si el usuario tiene ese recurso activo
-          if (reqItemTitle && myTitles.has(reqItemTitle)) {
-            return true;
+          // 3. Fallback solo si la solicitud no tiene email registrado
+          if (!targetEmail && currentName) {
+            const targetName = (req.targetAuthorName || req.target_author_name || '').trim().toLowerCase();
+            return targetName && currentName === targetName;
           }
 
           return false;
@@ -1236,9 +1234,13 @@
             return false;
           }
           const reqEmail = (req.requesterEmail || req.requester_email || '').trim().toLowerCase();
-          const reqName = (req.requesterName || req.requester_name || '').trim().toLowerCase();
-          if (currentEmail && reqEmail && currentEmail === reqEmail) return true;
-          if (currentName && reqName && (currentName === reqName || currentName.includes(reqName) || reqName.includes(currentName))) return true;
+          if (currentEmail && reqEmail) {
+            return currentEmail === reqEmail;
+          }
+          if (!reqEmail && currentName) {
+            const reqName = (req.requesterName || req.requester_name || '').trim().toLowerCase();
+            return reqName && currentName === reqName;
+          }
           return false;
         };
 
@@ -2588,7 +2590,7 @@
         loadUserStatsAndItems();
       };
     </script>
-    <script src="script.js?v=7.0"></script>
-    <script type="module" src="firebase-config.js?v=8.0"></script>
+    <script src="script.js?v=9.0"></script>
+    <script type="module" src="firebase-config.js?v=9.0"></script>
   </body>
 </html>
