@@ -1135,30 +1135,7 @@
         let requests = [];
 
         try {
-          if (window.location.protocol.startsWith('http')) {
-            const timestamp = Date.now();
-            const [resDon, resExc, resReq, resUsers] = await Promise.all([
-              fetch(`api/donations.php?_t=${timestamp}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null),
-              fetch(`api/exchanges.php?_t=${timestamp}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null),
-              fetch(`api/requests.php?_t=${timestamp}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null),
-              fetch(`api/users.php?_t=${timestamp}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null)
-            ]);
-            donations = Array.isArray(resDon) ? resDon : JSON.parse(localStorage.getItem('donations') || '[]');
-            exchanges = Array.isArray(resExc) ? resExc : JSON.parse(localStorage.getItem('exchanges') || '[]');
-            requests = Array.isArray(resReq) ? resReq : JSON.parse(localStorage.getItem('tradeRequests') || '[]');
-            localStorage.setItem('donations', JSON.stringify(donations));
-            localStorage.setItem('exchanges', JSON.stringify(exchanges));
-            localStorage.setItem('tradeRequests', JSON.stringify(requests));
-
-            if (Array.isArray(resUsers)) {
-              const freshUser = resUsers.find(u => (u.id === storedUser.id) || ((u.email || '').toLowerCase() === (storedUser.email || '').toLowerCase()));
-              if (freshUser) {
-                Object.assign(storedUser, freshUser);
-                localStorage.setItem('currentUser', JSON.stringify(storedUser));
-                loadUserProfile();
-              }
-            }
-          } else if (window.USLoopAPI) {
+          if (window.USLoopAPI) {
             donations = await window.USLoopAPI.getDonations();
             exchanges = await window.USLoopAPI.getExchanges();
             requests = await window.USLoopAPI.getRequests();
@@ -1180,14 +1157,8 @@
 
         const isAuthor = (item) => {
           const itemEmail = (item.authorEmail || item.donorEmail || item.ownerEmail || '').trim().toLowerCase();
-          if (currentEmail && itemEmail) {
-            return currentEmail === itemEmail;
-          }
-          if (!itemEmail && currentName) {
-            const itemName = (item.authorName || item.donorName || item.ownerName || item.name || '').trim().toLowerCase();
-            return itemName && currentName === itemName;
-          }
-          return false;
+          if (!currentEmail || !itemEmail) return false;
+          return currentEmail === itemEmail;
         };
 
         const myDonations = donations.filter(isAuthor);
@@ -2485,6 +2456,123 @@
         showToast(`Abriendo editor para "${itemName}"...`);
       }
 
+      // Funciones para gestionar publicaciones propias en cuenta.html
+      async function deleteDonationItem(id) {
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Retirar Donación?',
+              message: '¿Estás seguro de que deseas retirar esta donación del catálogo?',
+              icon: '🗑️',
+              confirmText: 'Sí, Retirar',
+              cancelText: 'Cancelar'
+            })
+          : confirm('¿Deseas retirar esta donación?');
+
+        if (confirmed) {
+          if (window.USLoopAPI) {
+            await window.USLoopAPI.finishDonation(id);
+          } else {
+            let donations = JSON.parse(localStorage.getItem('donations') || '[]');
+            donations = donations.filter(d => String(d.id) !== String(id));
+            localStorage.setItem('donations', JSON.stringify(donations));
+          }
+          showToast('Donación retirada del catálogo.');
+          loadUserStatsAndItems();
+        }
+      }
+
+      async function finishUserDonation(id) {
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Donación Entregada?',
+              message: '¿Confirmas que ya entregaste este material escolar al compañero? Sumarás +25 Puntos Loop.',
+              icon: '🎁',
+              confirmText: 'Sí, Entregada',
+              cancelText: 'Cancelar'
+            })
+          : confirm('¿Confirmas que ya entregaste esta donación? (+25 Pts)');
+
+        if (confirmed) {
+          const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+          if (window.USLoopAPI) {
+            await window.USLoopAPI.finishDonation(id);
+            if (currentUser.email) {
+              await window.USLoopAPI.updateUserStats(currentUser.email, 'donation');
+            }
+          } else {
+            let donations = JSON.parse(localStorage.getItem('donations') || '[]');
+            donations = donations.filter(d => String(d.id) !== String(id));
+            localStorage.setItem('donations', JSON.stringify(donations));
+          }
+
+          currentUser.completedDonations = (currentUser.completedDonations || 0) + 1;
+          currentUser.loopPoints = ((currentUser.completedDonations || 0) * 25) + ((currentUser.completedTrades || 0) * 20);
+          currentUser.ecoSaved = parseFloat(((currentUser.completedDonations * 3.2) + ((currentUser.completedTrades || 0) * 2.5)).toFixed(1));
+          localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+          showToast('🎁 ¡Donación completada con éxito! +25 Puntos Loop.');
+          loadUserStatsAndItems();
+        }
+      }
+
+      async function deleteExchangeItem(id) {
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Cancelar Intercambio?',
+              message: '¿Estás seguro de que deseas retirar esta propuesta de intercambio del catálogo?',
+              icon: '❌',
+              confirmText: 'Sí, Retirar',
+              cancelText: 'Volver'
+            })
+          : confirm('¿Deseas cancelar esta propuesta?');
+
+        if (confirmed) {
+          if (window.USLoopAPI) {
+            await window.USLoopAPI.completeExchange(id);
+          } else {
+            let exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
+            exchanges = exchanges.filter(e => String(e.id) !== String(id));
+            localStorage.setItem('exchanges', JSON.stringify(exchanges));
+          }
+          showToast('Propuesta de intercambio retirada.');
+          loadUserStatsAndItems();
+        }
+      }
+
+      async function completeUserExchange(id) {
+        const confirmed = window.showCustomConfirm
+          ? await window.showCustomConfirm({
+              title: '¿Trueque Completado?',
+              message: '¿Confirmas que el intercambio se realizó con éxito? Sumarás +20 Puntos Loop.',
+              icon: '🤝',
+              confirmText: 'Sí, Completado',
+              cancelText: 'Cancelar'
+            })
+          : confirm('¿Confirmas que se completó el trueque? (+20 Pts)');
+
+        if (confirmed) {
+          const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+          if (window.USLoopAPI) {
+            await window.USLoopAPI.completeExchange(id);
+            if (currentUser.email) {
+              await window.USLoopAPI.updateUserStats(currentUser.email, 'trade');
+            }
+          } else {
+            let exchanges = JSON.parse(localStorage.getItem('exchanges') || '[]');
+            exchanges = exchanges.filter(e => String(e.id) !== String(id));
+            localStorage.setItem('exchanges', JSON.stringify(exchanges));
+          }
+
+          currentUser.completedTrades = (currentUser.completedTrades || 0) + 1;
+          currentUser.loopPoints = ((currentUser.completedDonations || 0) * 25) + ((currentUser.completedTrades || 0) * 20);
+          currentUser.ecoSaved = parseFloat((((currentUser.completedDonations || 0) * 3.2) + (currentUser.completedTrades * 2.5)).toFixed(1));
+          localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+          showToast('🤝 ¡Trueque completado exitosamente! +20 Puntos Loop.');
+          loadUserStatsAndItems();
+        }
+      }
+
       // Eliminar item
       async function deleteItem(btn) {
         const confirmed = window.showCustomConfirm
@@ -2590,7 +2678,7 @@
         loadUserStatsAndItems();
       };
     </script>
-    <script src="script.js?v=9.0"></script>
-    <script type="module" src="firebase-config.js?v=9.0"></script>
+    <script src="script.js?v=10.0"></script>
+    <script type="module" src="firebase-config.js?v=10.0"></script>
   </body>
 </html>
