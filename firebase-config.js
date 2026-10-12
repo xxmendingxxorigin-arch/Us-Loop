@@ -254,6 +254,87 @@ window.USLoopAPI = {
     return { success: true };
   },
 
+  async awardSpecialHonor(email, honorData, setAsActive = false) {
+    if (!email || !honorData) return { success: false, message: 'Datos incompletos.' };
+    const cleanEmail = email.toLowerCase().trim();
+    try {
+      const q = query(collection(db, 'users'), where('email', '==', cleanEmail));
+      const snap = await getDocs(q);
+      if (snap.empty) {
+        return { success: false, message: 'No se encontró un usuario registrado con el correo: ' + cleanEmail };
+      }
+      const userDoc = snap.docs[0];
+      const userData = userDoc.data();
+      const currentHonors = Array.isArray(userData.awardedHonors) ? userData.awardedHonors : [];
+      // Reemplazar si ya tenía este mismo galardón o agregar
+      const filtered = currentHonors.filter(h => h.id !== honorData.id);
+      filtered.push(honorData);
+
+      const updates = { awardedHonors: filtered };
+      if (setAsActive && honorData.icon) {
+        updates.avatar = honorData.icon;
+      }
+      await updateDoc(userDoc.ref, updates);
+
+      // Actualizar localStorage
+      let users = JSON.parse(localStorage.getItem('users') || '[]');
+      const idx = users.findIndex(u => (u.email || '').toLowerCase() === cleanEmail);
+      if (idx !== -1) {
+        users[idx] = { ...users[idx], ...updates };
+        localStorage.setItem('users', JSON.stringify(users));
+      }
+      const cu = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      if ((cu.email || '').toLowerCase() === cleanEmail) {
+        Object.assign(cu, updates);
+        localStorage.setItem('currentUser', JSON.stringify(cu));
+      }
+      return { success: true, user: { ...userData, ...updates } };
+    } catch (e) {
+      console.warn('Error otorgando galardón:', e);
+      return { success: false, message: e.message || 'Error al guardar galardón en la base de datos.' };
+    }
+  },
+
+  async revokeSpecialHonor(email, honorId) {
+    if (!email || !honorId) return { success: false };
+    const cleanEmail = email.toLowerCase().trim();
+    try {
+      const q = query(collection(db, 'users'), where('email', '==', cleanEmail));
+      const snap = await getDocs(q);
+      if (!snap.empty) {
+        const userDoc = snap.docs[0];
+        const userData = userDoc.data();
+        const currentHonors = Array.isArray(userData.awardedHonors) ? userData.awardedHonors : [];
+        const filtered = currentHonors.filter(h => h.id !== honorId);
+        const updates = { awardedHonors: filtered };
+        
+        // Si tenía de avatar el ícono que fue revocado, regresarlo a default
+        const revokedItem = currentHonors.find(h => h.id === honorId);
+        if (revokedItem && userData.avatar === revokedItem.icon) {
+          updates.avatar = '👨‍🎓';
+        }
+
+        await updateDoc(userDoc.ref, updates);
+
+        let users = JSON.parse(localStorage.getItem('users') || '[]');
+        const idx = users.findIndex(u => (u.email || '').toLowerCase() === cleanEmail);
+        if (idx !== -1) {
+          users[idx] = { ...users[idx], ...updates };
+          localStorage.setItem('users', JSON.stringify(users));
+        }
+        const cu = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        if ((cu.email || '').toLowerCase() === cleanEmail) {
+          Object.assign(cu, updates);
+          localStorage.setItem('currentUser', JSON.stringify(cu));
+        }
+        return { success: true };
+      }
+    } catch (e) {
+      console.warn('Error revocando galardón:', e);
+    }
+    return { success: false };
+  },
+
   async deleteUserAccount(email) {
     if (!email) return;
     try {

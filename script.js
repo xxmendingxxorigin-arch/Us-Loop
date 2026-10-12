@@ -2184,6 +2184,21 @@ window.renderAvatarHtml = function(avatar, size = 24, isRound = true, extraClass
         <circle cx="50" cy="74" r="2.5" fill="#FBBF24" />
       </svg>
     </div>`;
+  // 3. Corona de El Creador 👑 (Insignia Suprema del Fundador)
+  if (currentAvatar === '👑') {
+    const fontSize = typeof size === 'number' ? (size * 0.58) + 'px' : '1.4rem';
+    return `<div class="creator-crown-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; display: flex; align-items: center; justify-content: center; position: relative; border-radius: ${borderRadius}; overflow: hidden; background: radial-gradient(circle at 50% 30%, #451a03 0%, #1c0901 65%, #0c0401 100%); box-shadow: 0 0 16px rgba(245, 158, 11, 0.65), 0 0 24px rgba(225, 29, 72, 0.4); border: 2.2px solid #fbbf24; font-size: ${fontSize}; user-select: none;" title="Corona de El Creador 👑">
+      👑
+    </div>`;
+  }
+
+  // 4. Medallones de Galardón Especial (ICFES, Materias Escolares y Premiaciones)
+  const honorItem = (window.SPECIAL_HONORS_CATALOG || []).find(h => h.icon === currentAvatar);
+  if (honorItem) {
+    const fontSize = typeof size === 'number' ? (size * 0.52) + 'px' : '1.3rem';
+    return `<div class="special-honor-avatar-wrap ${extraClass}" style="width: ${sizeStyle}; height: ${sizeStyle}; border-radius: ${borderRadius}; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: radial-gradient(circle at 50% 30%, #1e1b4b 0%, #0f172a 100%); border: 2px solid ${honorItem.color || '#f59e0b'}; box-shadow: 0 0 12px ${honorItem.glow || 'rgba(245, 158, 11, 0.45)'}; font-size: ${fontSize}; line-height: 1; user-select: none;" title="${honorItem.name} • ${honorItem.badge}">
+      ${currentAvatar}
+    </div>`;
   }
 
   const isImage = typeof currentAvatar === 'string' && (
@@ -2249,10 +2264,179 @@ window.processAvatarImageFile = function(file, maxWidth = 400, maxHeight = 400, 
 };
 
 /**
+ * Catálogo Oficial de Galardones e Íconos Especiales de US-Loop:
+ * - Pruebas de Estado ICFES Saber 11
+ * - Mayor Nota por Asignatura Escolar (un ícono por materia)
+ * - Premiaciones Especiales y Distinciones Institucionales
+ */
+window.SPECIAL_HONORS_CATALOG = [
+  // --- Categoría 1: Pruebas de Estado ICFES ---
+  {
+    id: 'honor_icfes_supremo',
+    category: 'Pruebas de Estado Saber 11',
+    categoryIcon: '🎯',
+    icon: '🎯📜',
+    name: 'Mejor ICFES • Saber 11',
+    badge: 'Excelencia Saber 11 🎯📜',
+    desc: 'Máximo puntaje en las pruebas de estado Saber 11 a nivel institucional.',
+    glow: 'rgba(245, 158, 11, 0.55)',
+    color: '#f59e0b'
+  },
+  {
+    id: 'honor_icfes_destacado',
+    category: 'Pruebas de Estado Saber 11',
+    categoryIcon: '🎯',
+    icon: '🏆🌟',
+    name: 'Puntaje Sobresaliente ICFES',
+    badge: 'Saber 11 Destacado 🏆🌟',
+    desc: 'Reconocimiento a puntajes meritorios y destacados en las pruebas Saber 11.',
+    glow: 'rgba(234, 179, 8, 0.5)',
+    color: '#eab308'
+  },
+
+  // --- Categoría 2: Mayor Nota por Materia ---
+  {
+    id: 'honor_nota_matematicas',
+    category: 'Mayor Nota por Materia',
+    categoryIcon: '📐',
+    icon: '📐✨',
+    name: 'Mayor Nota • Matemáticas',
+    badge: 'Genio Matemático 📐✨',
+    desc: 'Mayor rendimiento académico y lógica brillante en Matemáticas.',
+    glow: 'rgba(2, 132, 199, 0.55)',
+    color: '#0284c7'
+  },
+  {
+    id: 'honor_nota_ciencias',
+    category: 'Mayor Nota por Materia',
+    categoryIcon: '🔬',
+    icon: '🔬🧪',
+    name: 'Mayor Nota • Ciencias Naturales',
+    badge: 'Científico del Campus 🔬🧪',
+    desc: 'Mayor nota y excelencia en Física, Química y Biología.',
+    glow: 'rgba(16, 185, 129, 0.55)',
+    color: '#10b981'
+  },
+  {
+    id: 'honor_nota_lenguaje',
+    category: 'Mayor Nota por Materia',
+    categoryIcon: '📖',
+    icon: '📖✍️',
+    name: 'Mayor Nota • Lenguaje y Literatura',
+    badge: 'Pluma de Oro 📖✍️',
+    desc: 'Mayor promedio en redacción, literatura y comprensión lectora.',
+    glow: 'rgba(217, 119, 6, 0.55)',
+    color: '#d97706'
+  },
+  {
+    id: 'honor_nota_sociales',
+    category: 'Mayor Nota por Materia',
+    categoryIcon: '🌍',
+    icon: '🌍🏛️',
+    name: 'Mayor Nota • Ciencias Sociales',
+    badge: 'Pensador Ilustre 🌍🏛️',
+    desc: 'Liderazgo en pensamiento crítico, historia y competencias ciudadanas.',
+    glow: 'rgba(180, 83, 9, 0.55)',
+    color: '#b45309'
+  },
+  {
+    id: 'honor_nota_ingles',
+    category: 'Mayor Nota por Materia',
+    categoryIcon: '🌐',
+    icon: '🌐🗣️',
+    name: 'Mayor Nota • Inglés e Idiomas',
+    badge: 'Políglota del Loop 🌐🗣️',
+    desc: 'Mayor competencia comunicativa y fluidez en lengua extranjera.',
+    glow: 'rgba(37, 99, 235, 0.55)',
+    color: '#2563eb'
+  },
+  {
+    id: 'honor_nota_tecnologia',
+    category: 'Mayor Nota por Materia',
+    categoryIcon: '💻',
+    icon: '💻⚡',
+    name: 'Mayor Nota • Tecnología e Informática',
+    badge: 'Maestro Tecnológico 💻⚡',
+    desc: 'Excelencia en programación, robótica e innovación digital.',
+    glow: 'rgba(124, 58, 237, 0.55)',
+    color: '#7c3aed'
+  },
+  {
+    id: 'honor_nota_artes',
+    category: 'Mayor Nota por Materia',
+    categoryIcon: '🎨',
+    icon: '🎨🖌️',
+    name: 'Mayor Nota • Educación Artística',
+    badge: 'Artista del Campus 🎨🖌️',
+    desc: 'Mayor sensibilidad creativa, dibujo y expresión plástica.',
+    glow: 'rgba(219, 39, 119, 0.55)',
+    color: '#db2777'
+  },
+  {
+    id: 'honor_nota_deportes',
+    category: 'Mayor Nota por Materia',
+    categoryIcon: '⚽',
+    icon: '⚽🏅',
+    name: 'Mayor Nota • Educación Física',
+    badge: 'Atleta Estrella ⚽🏅',
+    desc: 'Liderazgo deportivo, disciplina atlética y espíritu competitivo.',
+    glow: 'rgba(234, 88, 12, 0.55)',
+    color: '#ea580c'
+  },
+
+  // --- Categoría 3: Premiaciones Especiales ---
+  {
+    id: 'honor_estudiante_ano',
+    category: 'Premiación Especial',
+    categoryIcon: '⭐',
+    icon: '⭐🎖️',
+    name: 'Estudiante del Año US-Loop',
+    badge: 'Honor Integral Supremo ⭐🎖️',
+    desc: 'Máxima distinción anual por excelencia académica, valores y convivencia.',
+    glow: 'rgba(234, 179, 8, 0.6)',
+    color: '#eab308'
+  },
+  {
+    id: 'honor_guardian_verde',
+    category: 'Premiación Especial',
+    categoryIcon: '🌱',
+    icon: '🌱🌍',
+    name: 'Guardián Ecológico Verde',
+    badge: 'Líder en Sostenibilidad 🌱🌍',
+    desc: 'Mayor impacto en reciclaje escolar, economía circular y cuidado del entorno.',
+    glow: 'rgba(22, 163, 74, 0.55)',
+    color: '#16a34a'
+  },
+  {
+    id: 'honor_solidaridad',
+    category: 'Premiación Especial',
+    categoryIcon: '🤝',
+    icon: '🤝💖',
+    name: 'Líder de Solidaridad Escolar',
+    badge: 'Corazón Solidario 🤝💖',
+    desc: 'Reconocimiento a la generosidad altruista y compañerismo constante.',
+    glow: 'rgba(225, 29, 72, 0.55)',
+    color: '#e11d48'
+  },
+  {
+    id: 'honor_innovacion',
+    category: 'Premiación Especial',
+    categoryIcon: '💡',
+    icon: '💡🚀',
+    name: 'Premio Innovación & Emprendimiento',
+    badge: 'Mente Innovadora 💡🚀',
+    desc: 'Creatividad destacada en proyectos de innovación y liderazgo estudiantil.',
+    glow: 'rgba(99, 102, 241, 0.55)',
+    color: '#6366f1'
+  }
+];
+
+/**
  * Retorna la lista de íconos/avatares especiales de honor que este usuario tiene desbloqueados:
  * 1. 👑 'Corona de El Creador': Solo para el desarrollador principal (isCreator).
  * 2. ⚡🌌 'Dios del Loop': Solo tras consagración oficial aprobada o para El Creador.
  * 3. 🏛️👑 'Ícono Institucional': Medalla de Honor pres-6 al alcanzar Nivel 25 Supremo (o Creador/Dios del Loop).
+ * 4. Galardones otorgados por El Creador por ICFES, Materias Escolares y Premiaciones.
  */
 window.getUnlockedSpecialAvatars = function(user) {
   const cu = user || JSON.parse(localStorage.getItem('currentUser') || '{}');
@@ -2307,6 +2491,22 @@ window.getUnlockedSpecialAvatars = function(user) {
       glow: 'rgba(245, 158, 11, 0.45)'
     });
   }
+
+  // Galardones especiales otorgados por El Creador
+  if (Array.isArray(cu.awardedHonors)) {
+    cu.awardedHonors.forEach(h => {
+      if (!unlocked.some(u => u.emoji === h.icon)) {
+        unlocked.push({
+          emoji: h.icon,
+          name: h.name,
+          badge: h.badge || (h.name + ' ' + h.icon),
+          desc: h.reason ? `Mención: ${h.reason}` : (h.desc || 'Condecoración oficial por El Creador.'),
+          glow: h.glow || 'rgba(245, 158, 11, 0.55)'
+        });
+      }
+    });
+  }
+
   return unlocked;
 };
 
@@ -2316,18 +2516,23 @@ window.getUnlockedSpecialAvatars = function(user) {
  */
 window.isAvatarAuthorized = function(avatar, user) {
   if (!avatar) return true;
-  const specialAvatars = ['👑', '⚡🌌', '🏛️👑', 'DIOS_DEL_LOOP', 'DIOS_DE_LA_UNION', 'ICONO_INSTITUCIONAL', '👑🏛️', '🌌⚡', '⚡👑🌌'];
-  if (!specialAvatars.includes(avatar)) {
+  const baseSpecialIcons = ['👑', '⚡🌌', '🏛️👑', 'DIOS_DEL_LOOP', 'DIOS_DE_LA_UNION', 'ICONO_INSTITUCIONAL', '👑🏛️', '🌌⚡', '⚡👑🌌'];
+  const catalogSpecialIcons = (window.SPECIAL_HONORS_CATALOG || []).map(item => item.icon);
+  const allSpecialIcons = [...baseSpecialIcons, ...catalogSpecialIcons];
+
+  if (!allSpecialIcons.includes(avatar)) {
     return true; // Fotos personalizadas y emojis estándar están permitidos libremente
   }
+
   const cu = user || JSON.parse(localStorage.getItem('currentUser') || '{}');
   const unlocked = window.getUnlockedSpecialAvatars(cu).map(item => item.emoji);
-  if (avatar === '👑') return unlocked.includes('👑');
-  if (avatar === '⚡🌌' || avatar === 'DIOS_DEL_LOOP' || avatar === 'DIOS_DE_LA_UNION' || avatar === '🌌⚡' || avatar === '⚡👑🌌') {
-    return unlocked.includes('⚡🌌');
+  if (unlocked.includes(avatar)) return true;
+  if (avatar === '👑' && unlocked.includes('👑')) return true;
+  if ((avatar === '⚡🌌' || avatar === 'DIOS_DEL_LOOP' || avatar === 'DIOS_DE_LA_UNION' || avatar === '🌌⚡' || avatar === '⚡👑🌌') && unlocked.includes('⚡🌌')) {
+    return true;
   }
-  if (avatar === '🏛️👑' || avatar === 'ICONO_INSTITUCIONAL' || avatar === '👑🏛️') {
-    return unlocked.includes('🏛️👑');
+  if ((avatar === '🏛️👑' || avatar === 'ICONO_INSTITUCIONAL' || avatar === '👑🏛️') && unlocked.includes('🏛️👑')) {
+    return true;
   }
   return false;
 };
@@ -2739,17 +2944,25 @@ window.renderCreatorsNotificationCard = async function(user, container) {
 /**
  * Panel de Aprobaciones Exclusivo de El Creador
  */
+/**
+ * Panel de Aprobaciones y Concesión de Galardones Exclusivo de El Creador
+ */
 window.renderCreatorApprovalPanel = async function(creatorUser, container) {
   if (!container) return;
   let allUsers = [];
   try {
-    const res = await fetch('api/users.php');
-    if (res.ok) allUsers = await res.json();
+    if (window.USLoopAPI && window.USLoopAPI.getUsers) {
+      allUsers = await window.USLoopAPI.getUsers();
+    } else {
+      const res = await fetch('api/users.php');
+      if (res.ok) allUsers = await res.json();
+      else allUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    }
   } catch (e) {
     allUsers = JSON.parse(localStorage.getItem('users') || '[]');
   }
 
-  // Filtrar ÚNICAMENTE candidatos de Nivel 25 pendientes que NO han sido aprobados
+  // 1. Filtrar candidatos de Nivel 25 pendientes de consagración
   const pendingCandidates = allUsers.filter(u => {
     if (u.id === creatorUser.id || (u.email || '').toLowerCase() === (creatorUser.email || '').toLowerCase()) return false;
     const pts = Number(u.loopPoints || 0);
@@ -2758,14 +2971,48 @@ window.renderCreatorApprovalPanel = async function(creatorUser, container) {
     const isLvl25 = pts >= 3800 || (dons + trades >= 100) || (u.completedBadges && u.completedBadges.length >= 30);
     return isLvl25 && !u.consecrationApprovedByCreator;
   });
-
   const pendingCount = pendingCandidates.length;
 
+  // 2. Extraer todos los galardones otorgados actualmente en el campus
+  const grantedHonorsList = [];
+  allUsers.forEach(u => {
+    if (Array.isArray(u.awardedHonors) && u.awardedHonors.length > 0) {
+      u.awardedHonors.forEach(h => {
+        grantedHonorsList.push({
+          user: u,
+          honor: h
+        });
+      });
+    }
+  });
+
+  // Datalist de estudiantes registrados para autocompletar correos
+  const studentEmailsDatalistHtml = allUsers
+    .filter(u => (u.email || '').toLowerCase() !== (creatorUser.email || '').toLowerCase())
+    .map(u => `<option value="${u.email}">${u.name || 'Estudiante'} (${u.grade || 'Grado'})</option>`)
+    .join('');
+
+  // Agrupar opciones de galardones por categorías
+  const catalog = window.SPECIAL_HONORS_CATALOG || [];
+  const categories = {};
+  catalog.forEach(item => {
+    const cat = item.category || 'Otros Galardones';
+    if (!categories[cat]) categories[cat] = [];
+    categories[cat].push(item);
+  });
+
+  const honorsSelectHtml = Object.entries(categories).map(([catName, items]) => `
+    <optgroup label="${catName}">
+      ${items.map(h => `<option value="${h.id}" data-icon="${h.icon}" data-name="${h.name}">${h.icon} ${h.name}</option>`).join('')}
+    </optgroup>
+  `).join('');
+
+  // Renderizar tarjetas de candidatos Nivel 25 pendientes
   let candidatesHtml = '';
   if (pendingCount === 0) {
     candidatesHtml = `
-      <div style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 22px; text-align: center; color: #94a3b8; font-size: 0.9rem;">
-        🛡️ No hay solicitudes de consagración pendientes en este momento. Todas las autorizaciones han sido enviadas. Cuando otro estudiante alcance el Nivel 25, aparecerá aquí.
+      <div style="background: rgba(15, 23, 42, 0.5); border: 1px dashed rgba(255,255,255,0.18); border-radius: 14px; padding: 18px; text-align: center; color: #94a3b8; font-size: 0.88rem;">
+        🛡️ No hay solicitudes de consagración pendientes en este momento. Cuando un estudiante alcance el Nivel 25, aparecerá aquí.
       </div>
     `;
   } else {
@@ -2801,25 +3048,321 @@ window.renderCreatorApprovalPanel = async function(creatorUser, container) {
     }).join('');
   }
 
+  // Renderizar historial de galardones otorgados
+  let honorsListHtml = '';
+  if (grantedHonorsList.length === 0) {
+    honorsListHtml = `
+      <div style="background: rgba(15, 23, 42, 0.45); border: 1px dashed rgba(255,255,255,0.15); border-radius: 14px; padding: 18px; text-align: center; color: #94a3b8; font-size: 0.86rem;">
+        🎖️ Aún no has concedido galardones especiales. Utiliza el formulario superior para condecorar al mejor ICFES o mayores notas por materia.
+      </div>
+    `;
+  } else {
+    honorsListHtml = `
+      <div style="display: grid; gap: 10px;">
+        ${grantedHonorsList.map(({ user, honor }) => `
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 14px; padding: 12px 16px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 12px; min-width: 240px;">
+              <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                ${window.renderAvatarHtml(honor.icon, 44, false)}
+              </div>
+              <div>
+                <div style="font-weight: 800; font-size: 0.92rem; color: #fde047;">${honor.name}</div>
+                <div style="font-size: 0.8rem; color: #cbd5e1;">
+                  Condecorado: <strong>${user.name || 'Estudiante'}</strong> (${user.email})
+                </div>
+                ${honor.reason ? `<div style="font-size: 0.74rem; color: #94a3b8; margin-top: 2px;">📌 ${honor.reason}</div>` : ''}
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 0.72rem; background: rgba(245, 158, 11, 0.15); color: #fef08a; padding: 3px 8px; border-radius: 999px; border: 1px solid rgba(245, 158, 11, 0.3);">
+                ${honor.badge || honor.name}
+              </span>
+              <button type="button" class="btn btn-sm btn-outline" onclick="window.revokeSpecialHonorFromUser('${user.email}', '${honor.id}')" style="color: #f87171; border-color: rgba(239, 68, 68, 0.3); font-size: 0.76rem; padding: 4px 10px; border-radius: 8px; cursor: pointer;">
+                Revocar ✕
+              </button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
   container.innerHTML = `
     <div class="creator-approval-panel" id="creator-approval-panel-card">
       <div class="creator-panel-header">
         <h3 class="creator-panel-title">
-          <span>👑</span> Panel de Decisiones de El Creador: Aprobación de Consagraciones
+          <span>👑</span> Panel de Condecoraciones y Decisiones de El Creador
         </h3>
-        <div class="creator-panel-badge">
-          ⚡ ${pendingCount} Pendiente${pendingCount === 1 ? '' : 's'} de Aprobación
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <div class="creator-panel-badge" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+            🎖️ ${grantedHonorsList.length} Galardón${grantedHonorsList.length === 1 ? '' : 'es'} Concedido${grantedHonorsList.length === 1 ? '' : 's'}
+          </div>
+          <div class="creator-panel-badge" style="background: linear-gradient(135deg, #e11d48, #9333ea);">
+            ⚡ ${pendingCount} Consagración${pendingCount === 1 ? '' : 'es'} Pendiente${pendingCount === 1 ? '' : 's'}
+          </div>
         </div>
       </div>
-      <p style="margin: 0 0 16px; font-size: 0.88rem; color: #cbd5e1; line-height: 1.5;">
-        Como <strong>El Creador de US-Loop</strong>, tienes la potestad exclusiva de autorizar a qué estudiantes de <strong>Nivel 25</strong> se les envía la notificación oficial para consagrarse como <strong>un «Dios del Loop»</strong>.
-      </p>
-      <div class="creator-candidates-list">
-        ${candidatesHtml}
+
+      <!-- ================================================================ -->
+      <!-- SECCIÓN A: OTORGAR GALARDONES ESPECIALES A CUENTAS POR CORREO -->
+      <!-- ================================================================ -->
+      <div style="background: rgba(15, 23, 42, 0.7); border: 1.5px solid rgba(245, 158, 11, 0.4); border-radius: 18px; padding: 20px; margin-bottom: 22px; box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.3rem;">🎖️</span>
+            <div>
+              <h4 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #fde047;">Otorgar Ícono Especial por Correo</h4>
+              <p style="margin: 2px 0 0; font-size: 0.8rem; color: #94a3b8;">Premia al mejor ICFES, mayor nota por materia o distinciones escolares</p>
+            </div>
+          </div>
+          <span style="font-size: 0.74rem; background: rgba(245, 158, 11, 0.2); color: #fef08a; padding: 3px 10px; border-radius: 999px; font-weight: 700; border: 1px solid rgba(245, 158, 11, 0.35);">
+            Exclusivo El Creador 👑
+          </span>
+        </div>
+
+        <form id="creator-grant-honor-form" onsubmit="event.preventDefault(); window.submitCreatorHonorGrant();" style="display: grid; gap: 14px;">
+          <datalist id="creator-students-emails-datalist">
+            ${studentEmailsDatalistHtml}
+          </datalist>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px;">
+            <!-- Campo: Correo del Estudiante -->
+            <div>
+              <label style="display: block; font-size: 0.82rem; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">
+                📧 Correo Electrónico del Estudiante:
+              </label>
+              <input type="email" id="creator-honor-email" list="creator-students-emails-datalist" placeholder="ejemplo: estudiante@colegio.edu.co" required style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid #334155; background: #0f172a; color: #ffffff; font-size: 0.9rem; outline: none; transition: border-color 0.2s;" />
+              <div id="creator-student-detected-label" style="font-size: 0.76rem; color: #94a3b8; margin-top: 4px;">Escribe o selecciona un correo registrado.</div>
+            </div>
+
+            <!-- Campo: Selector de Galardón -->
+            <div>
+              <label style="display: block; font-size: 0.82rem; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">
+                🏆 Galardón / Ícono a Otorgar:
+              </label>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <select id="creator-honor-select" style="flex: 1; padding: 10px 14px; border-radius: 10px; border: 1.5px solid #334155; background: #0f172a; color: #ffffff; font-size: 0.9rem; outline: none; transition: border-color 0.2s;">
+                  ${honorsSelectHtml}
+                </select>
+                <div id="creator-honor-preview-badge" style="width: 44px; height: 44px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #0f172a; border: 1.5px solid #f59e0b; border-radius: 12px;">
+                  ${window.renderAvatarHtml(catalog[0]?.icon || '🎯📜', 38, false)}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Campo: Motivo o Mención -->
+          <div>
+            <label style="display: block; font-size: 0.82rem; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">
+              📝 Mención de Honor / Motivo del Reconocimiento (Opcional):
+            </label>
+            <input type="text" id="creator-honor-reason" placeholder="Ej: Puntaje ICFES 412 • Promoción 2026, Mayor promedio en Matemáticas (5.0), etc." style="width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid #334155; background: #0f172a; color: #ffffff; font-size: 0.88rem; outline: none;" />
+          </div>
+
+          <!-- Opciones y Botón de Envío -->
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 4px;">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 0.84rem; color: #cbd5e1; cursor: pointer;">
+              <input type="checkbox" id="creator-honor-set-active" checked style="width: 16px; height: 16px; accent-color: #2563eb;" />
+              <span>Establecer de inmediato como foto de perfil activa del estudiante</span>
+            </label>
+            <button type="submit" id="btn-submit-grant-honor" class="btn btn-primary" style="padding: 10px 22px; font-weight: 800; font-size: 0.9rem; border-radius: 12px; background: linear-gradient(135deg, #f59e0b, #d97706); border: none; color: #ffffff; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4); cursor: pointer; transition: all 0.2s;">
+              🎖️ Conceder Galardón de Honor
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ================================================================ -->
+      <!-- SECCIÓN B: HISTORIAL DE GALARDONES ACTIVOS EN EL CAMPUS -->
+      <!-- ================================================================ -->
+      <div style="margin-bottom: 24px;">
+        <h4 style="margin: 0 0 10px; font-size: 0.95rem; font-weight: 800; color: #cbd5e1; display: flex; align-items: center; gap: 6px;">
+          <span>📜</span> Condecoraciones de Honor Activas (${grantedHonorsList.length})
+        </h4>
+        ${honorsListHtml}
+      </div>
+
+      <!-- ================================================================ -->
+      <!-- SECCIÓN C: APROBACIÓN DE CONSAGRACIONES DE NIVEL 25 («DIOS DEL LOOP») -->
+      <!-- ================================================================ -->
+      <div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+          <h4 style="margin: 0; font-size: 0.95rem; font-weight: 800; color: #cbd5e1; display: flex; align-items: center; gap: 6px;">
+            <span>⚡</span> Consagraciones «Dios del Loop» Pendientes (${pendingCount})
+          </h4>
+        </div>
+        <p style="margin: 0 0 12px; font-size: 0.84rem; color: #94a3b8; line-height: 1.4;">
+          Estudiantes que alcanzaron el Nivel 25 Supremo esperando tu autorización oficial.
+        </p>
+        <div class="creator-candidates-list">
+          ${candidatesHtml}
+        </div>
       </div>
     </div>
   `;
   container.style.display = 'block';
+
+  // Configurar listeners del formulario
+  const honorSelect = container.querySelector('#creator-honor-select');
+  const previewBadge = container.querySelector('#creator-honor-preview-badge');
+  const emailInput = container.querySelector('#creator-honor-email');
+  const detectedLabel = container.querySelector('#creator-student-detected-label');
+
+  if (honorSelect && previewBadge) {
+    honorSelect.addEventListener('change', () => {
+      const selectedOpt = honorSelect.options[honorSelect.selectedIndex];
+      const icon = selectedOpt.dataset.icon || '🎯📜';
+      previewBadge.innerHTML = window.renderAvatarHtml(icon, 38, false);
+    });
+  }
+
+  if (emailInput && detectedLabel) {
+    emailInput.addEventListener('input', () => {
+      const em = emailInput.value.trim().toLowerCase();
+      const match = allUsers.find(u => (u.email || '').toLowerCase() === em);
+      if (match) {
+        detectedLabel.innerHTML = `✓ Estudiante encontrado: <strong style="color: #67e8f9;">${match.name || 'Estudiante'}</strong> (${match.grade || 'Grado'})`;
+      } else {
+        detectedLabel.textContent = 'Escribe o selecciona un correo registrado.';
+      }
+    });
+  }
+};
+
+/**
+ * Procesa la concesión de un galardón especial desde el panel de El Creador
+ */
+window.submitCreatorHonorGrant = async function() {
+  const emailInput = document.getElementById('creator-honor-email');
+  const honorSelect = document.getElementById('creator-honor-select');
+  const reasonInput = document.getElementById('creator-honor-reason');
+  const setActiveCheckbox = document.getElementById('creator-honor-set-active');
+  const submitBtn = document.getElementById('btn-submit-grant-honor');
+
+  if (!emailInput || !honorSelect) return;
+  const targetEmail = emailInput.value.trim();
+  const honorId = honorSelect.value;
+  const reason = (reasonInput ? reasonInput.value.trim() : '') || 'Excelencia y Mérito Escolar';
+  const setAsActive = setActiveCheckbox ? setActiveCheckbox.checked : true;
+
+  if (!targetEmail) {
+    if (window.showCustomToast) window.showCustomToast('Por favor escribe el correo del estudiante.', 'error');
+    else alert('Por favor escribe el correo del estudiante.');
+    return;
+  }
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '⏳ Concediendo galardón...';
+  }
+
+  const catalog = window.SPECIAL_HONORS_CATALOG || [];
+  const honorDef = catalog.find(h => h.id === honorId) || {
+    id: honorId,
+    icon: '🎯📜',
+    name: 'Galardón de Honor',
+    badge: 'Reconocimiento Escolar',
+    desc: 'Condecoración oficial por El Creador.'
+  };
+
+  const honorData = {
+    id: honorDef.id,
+    icon: honorDef.icon,
+    name: honorDef.name,
+    badge: honorDef.badge,
+    desc: honorDef.desc,
+    glow: honorDef.glow,
+    color: honorDef.color,
+    category: honorDef.category,
+    reason: reason,
+    grantedBy: 'El Creador',
+    grantedAt: new Date().toISOString()
+  };
+
+  try {
+    let result = null;
+    if (window.USLoopAPI && window.USLoopAPI.awardSpecialHonor) {
+      result = await window.USLoopAPI.awardSpecialHonor(targetEmail, honorData, setAsActive);
+    } else {
+      // Fallback local si la API aún no está disponible
+      let users = JSON.parse(localStorage.getItem('users') || '[]');
+      const idx = users.findIndex(u => (u.email || '').toLowerCase() === targetEmail.toLowerCase());
+      if (idx !== -1) {
+        const currentHonors = Array.isArray(users[idx].awardedHonors) ? users[idx].awardedHonors : [];
+        const filtered = currentHonors.filter(h => h.id !== honorData.id);
+        filtered.push(honorData);
+        users[idx].awardedHonors = filtered;
+        if (setAsActive) users[idx].avatar = honorData.icon;
+        localStorage.setItem('users', JSON.stringify(users));
+        result = { success: true, user: users[idx] };
+      } else {
+        result = { success: false, message: 'Usuario no encontrado con ese correo.' };
+      }
+    }
+
+    if (result && result.success) {
+      if (window.showCustomToast) {
+        window.showCustomToast(`🎖️ ¡Galardón «${honorDef.name}» concedido con éxito a ${targetEmail}!`, 'success');
+      } else {
+        alert(`¡Galardón concedido con éxito!`);
+      }
+      emailInput.value = '';
+      if (reasonInput) reasonInput.value = '';
+
+      // Re-renderizar panel
+      const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      const container = document.getElementById('creators-notification-card-container');
+      if (container) {
+        window.renderCreatorApprovalPanel(storedUser, container);
+      }
+    } else {
+      const err = (result && result.message) ? result.message : 'No se pudo condecorar al estudiante. Verifica el correo.';
+      if (window.showCustomToast) window.showCustomToast('⚠️ ' + err, 'warning');
+      else alert(err);
+    }
+  } catch (err) {
+    console.error('Error al otorgar galardón:', err);
+    if (window.showCustomToast) window.showCustomToast('Error al conectar con la base de datos.', 'error');
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '🎖️ Conceder Galardón de Honor';
+    }
+  }
+};
+
+/**
+ * Revoca un galardón especial previamente concedido a un estudiante
+ */
+window.revokeSpecialHonorFromUser = async function(targetEmail, honorId) {
+  if (!confirm(`¿Estás seguro de que deseas revocar este galardón a ${targetEmail}?`)) {
+    return;
+  }
+  try {
+    if (window.USLoopAPI && window.USLoopAPI.revokeSpecialHonor) {
+      await window.USLoopAPI.revokeSpecialHonor(targetEmail, honorId);
+    } else {
+      let users = JSON.parse(localStorage.getItem('users') || '[]');
+      const idx = users.findIndex(u => (u.email || '').toLowerCase() === targetEmail.toLowerCase());
+      if (idx !== -1) {
+        const currentHonors = Array.isArray(users[idx].awardedHonors) ? users[idx].awardedHonors : [];
+        users[idx].awardedHonors = currentHonors.filter(h => h.id !== honorId);
+        localStorage.setItem('users', JSON.stringify(users));
+      }
+    }
+
+    if (window.showCustomToast) {
+      window.showCustomToast(`✓ Galardón revocado correctamente a ${targetEmail}.`, 'info');
+    }
+
+    const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    const container = document.getElementById('creators-notification-card-container');
+    if (container) {
+      window.renderCreatorApprovalPanel(storedUser, container);
+    }
+  } catch (err) {
+    console.error('Error revocando galardón:', err);
+  }
 };
 
 /**
@@ -2980,7 +3523,7 @@ window.openAvatarPickerModal = function(options = {}) {
             </span>
             <span style="font-size: 0.72rem; background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 999px; font-weight: 700;">Desbloqueados por Rango</span>
           </div>
-          <div style="display: grid; grid-template-columns: repeat(${Math.min(unlockedSpecials.length, 3)}, 1fr); gap: 10px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; max-height: 220px; overflow-y: auto; padding: 4px;">
             ${unlockedSpecials.map(sp => `
               <button type="button" class="emoji-select-btn ${sp.emoji === selectedAvatar ? 'selected-emoji' : ''}" data-emoji="${sp.emoji}" data-name="${sp.name}" style="padding: 10px 6px; border-radius: 12px; border: 2px solid ${sp.emoji === selectedAvatar ? '#2563eb' : 'rgba(245, 158, 11, 0.35)'}; background: #ffffff; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; box-shadow: 0 2px 8px ${sp.glow}; transition: all 0.2s ease;">
                 <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; pointer-events: none;">

@@ -1774,7 +1774,37 @@
             }
           }
         } else {
-          if (heroConsecrationContainer) heroConsecrationContainer.style.display = 'none';
+          if (Array.isArray(storedUser.awardedHonors) && storedUser.awardedHonors.length > 0) {
+            if (heroConsecrationContainer) {
+              heroConsecrationContainer.style.display = 'block';
+              heroConsecrationContainer.innerHTML = `
+                <div class="dios-consecration-banner" style="background: linear-gradient(135deg, #090e24 0%, #17153b 50%, #1e1b4b 100%); border: 2px solid #f59e0b; box-shadow: 0 8px 30px rgba(245, 158, 11, 0.25);">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+                      <div style="font-size: 2.2rem; filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.6));">🎖️</div>
+                      <div>
+                        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
+                          <span style="background: rgba(245, 158, 11, 0.25); border: 1px solid #f59e0b; color: #fde047; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">⭐ Condecoración Especial Activa</span>
+                          <span style="color: #94a3b8; font-size: 0.78rem;">Otorgada por El Creador</span>
+                        </div>
+                        <h3 style="margin: 0; font-size: 1.1rem; font-weight: 900; color: #ffffff;">
+                          ${storedUser.awardedHonors.map(h => `${h.name} (${h.icon})`).join(' • ')}
+                        </h3>
+                        <p style="margin: 2px 0 0; font-size: 0.82rem; color: #cbd5e1;">
+                          ${storedUser.awardedHonors[storedUser.awardedHonors.length - 1].reason || 'Has recibido este reconocimiento especial por excelencia y mérito escolar.'}
+                        </p>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-sm" onclick="openAvatarPickerModal()" style="background: rgba(245, 158, 11, 0.2); border: 1px solid #f59e0b; color: #fde047; font-size: 0.84rem; padding: 8px 16px; border-radius: 12px; cursor: pointer; font-weight: 800;">
+                      🎭 Usar como Avatar
+                    </button>
+                  </div>
+                </div>
+              `;
+            }
+          } else {
+            if (heroConsecrationContainer) heroConsecrationContainer.style.display = 'none';
+          }
           if (notifCardContainer) notifCardContainer.style.display = 'none';
         }
 
@@ -2632,7 +2662,7 @@
         loadUserStatsAndItems();
       };
     </script>
-    <script src="script.js?v=12.0"></script>
-    <script type="module" src="firebase-config.js?v=12.0"></script>
+    <script src="script.js?v=13.0"></script>
+    <script type="module" src="firebase-config.js?v=13.0"></script>
   </body>
 </html>
