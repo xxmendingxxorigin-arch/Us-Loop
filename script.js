@@ -2249,11 +2249,101 @@ window.processAvatarImageFile = function(file, maxWidth = 400, maxHeight = 400, 
 };
 
 /**
+ * Retorna la lista de íconos/avatares especiales de honor que este usuario tiene desbloqueados:
+ * 1. 👑 'Corona de El Creador': Solo para el desarrollador principal (isCreator).
+ * 2. ⚡🌌 'Dios del Loop': Solo tras consagración oficial aprobada o para El Creador.
+ * 3. 🏛️👑 'Ícono Institucional': Medalla de Honor pres-6 al alcanzar Nivel 25 Supremo (o Creador/Dios del Loop).
+ */
+window.getUnlockedSpecialAvatars = function(user) {
+  const cu = user || JSON.parse(localStorage.getItem('currentUser') || '{}');
+  const email = (cu.email || '').toLowerCase().trim();
+  const isCreator = Boolean(
+    cu.isCreator ||
+    cu.specialRole === 'creator' ||
+    cu.specialTitle === 'El Creador' ||
+    cu.id === 'usr_1790041333118' ||
+    email === 'xxmendingxxorigin@gmail.com'
+  );
+  const isDiosLoop = Boolean(
+    isCreator ||
+    cu.specialTitle === 'Dios del Loop' ||
+    cu.specialTitle === 'Dios de la Unión' ||
+    cu.diosDelLoopClaimed ||
+    cu.diosDeLaUnionClaimed
+  );
+  const pts = (cu.loopPoints !== undefined && cu.loopPoints !== null)
+    ? cu.loopPoints
+    : (((cu.completedDonations || 0) * 25) + ((cu.completedTrades || 0) * 20));
+  const lvl = (typeof window.calculateUserLevelInfo === 'function')
+    ? window.calculateUserLevelInfo(pts).level
+    : 1;
+  const isInstitucional = Boolean(isCreator || isDiosLoop || lvl >= 25);
+
+  const unlocked = [];
+  if (isCreator) {
+    unlocked.push({
+      emoji: '👑',
+      name: 'Corona de El Creador',
+      badge: 'Exclusivo Desarrollador 👑',
+      desc: 'Privilegio supremo reservado para el Creador y Administrador de US-Loop.',
+      glow: 'rgba(234, 179, 8, 0.45)'
+    });
+  }
+  if (isDiosLoop) {
+    unlocked.push({
+      emoji: '⚡🌌',
+      name: 'Dios del Loop',
+      badge: 'Consagración Nivel 25 ⚡🌌',
+      desc: 'Ícono Divino Celestial otorgado tras la consagración de honor.',
+      glow: 'rgba(56, 189, 248, 0.55)'
+    });
+  }
+  if (isInstitucional) {
+    unlocked.push({
+      emoji: '🏛️👑',
+      name: 'Ícono Institucional',
+      badge: 'Nivel 25 Supremo 🏛️👑',
+      desc: 'Emblema institucional supremo desbloqueado al alcanzar el Nivel 25.',
+      glow: 'rgba(245, 158, 11, 0.45)'
+    });
+  }
+  return unlocked;
+};
+
+/**
+ * Valida si un avatar específico está permitido para el usuario dado.
+ * Si es un avatar especial, debe estar en su lista de desbloqueados.
+ */
+window.isAvatarAuthorized = function(avatar, user) {
+  if (!avatar) return true;
+  const specialAvatars = ['👑', '⚡🌌', '🏛️👑', 'DIOS_DEL_LOOP', 'DIOS_DE_LA_UNION', 'ICONO_INSTITUCIONAL', '👑🏛️', '🌌⚡', '⚡👑🌌'];
+  if (!specialAvatars.includes(avatar)) {
+    return true; // Fotos personalizadas y emojis estándar están permitidos libremente
+  }
+  const cu = user || JSON.parse(localStorage.getItem('currentUser') || '{}');
+  const unlocked = window.getUnlockedSpecialAvatars(cu).map(item => item.emoji);
+  if (avatar === '👑') return unlocked.includes('👑');
+  if (avatar === '⚡🌌' || avatar === 'DIOS_DEL_LOOP' || avatar === 'DIOS_DE_LA_UNION' || avatar === '🌌⚡' || avatar === '⚡👑🌌') {
+    return unlocked.includes('⚡🌌');
+  }
+  if (avatar === '🏛️👑' || avatar === 'ICONO_INSTITUCIONAL' || avatar === '👑🏛️') {
+    return unlocked.includes('🏛️👑');
+  }
+  return false;
+};
+
+/**
  * Guarda y propaga el avatar actualizado en localStorage y sincroniza la interfaz.
  */
 window.updateUserAvatarGlobally = function(newAvatar) {
   try {
     const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    if (!window.isAvatarAuthorized(newAvatar, storedUser)) {
+      if (typeof window.showCustomToast === 'function') {
+        window.showCustomToast('⚠️ Este avatar es un ícono exclusivo de honor y requiere alcanzar el rango correspondiente.', 'warning');
+      }
+      return false;
+    }
     storedUser.avatar = newAvatar;
     localStorage.setItem('currentUser', JSON.stringify(storedUser));
 
@@ -2262,6 +2352,11 @@ window.updateUserAvatarGlobally = function(newAvatar) {
     if (idx !== -1) {
       users[idx].avatar = newAvatar;
       localStorage.setItem('users', JSON.stringify(users));
+    }
+
+    // Persistir avatar en Firestore
+    if (window.USLoopAPI && window.USLoopAPI.updateUserAvatar && storedUser.email) {
+      window.USLoopAPI.updateUserAvatar(storedUser.email, newAvatar);
     }
 
     if (typeof syncNavbarAuth === 'function') {
@@ -2796,13 +2891,22 @@ window.openAvatarPickerModal = function(options = {}) {
   const onAvatarSelected = options.onAvatarSelected || null;
   const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
   let selectedAvatar = storedUser.avatar || '👨‍🎓';
+  if (typeof window.isAvatarAuthorized === 'function' && !window.isAvatarAuthorized(selectedAvatar, storedUser)) {
+    selectedAvatar = '👨‍🎓';
+  }
 
-  const defaultEmojis = [
-    '⚡🌌', '🏛️👑', '👑', '👨‍🎓', '👩‍🎓', '🧑‍🎓', '🧑‍🔬', '👩‍🔬', '👨‍🏫', 
+  // Emojis estándar disponibles para toda la comunidad escolar
+  const standardEmojis = [
+    '👨‍🎓', '👩‍🎓', '🧑‍🎓', '🧑‍🔬', '👩‍🔬', '👨‍🏫', 
     '👩‍🏫', '👩‍🎨', '🧑‍🎨', '🚀', '🌱', '⭐', 
     '🏆', '💡', '📚', '💻', '🎨', '🦊', 
     '🦉', '🐯', '🦁', '🐬', '⚡', '🔥'
   ];
+
+  // Íconos especiales obtenidos exclusivamente si cumple los requisitos (Creador, Nivel 25, Consagración)
+  const unlockedSpecials = typeof window.getUnlockedSpecialAvatars === 'function'
+    ? window.getUnlockedSpecialAvatars(storedUser)
+    : [];
 
   // Crear modal backdrop
   const backdrop = document.createElement('div');
@@ -2868,10 +2972,39 @@ window.openAvatarPickerModal = function(options = {}) {
 
     <!-- Contenido Pestaña 2: Galería Emojis -->
     <div id="avatar-tab-emojis" class="avatar-modal-pane" style="display: none;">
-      <p style="font-size: 0.84rem; color: #64748b; margin: 0 0 10px;">Elige cualquiera de los siguientes íconos para tu perfil:</p>
-      <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; max-height: 180px; overflow-y: auto; padding: 4px;">
-        ${defaultEmojis.map(emo => `
-          <button type="button" class="emoji-select-btn ${emo === selectedAvatar ? 'selected-emoji' : ''}" data-emoji="${emo}" style="font-size: 1.6rem; height: 46px; border-radius: 12px; border: 1.5px solid ${emo === selectedAvatar ? '#2563eb' : '#e2e8f0'}; background: ${emo === selectedAvatar ? '#eff6ff' : '#ffffff'}; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.15s ease, border-color 0.15s ease;">
+      ${unlockedSpecials.length > 0 ? `
+        <div style="margin-bottom: 14px; padding: 12px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(99, 102, 241, 0.08)); border: 1.5px solid rgba(245, 158, 11, 0.3); border-radius: 14px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <span style="font-size: 0.8rem; font-weight: 800; color: #b45309; text-transform: uppercase; letter-spacing: 0.04em;">
+              ⭐ Íconos de Honor Desbloqueados (${unlockedSpecials.length})
+            </span>
+            <span style="font-size: 0.72rem; background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 999px; font-weight: 700;">Desbloqueados por Rango</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(${Math.min(unlockedSpecials.length, 3)}, 1fr); gap: 10px;">
+            ${unlockedSpecials.map(sp => `
+              <button type="button" class="emoji-select-btn ${sp.emoji === selectedAvatar ? 'selected-emoji' : ''}" data-emoji="${sp.emoji}" data-name="${sp.name}" style="padding: 10px 6px; border-radius: 12px; border: 2px solid ${sp.emoji === selectedAvatar ? '#2563eb' : 'rgba(245, 158, 11, 0.35)'}; background: #ffffff; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; box-shadow: 0 2px 8px ${sp.glow}; transition: all 0.2s ease;">
+                <div style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; pointer-events: none;">
+                  ${window.renderAvatarHtml(sp.emoji, 44, false)}
+                </div>
+                <div style="font-size: 0.74rem; font-weight: 800; color: #1e293b; text-align: center; line-height: 1.2; pointer-events: none;">${sp.name}</div>
+                <span style="font-size: 0.68rem; color: #64748b; text-align: center; pointer-events: none;">${sp.badge}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+        <p style="font-size: 0.84rem; color: #64748b; margin: 0;">Avatares estudiantiles estándar:</p>
+        ${unlockedSpecials.length === 0 ? `
+          <span style="font-size: 0.74rem; color: #94a3b8; font-style: italic;">
+            🔒 Íconos especiales se desbloquean al alcanzar Nivel 25 o por honores
+          </span>
+        ` : ''}
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; max-height: 160px; overflow-y: auto; padding: 4px;">
+        ${standardEmojis.map(emo => `
+          <button type="button" class="emoji-select-btn ${emo === selectedAvatar ? 'selected-emoji' : ''}" data-emoji="${emo}" data-name="Avatar: ${emo}" style="font-size: 1.6rem; height: 46px; border-radius: 12px; border: 1.5px solid ${emo === selectedAvatar ? '#2563eb' : '#e2e8f0'}; background: ${emo === selectedAvatar ? '#eff6ff' : '#ffffff'}; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.15s ease, border-color 0.15s ease;">
             ${emo}
           </button>
         `).join('')}
@@ -2991,7 +3124,8 @@ window.openAvatarPickerModal = function(options = {}) {
       btn.style.border = '2px solid #2563eb';
       btn.style.background = '#eff6ff';
       const emo = btn.dataset.emoji;
-      updateModalPreview(emo, `Emoji: ${emo}`);
+      const emoLabel = btn.dataset.name || `Emoji: ${emo}`;
+      updateModalPreview(emo, emoLabel);
     });
   });
 
@@ -3014,7 +3148,8 @@ window.openAvatarPickerModal = function(options = {}) {
 
   // Guardar avatar
   saveBtn.addEventListener('click', () => {
-    window.updateUserAvatarGlobally(selectedAvatar);
+    const success = window.updateUserAvatarGlobally(selectedAvatar);
+    if (!success) return;
     closeModal();
 
     if (onAvatarSelected) {

@@ -71,7 +71,7 @@ async function ensureCreatorExists() {
         email: CREATOR_EMAIL,
         grade: '11 Grado',
         institution: 'Institucion Educativa Fagua sede principal',
-        avatar: 'lightning_cosmos',
+        avatar: '⚡🌌',
         completedDonations: 65,
         completedTrades: 65,
         loopPoints: 4077,
@@ -162,7 +162,7 @@ window.USLoopAPI = {
         email: (newUser.email || '').toLowerCase(),
         grade: newUser.grade || '10 Grado',
         institution: newUser.institution || 'Institucion Educativa Fagua sede principal',
-        avatar: newUser.avatar || 'person',
+        avatar: newUser.avatar || '👨‍🎓',
         completedDonations: 0,
         completedTrades: 0,
         loopPoints: 0,
@@ -237,6 +237,21 @@ window.USLoopAPI = {
       }
       return { success: true, loopPoints, completedDonations: donations, completedTrades: trades, ecoSaved };
     } catch (e) { console.warn('Error actualizando estadisticas:', e); }
+  },
+
+  async updateUserAvatar(email, avatar) {
+    if (!email) return { success: false };
+    const cleanEmail = email.toLowerCase().trim();
+    try {
+      const q = query(collection(db, 'users'), where('email', '==', cleanEmail));
+      const snap = await getDocs(q);
+      if (!snap.empty) {
+        await updateDoc(snap.docs[0].ref, { avatar });
+      }
+    } catch (e) {
+      console.warn('Error guardando avatar en Firestore:', e);
+    }
+    return { success: true };
   },
 
   async deleteUserAccount(email) {

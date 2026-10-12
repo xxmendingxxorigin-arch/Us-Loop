@@ -1079,6 +1079,13 @@
           const bioInput = document.getElementById('settings-bio');
           if (bioInput) bioInput.value = storedUser.bio;
         }
+        if (typeof window.isAvatarAuthorized === 'function' && storedUser.avatar && !window.isAvatarAuthorized(storedUser.avatar, storedUser)) {
+          storedUser.avatar = '👨‍🎓';
+          localStorage.setItem('currentUser', JSON.stringify(storedUser));
+          if (window.USLoopAPI && window.USLoopAPI.updateUserAvatar && storedUser.email) {
+            window.USLoopAPI.updateUserAvatar(storedUser.email, '👨‍🎓');
+          }
+        }
         updateAvatarDisplay(storedUser.avatar || '👨‍🎓');
 
         const donCount = storedUser.completedDonations || 0;
@@ -2625,7 +2632,7 @@
         loadUserStatsAndItems();
       };
     </script>
-    <script src="script.js?v=11.0"></script>
-    <script type="module" src="firebase-config.js?v=11.0"></script>
+    <script src="script.js?v=12.0"></script>
+    <script type="module" src="firebase-config.js?v=12.0"></script>
   </body>
 </html>
