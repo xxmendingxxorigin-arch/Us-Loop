@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css?v=8.2" />
+    <link rel="stylesheet" href="style.css?v=15.0" />
   </head>
   <body class="explore-page">
     <nav class="navbar">
@@ -432,8 +432,6 @@
                 message: `Tienes una solicitud pendiente de ${relatedReq.requesterName || 'un compañero'} para este recurso.\n\nPor favor, ve a tu panel de "Cuenta" en la pestaña "Solicitudes", acéptala y luego ambos podrán confirmar la entrega para finalizarla y sumar puntos.`,
                 icon: '📋'
               });
-            } else {
-              alert('Tienes una solicitud pendiente para este recurso. Acéptala primero en tu cuenta.');
             }
             return;
           }
@@ -521,8 +519,6 @@
                 message: `Tienes una propuesta de trueque pendiente de ${relatedReq.requesterName || 'un compañero'} para este recurso.\n\nPor favor, ve a tu panel de "Cuenta" en la pestaña "Solicitudes", acéptala y luego ambos podrán confirmar la entrega para finalizarla y sumar puntos.`,
                 icon: '⇄'
               });
-            } else {
-              alert('Tienes una propuesta de trueque pendiente. Acéptala primero en tu cuenta.');
             }
             return;
           }
@@ -592,7 +588,7 @@
         });
       });
     </script>
-    <script src="script.js?v=14.0"></script>
-    <script type="module" src="firebase-config.js?v=14.0"></script>
+    <script src="script.js?v=15.0"></script>
+    <script type="module" src="firebase-config.js?v=15.0"></script>
   </body>
 </html>

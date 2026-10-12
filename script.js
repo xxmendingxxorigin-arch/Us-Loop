@@ -589,6 +589,19 @@ window.showCustomAlert = function({ title = 'Aviso', message = '', icon = '✨',
   });
 };
 
+// Erradicar permanentemente alertas nativas del navegador en toda la aplicación
+window.alert = function(message) {
+  if (typeof window.showCustomAlert === 'function') {
+    return window.showCustomAlert({
+      title: 'Notificación de US-Loop',
+      message: String(message || ''),
+      icon: '🔔',
+      confirmText: 'Entendido'
+    });
+  }
+  console.log('[US-Loop Alert]:', message);
+};
+
 window.showCustomConfirm = function({ title = '¿Confirmar acción?', message = '', icon = '❓', confirmText = 'Confirmar', cancelText = 'Cancelar' }) {
   return new Promise((resolve) => {
     const backdrop = document.createElement('div');
@@ -650,7 +663,6 @@ window.openRequestModal = function({ type = 'donation', item, onSuccess }) {
         window.location.href = 'login.html#signup';
       });
     } else {
-      alert(`Para ${actionText} necesitas iniciar sesión o registrarte.`);
       window.location.href = 'login.html#signup';
     }
     return;
@@ -3248,8 +3260,8 @@ window.submitCreatorHonorGrant = async function() {
   const setAsActive = setActiveCheckbox ? setActiveCheckbox.checked : true;
 
   if (!targetEmail) {
-    if (window.showCustomToast) window.showCustomToast('Por favor escribe el correo del estudiante.', 'error');
-    else alert('Por favor escribe el correo del estudiante.');
+    if (window.showCustomToast) window.showCustomToast('Por favor escribe el correo del estudiante.', 'warning');
+    else if (window.showCustomAlert) window.showCustomAlert({ title: 'Campo requerido', message: 'Por favor escribe el correo del estudiante.', icon: '⚠️' });
     return;
   }
 
@@ -3305,8 +3317,12 @@ window.submitCreatorHonorGrant = async function() {
     if (result && result.success) {
       if (window.showCustomToast) {
         window.showCustomToast(`🎖️ ¡Galardón «${honorDef.name}» concedido con éxito a ${targetEmail}!`, 'success');
-      } else {
-        alert(`¡Galardón concedido con éxito!`);
+      } else if (window.showCustomAlert) {
+        window.showCustomAlert({
+          title: '¡Galardón Concedido!',
+          message: `El galardón «${honorDef.name}» fue entregado a ${targetEmail}.`,
+          icon: '🎖️'
+        });
       }
       emailInput.value = '';
       if (reasonInput) reasonInput.value = '';
@@ -3320,7 +3336,7 @@ window.submitCreatorHonorGrant = async function() {
     } else {
       const err = (result && result.message) ? result.message : 'No se pudo condecorar al estudiante. Verifica el correo.';
       if (window.showCustomToast) window.showCustomToast('⚠️ ' + err, 'warning');
-      else alert(err);
+      else if (window.showCustomAlert) window.showCustomAlert({ title: 'Atención', message: err, icon: '⚠️' });
     }
   } catch (err) {
     console.error('Error al otorgar galardón:', err);
@@ -3655,7 +3671,15 @@ window.openAvatarPickerModal = function(options = {}) {
       }
     } catch (err) {
       loadingEl.style.display = 'none';
-      alert(err.message || 'Error al procesar la imagen.');
+      if (window.showCustomAlert) {
+        window.showCustomAlert({
+          title: 'Error de Imagen',
+          message: err.message || 'Error al procesar la imagen seleccionada.',
+          icon: '🖼️'
+        });
+      } else if (window.showCustomToast) {
+        window.showCustomToast('Error al procesar la imagen.', 'error');
+      }
     }
   }
 

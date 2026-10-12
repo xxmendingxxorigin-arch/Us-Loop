@@ -10,7 +10,171 @@
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css?v=8.2" />
+    <link rel="stylesheet" href="style.css?v=15.0" />
+    <style>
+      /* Modal de Bienvenida y Notificaciones Premium US-Loop */
+      .auth-modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(11, 19, 41, 0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .auth-modal-backdrop.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      .auth-modal-card {
+        background: #ffffff;
+        width: min(100%, 460px);
+        border-radius: 28px;
+        border: 3.5px solid #0f172a;
+        box-shadow: 0 16px 0 #0f172a;
+        padding: 36px 28px 28px;
+        text-align: center;
+        transform: scale(0.9) translateY(24px);
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        position: relative;
+        overflow: hidden;
+        box-sizing: border-box;
+      }
+      .auth-modal-backdrop.active .auth-modal-card {
+        transform: scale(1) translateY(0);
+      }
+      .auth-modal-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 8px;
+        background: linear-gradient(90deg, #2563eb, #3b82f6, #10b981);
+      }
+      .auth-modal-card.creator-card::before {
+        background: linear-gradient(90deg, #f59e0b, #ec4899, #8b5cf6, #3b82f6);
+      }
+      .auth-avatar-halo {
+        width: 88px;
+        height: 88px;
+        margin: 0 auto 18px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        border: 3px solid #2563eb;
+        border-bottom: 5px solid #1d4ed8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.6rem;
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
+        animation: pulseHalo 2s infinite ease-in-out;
+      }
+      .auth-modal-card.creator-card .auth-avatar-halo {
+        background: linear-gradient(135deg, #fef3c7, #fed7aa);
+        border-color: #f59e0b;
+        border-bottom-color: #b45309;
+        box-shadow: 0 8px 24px rgba(245, 158, 11, 0.35);
+      }
+      @keyframes pulseHalo {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+      .auth-badge-role {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 16px;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 12px;
+        background: #f1f5f9;
+        color: #475569;
+        border: 2px solid #cbd5e1;
+      }
+      .auth-badge-role.creator {
+        background: linear-gradient(135deg, #fffbeb, #fef3c7);
+        color: #b45309;
+        border-color: #f59e0b;
+      }
+      .auth-modal-name {
+        font-size: 1.45rem;
+        font-weight: 900;
+        color: #0f172a;
+        margin-bottom: 8px;
+        line-height: 1.25;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .auth-modal-desc {
+        font-size: 0.95rem;
+        color: #475569;
+        line-height: 1.5;
+        margin-bottom: 24px;
+        font-weight: 500;
+      }
+      .auth-progress-track {
+        width: 100%;
+        height: 6px;
+        background: #f1f5f9;
+        border-radius: 999px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        border: 1.5px solid #e2e8f0;
+      }
+      .auth-progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #2563eb, #10b981);
+        border-radius: 999px;
+        transition: width 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .auth-modal-card.creator-card .auth-progress-fill {
+        background: linear-gradient(90deg, #f59e0b, #ec4899, #8b5cf6);
+      }
+      .auth-modal-btn {
+        width: 100%;
+        padding: 14px 20px;
+        border-radius: 16px;
+        font-size: 1rem;
+        font-weight: 800;
+        border: 2.5px solid #0f172a;
+        box-shadow: 0 4px 0 #0f172a;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: #2563eb;
+        color: #ffffff;
+        transition: transform 0.1s, box-shadow 0.1s, background-color 0.2s;
+        text-decoration: none;
+        box-sizing: border-box;
+      }
+      .auth-modal-card.creator-card .auth-modal-btn {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: #ffffff;
+      }
+      .auth-modal-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 0 #0f172a;
+      }
+      .auth-modal-btn:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 #0f172a;
+      }
+      .auth-modal-btn.error-btn {
+        background: #ef4444;
+      }
+    </style>
   </head>
   <body class="login-body">
     <!-- Botón Volver a Inicio superior izquierdo -->
@@ -518,30 +682,122 @@
         }
       }
 
+      // Modal Helpers Modernos sin alerts nativos
+      function showAuthSuccessModal(user, isNew = false) {
+        return new Promise((resolve) => {
+          const isCreator = user.isCreator || (user.email || '').toLowerCase() === 'xxmendingxxorigin@gmail.com';
+          const backdrop = document.createElement('div');
+          backdrop.className = 'auth-modal-backdrop';
+
+          const avatarIcon = isCreator ? '⚡🌌' : (user.avatar || '👨‍🎓');
+          const roleBadge = isCreator 
+            ? '<span class="auth-badge-role creator">👑 El Creador del Campus</span>' 
+            : `<span class="auth-badge-role">🎓 ${user.grade || 'Estudiante'} • ${user.institution ? 'Campus US-Loop' : 'Fagua'}</span>`;
+
+          const title = isNew 
+            ? `¡Bienvenido a US-Loop!` 
+            : `¡Hola de nuevo, ${user.name}!`;
+
+          const desc = isNew
+            ? `Tu cuenta ha sido creada con éxito. Ahora puedes intercambiar, donar útiles y ganar Puntos Loop.`
+            : (isCreator 
+                ? `Acceso Supremo activado. Administra el campus, condecora estudiantes y lidera el trueque escolar.` 
+                : `Has iniciado sesión correctamente. Ingresando a la comunidad escolar...`);
+
+          const btnText = isCreator ? 'Entrar al Campus Principal 👑' : 'Entrar al Campus 🚀';
+
+          backdrop.innerHTML = `
+            <div class="auth-modal-card ${isCreator ? 'creator-card' : ''}">
+              <div class="auth-avatar-halo">${avatarIcon}</div>
+              ${roleBadge}
+              <h2 class="auth-modal-name">${title}</h2>
+              <p class="auth-modal-desc">${desc}</p>
+              <div class="auth-progress-track">
+                <div class="auth-progress-fill" id="auth-pfill"></div>
+              </div>
+              <button type="button" class="auth-modal-btn" id="auth-proceed-btn">
+                <span>${btnText}</span>
+              </button>
+            </div>
+          `;
+
+          document.body.appendChild(backdrop);
+          requestAnimationFrame(() => {
+            backdrop.classList.add('active');
+            setTimeout(() => {
+              const fill = backdrop.querySelector('#auth-pfill');
+              if (fill) fill.style.width = '100%';
+            }, 40);
+          });
+
+          let done = false;
+          const proceed = () => {
+            if (done) return;
+            done = true;
+            backdrop.classList.remove('active');
+            setTimeout(() => {
+              backdrop.remove();
+              resolve();
+            }, 180);
+          };
+
+          const proceedBtn = backdrop.querySelector('#auth-proceed-btn');
+          proceedBtn.addEventListener('click', proceed);
+
+          // Auto-continuar tras 1.4s
+          setTimeout(proceed, 1400);
+        });
+      }
+
+      function showAuthFeedbackModal({ title = 'Aviso', message = '', icon = '✨', buttonText = 'Entendido', isError = false }) {
+        return new Promise((resolve) => {
+          const backdrop = document.createElement('div');
+          backdrop.className = 'auth-modal-backdrop';
+
+          backdrop.innerHTML = `
+            <div class="auth-modal-card">
+              <div class="auth-avatar-halo" style="${isError ? 'background:#fee2e2; border-color:#ef4444; border-bottom-color:#b91c1c; box-shadow:0 8px 20px rgba(239,68,68,0.2);' : ''}">${icon}</div>
+              <h2 class="auth-modal-name">${title}</h2>
+              <p class="auth-modal-desc">${message.replace(/\n/g, '<br>')}</p>
+              <button type="button" class="auth-modal-btn ${isError ? 'error-btn' : ''}" id="auth-feedback-btn">
+                <span>${buttonText}</span>
+              </button>
+            </div>
+          `;
+
+          document.body.appendChild(backdrop);
+          requestAnimationFrame(() => backdrop.classList.add('active'));
+
+          const btn = backdrop.querySelector('#auth-feedback-btn');
+          btn.focus();
+          btn.addEventListener('click', () => {
+            backdrop.classList.remove('active');
+            setTimeout(() => {
+              backdrop.remove();
+              resolve();
+            }, 180);
+          });
+        });
+      }
+
       async function handleForgotPassword(e) {
         e.preventDefault();
-        if (window.showCustomAlert) {
-          await window.showCustomAlert({
-            title: 'Recuperar Contraseña',
-            message: 'Se ha enviado un enlace para restablecer tu contraseña a tu correo electrónico.',
-            icon: '✉️'
-          });
-        } else {
-          alert('Se ha enviado un enlace a tu correo electrónico.');
-        }
+        await showAuthFeedbackModal({
+          title: 'Recuperar Contraseña',
+          message: 'Se ha enviado un enlace para restablecer tu contraseña a tu correo electrónico registrado.',
+          icon: '✉️',
+          buttonText: 'Entendido'
+        });
       }
 
       async function alertNormas(e) {
         e.preventDefault();
-        if (window.showCustomAlert) {
-          await window.showCustomAlert({
-            title: 'Normas de Convivencia',
-            message: '1. Respeto mutuo entre compañeros.\n2. Cuidado y honestidad con los recursos compartidos.\n3. Puntualidad en entregas y devoluciones.',
-            icon: '📜'
-          });
-        } else {
-          alert('Normas US-Loop: Respeto, Honestidad y Puntualidad.');
-        }
+        await showAuthFeedbackModal({
+          title: 'Normas de Convivencia',
+          message: '1. 🤝 Respeto mutuo y trato cordial entre compañeros.\n2. 🌱 Cuidado, honestidad y buen estado de los útiles compartidos.\n3. ⏱️ Puntualidad en entregas y devoluciones en los puntos del campus.',
+          icon: '📜',
+          buttonText: 'Acepto las normas'
+        });
       }
 
       // Submit handlers
@@ -551,15 +807,13 @@
         const passwordInput = document.getElementById('signin-password')?.value || '';
 
         if (!emailInput || !passwordInput) {
-          if (window.showCustomAlert) {
-            await window.showCustomAlert({
-              title: 'Campos requeridos',
-              message: 'Por favor ingresa tu correo y contraseña para iniciar sesión.',
-              icon: '⚠️'
-            });
-          } else {
-            alert('Por favor completa todos los campos.');
-          }
+          await showAuthFeedbackModal({
+            title: 'Campos Requeridos',
+            message: 'Por favor ingresa tu correo y contraseña para iniciar sesión en US-Loop.',
+            icon: '⚠️',
+            buttonText: 'Entendido',
+            isError: true
+          });
           return;
         }
 
@@ -574,16 +828,13 @@
                 loggedUser = res.user;
               }
             } catch (err) {
-              if (window.showCustomAlert) {
-                await window.showCustomAlert({
-                  title: 'Credenciales Incorrectas',
-                  message: err.message || 'El correo electrónico o la contraseña son incorrectos.',
-                  icon: '🔒',
-                  confirmText: 'Intentar de nuevo'
-                });
-              } else {
-                alert(err.message || 'El correo electrónico o la contraseña son incorrectos.');
-              }
+              await showAuthFeedbackModal({
+                title: 'Credenciales Incorrectas',
+                message: err.message || 'El correo electrónico o la contraseña son incorrectos.',
+                icon: '🔒',
+                buttonText: 'Intentar de nuevo',
+                isError: true
+              });
               return;
             }
           }
@@ -594,16 +845,13 @@
             let storedUser = users.find((u) => (u.email || '').toLowerCase() === emailInput.toLowerCase());
 
             if (!storedUser || !storedUser.password || storedUser.password !== passwordInput) {
-              if (window.showCustomAlert) {
-                await window.showCustomAlert({
-                  title: 'Credenciales Incorrectas',
-                  message: 'El correo electrónico o la contraseña son incorrectos. Por favor verifica tus datos o crea una cuenta si eres nuevo.',
-                  icon: '🔒',
-                  confirmText: 'Intentar de nuevo'
-                });
-              } else {
-                alert('El correo electrónico o la contraseña son incorrectos.');
-              }
+              await showAuthFeedbackModal({
+                title: 'Credenciales Incorrectas',
+                message: 'El correo electrónico o la contraseña no coinciden. Por favor verifica tus datos o crea una cuenta si eres nuevo.',
+                icon: '🔒',
+                buttonText: 'Intentar de nuevo',
+                isError: true
+              });
               return;
             }
 
@@ -618,19 +866,16 @@
           }
           localStorage.setItem('currentUser', JSON.stringify(loggedUser));
           
-          if (window.showCustomAlert) {
-            await window.showCustomAlert({
-              title: `¡Bienvenido, ${loggedUser.name}!`,
-              message: 'Has iniciado sesión correctamente en US-Loop.',
-              icon: '🎉',
-              confirmText: 'Continuar'
-            });
-          } else {
-            alert(`¡Bienvenido, ${loggedUser.name}! Has iniciado sesión correctamente.`);
-          }
+          await showAuthSuccessModal(loggedUser, false);
           window.location.href = 'index.html';
         } catch (err) {
-          alert(err.message || 'El correo electrónico o la contraseña son incorrectos.');
+          await showAuthFeedbackModal({
+            title: 'Error de Inicio de Sesión',
+            message: err.message || 'Ocurrió un error al procesar tus credenciales.',
+            icon: '⚠️',
+            buttonText: 'Entendido',
+            isError: true
+          });
         }
       });
 
@@ -640,15 +885,13 @@
         const confirmPwd = document.getElementById('signup-confirm-password').value;
 
         if (pwd !== confirmPwd) {
-          if (window.showCustomAlert) {
-            await window.showCustomAlert({
-              title: 'Contraseñas no coinciden',
-              message: 'Las contraseñas ingresadas no coinciden. Por favor revísalas.',
-              icon: '⚠️'
-            });
-          } else {
-            alert('Las contraseñas no coinciden. Por favor revísalas.');
-          }
+          await showAuthFeedbackModal({
+            title: 'Contraseñas no coinciden',
+            message: 'Las contraseñas ingresadas no coinciden. Por favor verifica que sean iguales.',
+            icon: '⚠️',
+            buttonText: 'Corregir',
+            isError: true
+          });
           return;
         }
 
@@ -692,27 +935,16 @@
           }
           localStorage.setItem('currentUser', JSON.stringify(newUser));
           
-          if (window.showCustomAlert) {
-            await window.showCustomAlert({
-              title: '¡Cuenta Creada!',
-              message: `¡Bienvenido a US-Loop, ${newUser.name}! Tu cuenta ha sido creada exitosamente.`,
-              icon: '🎒',
-              confirmText: 'Ir a Inicio'
-            });
-          } else {
-            alert(`¡Bienvenido a US-Loop, ${newUser.name}! Tu cuenta ha sido creada exitosamente.`);
-          }
+          await showAuthSuccessModal(newUser, true);
           window.location.href = 'index.html';
         } catch (err) {
-          if (window.showCustomAlert) {
-            await window.showCustomAlert({
-              title: 'Atención',
-              message: err.message || 'Error al crear la cuenta.',
-              icon: '⚠️'
-            });
-          } else {
-            alert(err.message || 'Error al crear la cuenta.');
-          }
+          await showAuthFeedbackModal({
+            title: 'Atención al Registrarte',
+            message: err.message || 'Error al crear la cuenta en el sistema.',
+            icon: '⚠️',
+            buttonText: 'Intentar de nuevo',
+            isError: true
+          });
         }
       });
 
@@ -721,5 +953,7 @@
         window.USLoopAPI.getUsers().catch(() => {});
       }
     </script>
+    <script src="script.js?v=15.0"></script>
+    <script type="module" src="firebase-config.js?v=15.0"></script>
   </body>
 </html>
