@@ -558,6 +558,19 @@
             </svg>
             <span>Nuevo intercambio</span>
           </a>
+
+          <!-- Botón Directo y Visible para El Creador -->
+          <button
+            type="button"
+            id="hero-creator-grant-btn"
+            class="btn hero-action-btn"
+            onclick="window.goToCreatorsNotification()"
+            style="display: none; background: linear-gradient(135deg, #f59e0b, #d97706); color: #ffffff; border: 2.5px solid #0f172a; box-shadow: 0 4px 0 #0f172a; font-weight: 800; gap: 8px; cursor: pointer; align-items: center;"
+          >
+            <span style="font-size: 1.15rem;">🎖️</span>
+            <span>Dar Íconos de Honor</span>
+            <span>👑</span>
+          </button>
         </div>
       </div>
     </header>
@@ -659,6 +672,7 @@
             type="button"
             class="dash-tab"
             id="tab-btn-creator-honors"
+            data-target="tab-requests"
             onclick="window.goToCreatorsNotification()"
             role="tab"
             aria-selected="false"
@@ -1743,6 +1757,8 @@
               </div>
             `;
           }
+          const heroCreatorBtn = document.getElementById('hero-creator-grant-btn');
+          if (heroCreatorBtn) heroCreatorBtn.style.display = 'inline-flex';
           const creatorTabBtn = document.getElementById('tab-btn-creator-honors');
           if (creatorTabBtn) creatorTabBtn.style.display = 'inline-flex';
           if (notifCardContainer && typeof window.renderCreatorsNotificationCard === 'function') {
