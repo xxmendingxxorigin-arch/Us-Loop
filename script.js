@@ -68,32 +68,34 @@ function initStorageIfEmpty() {
 // Inicializar de inmediato
 initStorageIfEmpty();
 
-// Estado de conexión del servidor (Hostinger PHP Backend)
-let isServerAvailable = window.location.protocol.startsWith('http');
+// Estado de conexión: Firebase siempre disponible si firebase-config.js carga
+let isServerAvailable = true;
 
 async function checkServerConnection() {
-  if (window.location.protocol.startsWith('http')) {
-    try {
-      const res = await fetch(`api/ping.php?_t=${Date.now()}`, { method: 'GET', cache: 'no-store' });
-      if (res.ok) {
-        const data = await res.json();
-        isServerAvailable = data && data.server === true;
-      }
-    } catch (e) {
-      isServerAvailable = false;
-    }
-  } else {
-    isServerAvailable = false;
-  }
-  return isServerAvailable;
+  // Firebase reemplaza el servidor PHP - siempre disponible
+  isServerAvailable = true;
+  return true;
 }
 
-// Comprobar conexión con el servidor al cargar
-checkServerConnection().then(() => {
+// Esperar a que firebase-config.js inicialice window.USLoopAPI
+function waitForFirebase(callback, retries = 20) {
+  if (window.USLoopAPI && window._fbDb) {
+    callback();
+  } else if (retries > 0) {
+    setTimeout(() => waitForFirebase(callback, retries - 1), 100);
+  } else {
+    // Fallback: usar la API local si Firebase no carga
+    console.warn('Firebase no disponible, usando almacenamiento local.');
+    callback();
+  }
+}
+
+waitForFirebase(() => {
   if (typeof syncHomePageStatsAndFeed === 'function') {
     syncHomePageStatsAndFeed();
   }
 });
+
 
 // API Global de US-Loop con Sincronización Híbrida (Hostinger Server + LocalStorage Fallback)
 window.USLoopAPI = {
