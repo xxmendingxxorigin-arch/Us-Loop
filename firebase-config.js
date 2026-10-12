@@ -32,13 +32,13 @@ import {
 // CONFIGURACIÓN DEL PROYECTO FIREBASE
 // ============================================================
 const firebaseConfig = {
-  apiKey: "AIzaSyDe8WqBZa_IpMQGwQQSybmQ7pi5IYqIahA",
+  apiKey: "AIzaSyDeBWq0Za_TpMQGwOQSybmQ7pi5IYqiahA",
   authDomain: "us-loop.firebaseapp.com",
   projectId: "us-loop",
   storageBucket: "us-loop.firebasestorage.app",
-  messagingSenderId: "328193988814",
-  appId: "1:328193988814:web:828ca07af2166a523c289f",
-  measurementId: "G-RVMGJS2HYV"
+  messagingSenderId: "320193988814",
+  appId: "1:320193988814:web:820ca07af2166a523c289f",
+  measurementId: "G-RVMGJ52HYV"
 };
 
 const app = initializeApp(firebaseConfig);
